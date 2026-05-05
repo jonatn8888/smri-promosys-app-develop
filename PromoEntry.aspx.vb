@@ -18,7 +18,7 @@ Partial Class PromoEntry
     Inherits System.Web.UI.Page
 
     Protected Sub cboPromoCategory_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboPromoCategory.SelectedIndexChanged
-
+        'test commit
         If cboPromoCategory.SelectedValue = "-" Then
             'hide all if invalid selection
         Else
