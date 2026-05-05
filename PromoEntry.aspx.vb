@@ -350,6 +350,43 @@ Partial Class PromoEntry
     End Sub
     'rbs7281 : end
 
+    'jsuy asc : start
+    Protected Sub FillSpecialDiscTypeList()
+        trXML_SpecialDiscType.Visible = True
+        Dim dtTable As New DataTable
+        Dim strQuery As String = ""
+
+        strQuery = "SELECT CAST(ElementValue AS INT) 'ElementValue', ElementName " & _
+                    "FROM ResListValues " & _
+                    "WHERE GroupName = 'DiscountType' " & _
+                    "ORDER BY ElementName"
+
+        clsSystemApp.GetDataTable(clsPromo.SQLConnString, strQuery, dtTable)
+
+        Dim ddItem As New ListItem
+
+        ddItem.Text = "-- Select Value --"
+        ddItem.Value = -1
+
+        With cboXML_SpecialDiscType
+            .SelectedValue = Nothing
+            .ClearSelection()
+            .Items.Clear()
+            .DataSource = dtTable
+            .Items.Insert(0, ddItem)
+            'For Each row As DataRow In dtTable.Rows
+            '    ddItem = New ListItem
+            '    ddItem.Text = row.Item(1)
+            '    ddItem.Value = row.Item(0)
+            '    .Items.Add(ddItem)
+            'Next row
+            .DataBind()
+        End With
+
+        ' cboXML_Sponsorship.SelectedValue = -1
+    End Sub
+
+
     Protected Sub FillPromoTypeList()
 
         Dim dtTable As New DataTable
@@ -1694,6 +1731,28 @@ Partial Class PromoEntry
                             LoadRebatePromoBinRange(clsSession.CurrRequestID)
                         End If
 
+                        'jsuy asc aparil/2026
+                        If PromotionTypeID = 327 Then
+
+                            txtTPL_MinAmount.Visible = True
+                            trXML_SpecialDiscType.Visible = True
+                            trTPL_DiscAmount.Visible = False
+                            trXML_DiscAmount.Visible = False
+                            trXML_DiscCapAmount.Visible = False
+
+                            If cboXML_SpecialDiscType.SelectedValue = "1" Then
+                                trXML_DiscCapAmount.Visible = False
+                            ElseIf cboXML_SpecialDiscType.SelectedValue = "2" Then
+                                trXML_DiscCapAmount.Visible = True
+                            Else
+                                trXML_DiscCapAmount.Visible = False
+                            End If
+
+                            FillSpecialDiscTypeList()
+                            GetDiscConDetails(clsSession.PromoTypeID, 1)
+
+                        End If
+
                     Case 290
                         '' LTE 20201003 - Remove mechanics if PromoType is in array (290 = Swipestakes)
                         panSwipestakes.Visible = IIf(Array.IndexOf(New Integer() {290}, PromotionTypeID) >= 0, True, False)
@@ -1968,6 +2027,13 @@ Partial Class PromoEntry
                     If drPromoType("shortdesc").ToString.Equals("AnyXForP_S") Then
                         tdDiscAmount.Visible = False
                         tdPromoPrice.Visible = True
+                    End If
+
+                    'jsuy asc april/2026 Do not show amount discount field on special discount upon loading
+                    If drPromoType("PromoTypeID").ToString.Equals("327") Then
+                        trTPL_DiscAmount.Visible = False
+                        tdDiscAmount.Visible = False
+                        tdPercentMarkDown.Visible = False
                     End If
                 End If
 
@@ -2944,6 +3010,30 @@ Partial Class PromoEntry
             If cboXML_Sponsorship.SelectedValue = "-1" Then
                 blistErrorMsg.Items.Add("Shouldering Entity must be specified.")
             End If
+        End If
+
+        'jsuy asc april/2026
+        If trXML_PercentDisc.Visible Then
+            If txtXML_PercentDisc.Text.Trim() = "" Then
+                blistErrorMsg.Items.Add("Percent Discount not specified.")
+            ElseIf Not IsNumeric(txtXML_PercentDisc.Text) Then
+                blistErrorMsg.Items.Add("Percent Discount is not in a valid numeric format.")
+            ElseIf Val(txtXML_PercentDisc.Text) <= 0 Then
+                blistErrorMsg.Items.Add("Percent Discount must be greater than zero.")
+            ElseIf Val(txtXML_PercentDisc.Text) > 100 Then
+                blistErrorMsg.Items.Add("Percent Discount must not exceed 100%.")
+            End If
+
+            If chk_DiscCapTickBox.Checked = True Then
+
+                If Val(txtXML_DiscCap.Text) <= 0 Then
+                    blistErrorMsg.Items.Add("Capped amount must be greater than zero.")
+                ElseIf Val(txtXML_DiscCap.Text) > Val(txtXML_MinAmount.Text) Then
+                    blistErrorMsg.Items.Add("Discount capped amount should be less or equal to the Minimum Amount (MPR).")
+                End If
+
+            End If
+
         End If
 
         If trTPL_PercentDisc.Visible Then
@@ -4409,9 +4499,14 @@ Partial Class PromoEntry
             'rbs7281 07/29/2025
             If (chk_DiscCapTickBox.Checked = True And txtXML_MinAmount.Visible = True) Then 'Mantis65127
 
-                CappedAmount = txtXML_DiscCap.Text
-                If CInt(purchaseRequirementAmount) < Convert.ToDouble(txtXML_DiscCap.Text) Then
-                    blistErrorMsg.Items.Add("Discount capped amount should be less or equal to the MPR")
+                If Val(txtXML_DiscCap.Text) <= 0 Then
+                    blistErrorMsg.Items.Add("Capped amount must be greater than zero.")
+                Else
+                    CappedAmount = txtXML_DiscCap.Text
+                    If CInt(purchaseRequirementAmount) < Convert.ToDouble(txtXML_DiscCap.Text) Then
+                        blistErrorMsg.Items.Add("Discount capped amount should be less or equal to the MPR")
+                    End If
+
                 End If
 
             End If
@@ -5397,6 +5492,32 @@ Partial Class PromoEntry
         End If
     End Sub
 
+    'jsuy asc april/2026
+    Protected Sub cboXML_SpecialDiscType_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboXML_SpecialDiscType.SelectedIndexChanged
+        Dim selectedValue As String = cboXML_SpecialDiscType.SelectedValue
+
+        If selectedValue = "1" Then 'Amount Discount
+           
+            InitializeXMLDiscountField(clsSession.PromoTypeID, selectedValue, 0, 0, ViewState("EligibleCards_STATE"))
+            trXML_DiscCapAmount.Visible = False
+            txtXML_DiscCap.Text = String.Empty
+            chk_DiscCapTickBox.Checked = False
+          
+
+        ElseIf selectedValue = "2" Then '% Discount
+          
+            InitializeXMLDiscountField(clsSession.PromoTypeID, selectedValue, 0, 0, ViewState("EligibleCards_STATE"))          
+            trXML_DiscCapAmount.Visible = True
+            chk_DiscCapTickBox.Visible = True
+            trXML_DiscAmount.Visible = False
+            trXML_PercentDisc.Visible = True
+        Else         
+            trXML_PercentDisc.Visible = False
+            trXML_DiscAmount.Visible = False
+
+        End If
+    End Sub
+
     Private Sub GetDiscConDetails(ByVal PromotypeID As String, ByVal DiscCon As Int16)
         Dim drRow As DataRow = Nothing
         Dim strQuery As String = ""
@@ -5409,14 +5530,32 @@ Partial Class PromoEntry
 
         If clsSystemApp.GetDataRow(clsPromo.SQLConnString, strQuery, drRow) Then
 
-            If IsZeroEquivalent(drRow("PercentDisc")) = False Then
-                cboXML_RebateDiscType.SelectedValue = "2"
-                InitializeXMLDiscountField(clsSession.PromoTypeID, 2, 0, drRow("PercentDisc"), ViewState("EligibleCards_STATE"))
-            End If
+            If PromotypeID = 59 Then
+                If IsZeroEquivalent(drRow("PercentDisc")) = False Then
+                    cboXML_RebateDiscType.SelectedValue = "2"
+                    InitializeXMLDiscountField(clsSession.PromoTypeID, 2, 0, drRow("PercentDisc"), ViewState("EligibleCards_STATE"))
+                End If
 
-            If IsZeroEquivalent(drRow("DiscAmount")) = False Then
-                cboXML_RebateDiscType.SelectedValue = "1"
-                InitializeXMLDiscountField(clsSession.PromoTypeID, 1, drRow("DiscAmount"), 0, ViewState("EligibleCards_STATE"))
+                If IsZeroEquivalent(drRow("DiscAmount")) = False Then
+                    cboXML_RebateDiscType.SelectedValue = "1"
+                    InitializeXMLDiscountField(clsSession.PromoTypeID, 1, drRow("DiscAmount"), 0, ViewState("EligibleCards_STATE"))
+                End If
+
+            End If
+            'jsuy asc april/2026
+            If PromotypeID = 327 Then
+                If IsZeroEquivalent(drRow("PercentDisc")) = False Then
+                    cboXML_SpecialDiscType.SelectedValue = "2"
+                    InitializeXMLDiscountField(clsSession.PromoTypeID, 2, 0, drRow("PercentDisc"), ViewState("EligibleCards_STATE"))
+                    trXML_PercentDisc.Visible = True
+                    trXML_DiscAmount.Visible = False
+                End If
+
+                If IsZeroEquivalent(drRow("DiscAmount")) = False Then
+                    cboXML_SpecialDiscType.SelectedValue = "1"
+                    InitializeXMLDiscountField(clsSession.PromoTypeID, 1, drRow("DiscAmount"), 0, ViewState("EligibleCards_STATE"))
+                End If
+
             End If
 
         Else

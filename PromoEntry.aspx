@@ -1128,6 +1128,15 @@ function openConfirmationBox(height,width)
                                                 <asp:CheckBoxList ID="cblEligibleCards" runat="server" RepeatColumns="2"></asp:CheckBoxList>
                                             </td>
                                         </tr>
+                                        
+                                         <tr id="trXML_SpecialDiscType" runat="server">
+                                            <td style="width: 173px; text-align: left; height: 25px;" valign="middle">Special/ Discount:</td>
+                                            <td style="text-align: left; height: 25px; margin-left: 40px;">
+                                                <asp:DropDownList ID="cboXML_SpecialDiscType" runat="server" Width="368px" AutoPostBack="True" AppendDataBoundItems="True" DataTextField="ElementName" DataValueField="ElementValue">
+                                                    <asp:ListItem Value="-1">- - Select Value - -</asp:ListItem>
+                                                </asp:DropDownList>
+                                            </td>
+                                        </tr>
 
                                         <tr id="trXML_RebateDiscType" runat="server">
                                             <td style="width: 173px; text-align: left; height: 25px;" valign="middle">Rebate/ Discount:</td>
