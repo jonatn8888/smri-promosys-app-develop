@@ -61,6 +61,8 @@ Partial Class PromoDetailsEntry
             txtSdepCode.Attributes.Add("onkeypress", "return AllowNumericOnly(this);")
             txtSClassCode.Attributes.Add("onkeypress", "return AllowNumericOnly(this);")
 
+            'jsuy asc april/2026
+            Dim SelectedQualifiedItem As String = Session("SelectedQualifiedItem")
             ' show relevant information already entered by user
             ' ShowPromoRequestHeaderInfo()
 
@@ -86,7 +88,19 @@ Partial Class PromoDetailsEntry
 
                     'NBS: moved outside if statement (ref#101)
                     ' show/hide panItemHierarchy
-                    If Not arrGroupType.Contains(SystemUser.UserGroupType.ToString.ToUpper()) Then
+                    ' jsuy asc - if selected items only show/hide april/2026
+                    If ViewState("PromoTypeID") = 327 Then
+                        If SelectedQualifiedItem = "3" Then
+                            panItemHierarchy.Visible = CBool(drRow("POS_AllowDeptCodes"))
+                            panUPCdetails.Visible = True
+                        Else
+                            panItemHierarchy.Visible = False
+                            lblUPCpanelHeader.Text = "Excluded Items"
+                            panUPCdetails.Visible = True
+                        End If
+
+
+                    Else
                         panItemHierarchy.Visible = CBool(drRow("POS_AllowDeptCodes"))
                     End If
 
@@ -969,6 +983,12 @@ Partial Class PromoDetailsEntry
 
         End If
 
+        'jsuy asc april/2026
+        If (ViewState("PromoTypeID") = 327) And (ViewState("QualifiedItems") <> 3) Then
+            ClientScript.RegisterStartupScript(Me.GetType, "key", "<script>openSearchUPC();</script>")
+            ShowPromoUPCList()
+
+        End If
     End Sub
 
     Private Sub ShowPromoCouponList()
@@ -1064,9 +1084,13 @@ Partial Class PromoDetailsEntry
 
         blistErrorMsg.Items.Clear()
 
-        If gridItems.Rows.Count = 0 Then
-            blistErrorMsg.Items.Add("No Dept/SubDept/Class code indicated.")
-            Exit Sub
+        If (ViewState("PromoTypeID") = 327) And (ViewState("QualifiedItems") <> 3) Then
+            'jsuy asc april/2026 Special Discount Excluded Items search 
+        Else
+            If gridItems.Rows.Count = 0 Then
+                blistErrorMsg.Items.Add("No Dept/SubDept/Class code indicated.")
+                Exit Sub
+            End If
         End If
 
         If txtUPCno.Text = "" Then
@@ -1090,10 +1114,14 @@ Partial Class PromoDetailsEntry
             End If
         End If
 
-        ' check if included under list of departments
-        If Not IsValidUPCnumber(txtUPCno.Text, clsSession.CurrRequestID) Then
-            blistErrorMsg.Items.Add("Invalid UPC or UPC not under the listed item codes.")
-            Exit Sub
+        If (ViewState("PromoTypeID") = 327) And (ViewState("QualifiedItems") <> 3) Then
+            'jsuy april/2026 Special Discount Excluded Items
+        Else
+            ' check if included under list of departments
+            If Not IsValidUPCnumber(txtUPCno.Text, clsSession.CurrRequestID) Then
+                blistErrorMsg.Items.Add("Invalid UPC or UPC not under the listed item codes.")
+                Exit Sub
+            End If
         End If
 
         ' check if same price-point (for B1T1 and AnyXforP)
@@ -1341,13 +1369,17 @@ Partial Class PromoDetailsEntry
 
         If ViewState("ProcessType") = "GenericHostXML" Then
 
-            ' should select at least a Class or UPC code
-            If gridItems.Rows.Count() < 1 And (panUPCdetails.Visible And gridPromoUPC.Rows.Count() < 1) Then
-                blistErrorMsg.Items.Add("At least one Dp/SDp/Cl/SCl code or UPC should be specified.")
-            End If
+            If (ViewState("PromoTypeID") = 327) And (ViewState("QualifiedItems") <> 3) Then
+                'jsuy asc april/2026
+            Else
+                ' should select at least a Class or UPC code
+                If gridItems.Rows.Count() < 1 And (panUPCdetails.Visible And gridPromoUPC.Rows.Count() < 1) Then
+                    blistErrorMsg.Items.Add("At least one Dp/SDp/Cl/SCl code or UPC should be specified.")
+                End If
 
-            If SystemUser.UserGroupType = "SBU" And gridItems.Rows.Count < 1 And gridItems.Visible = True Then
-                blistErrorMsg.Items.Add("At least one Dp/SDp/Cl/SCl code or UPC should be specified.")
+                If SystemUser.UserGroupType = "SBU" And gridItems.Rows.Count < 1 And gridItems.Visible = True Then
+                    blistErrorMsg.Items.Add("At least one Dp/SDp/Cl/SCl code or UPC should be specified.")
+                End If
             End If
         Else
 

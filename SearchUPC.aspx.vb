@@ -65,11 +65,17 @@ Partial Class SearchUPC
         Dim sQuery As String
         Dim drPromoType As DataRow = Nothing
         Dim IsPromoPremium As Boolean = False
-        sQuery = "SELECT pt.* FROM PromoTypes pt INNER JOIN Promotions p ON p.PromoTypeID = pt.PromoTypeID " & _
+        Dim PosQualifiedItems As Integer = 0
+        Dim PromoTypeID As Integer = 0
+
+        sQuery = "SELECT p.PosQualifiedItems,pt.* FROM PromoTypes pt INNER JOIN Promotions p ON p.PromoTypeID = pt.PromoTypeID " & _
          "WHERE p.RequestID = 0" & clsSession.CurrRequestID
 
+        'jsuy asc Excluded Items search based on Qualified Items selected  april/2026 
         If clsSystemApp.GetDataRow(clsPromo.SQLConnString, sQuery, drPromoType) Then
             IsPromoPremium = (drPromoType("POS_PromoPremUPC_STATE") > 0)
+            PosQualifiedItems = drPromoType("PosQualifiedItems")
+            PromoTypeID = drPromoType("PromoTypeID")
         End If
 
         Dim dtTable As New DataTable
@@ -102,6 +108,18 @@ Partial Class SearchUPC
             If Val(txtUnitPrice.Text) > 0 Then
                 strQuery &= " AND UPC.UnitPrice = 0" & Val(txtUnitPrice.Text)
             End If
+        End If
+
+        'jsuy asc Special Discount Excluded Items search based on Qualified Items selected  april/2026 
+        If (PromoTypeID = 327 And PosQualifiedItems <> 3 And ((txtDescription.Text IsNot "") Or (txtUPCnumber.Text IsNot ""))) Then
+            strQuery = "SELECT UPC.UPCno, " & _
+                   "UPC.Description, " & _
+                   "UPC.UnitPrice, " & _
+                   "dbo.Fn_FormatPromoCode(UPC.DeptCode,'Dp')+'-'+dbo.Fn_FormatPromoCode(UPC.SubDeptCode,'SDp')+'-'+dbo.Fn_FormatPromoCode(UPC.ClassCode,'Cl')+'-'+dbo.Fn_FormatPromoCode(UPC.SubClassCode,'SCl') AS ItemCode " & _
+                  "FROM MMS_UPC_Table AS UPC " & _
+                  "WHERE UPC.UPCno LIKE '" & txtUPCnumber.Text & "%' " & _
+                  "AND UPC.Description LIKE '%" & txtDescription.Text & "%'"
+
         End If
 
         clsSystemApp.GetDataTable(clsPromo.SQLConnString, strQuery, dtTable)

@@ -5518,6 +5518,15 @@ Partial Class PromoEntry
         End If
     End Sub
 
+    'jsuy asc april/2026
+    Protected Sub cboXML_QualifiedItems_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles cboXML_QualifiedItems.SelectedIndexChanged
+        Dim selectedValue As String = cboXML_QualifiedItems.SelectedValue
+
+        Session("SelectedQualifiedItem") = cboXML_QualifiedItems.SelectedValue
+ 
+    End Sub
+
+
     Private Sub GetDiscConDetails(ByVal PromotypeID As String, ByVal DiscCon As Int16)
         Dim drRow As DataRow = Nothing
         Dim strQuery As String = ""
