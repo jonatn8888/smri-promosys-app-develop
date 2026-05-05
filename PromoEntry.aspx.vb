@@ -1922,6 +1922,23 @@ Partial Class PromoEntry
                         InitializeXMLInputField(trTPL_ProcessType, cboTPL_ProcessType, drPromoType("TPL_ProcessType"), drPromoType("TPL_ProcessType_STATE"), strProcessType)
                         InitializeXMLInputField(trXML_MinAmount, txtXML_MinAmount, drPromoType("POS_MinAmnt"), drPromoType("POS_MinAmnt_STATE"))
 
+
+                    Case 500  ' announcements -- jsuy april/2026 Ammouncements Template
+                        trPromoDetails.Visible = False
+                        trTPL_ActivityName.Visible = True
+                        trTPL_SellingArea.Visible = True
+                        '  tdActivityName.text = "New Label Here:"
+                        lblActivityName.Text = "Name of Activity/Announcement:"
+                        trPOS_PermExclusion.Visible = False
+                        panMechanics.Visible = True
+
+                        lnkEditMechanics.Enabled = True
+                        litMechanics.Text = Server.HtmlDecode(drPromoType("DefaultMechanics"))
+                        lblMechanics.Text = "Mechanics:"
+
+
+
+
                     Case Else   ' all others
 
                         panMechanics.Visible = True

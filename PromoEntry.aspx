@@ -853,8 +853,9 @@ function openConfirmationBox(height,width)
                                                 <asp:TextBox ID="txtTPL_DeptName" runat="server" MaxLength="50" Width="256px"></asp:TextBox></td>
                                         </tr>
                                         <tr id="trTPL_ActivityName" runat="server">
-                                            <td style="width: 173px; height: 20px; text-align: left;" valign="middle">
-                                                Name of Activity/Event:</td>
+                                        <td style="width: 173px; height: 20px; text-align: left;" valign="middle">
+                                             <asp:Label ID="lblActivityName" runat="server" Text="Name of Activity/Event:"></asp:Label>
+                                        </td>
                                             <td colspan="2" style="height: 20px; text-align: left">
                                                 <asp:TextBox ID="txtTPL_ActivityName" runat="server" MaxLength="50" Width="256px"></asp:TextBox></td>
                                         </tr>
