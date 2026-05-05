@@ -1276,6 +1276,8 @@ Partial Class PromoEntry
 
     Private Sub DisplayPromoTypeLayout(ByVal PromotionTypeID As Integer)
         'trXML_Sponsorship2.Visible = False
+
+        trXML_SpecialDiscType.Visible = False 'jsuy asc 2026420 Hide Special Disc first and only for special discount template
         trXML_RebateDiscType.Visible = False '20250910 Hide Rebate/Disc first, and only intended for Rebate Template
         panBankBins.Visible = False 'Mantis#62999 rbs7281: need to initially disable
         PanRebate.Visible = False

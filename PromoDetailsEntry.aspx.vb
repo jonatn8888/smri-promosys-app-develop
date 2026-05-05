@@ -170,6 +170,12 @@ Partial Class PromoDetailsEntry
 
                         End If
 
+                        'jsuy asc april/2026 Auto Select 2689 / Manual Prefix
+                        If ViewState("PromoTypeID") = 239 Then
+                            cboDrop_BarcodeManual.SelectedValue = 1
+
+                        End If
+
                         '*************************************************
                         ' get UPCRem Settings
                         '*************************************************
@@ -276,7 +282,7 @@ Partial Class PromoDetailsEntry
                 End If
                 'Non templated
                 tr_ValueType.Visible = False
-                If ViewState("PromoTypeID") = "2" Or ViewState("PromoTypeID") = "294" Then
+                If ViewState("PromoTypeID") = "2" Or ViewState("PromoTypeID") = "294" Or ViewState("PromoTypeID") = "0102" Or ViewState("PromoTypeID") = "0317" Or ViewState("PromoTypeID") = "036" Or ViewState("PromoTypeID") = "01" Or ViewState("PromoTypeID") = "090" Or ViewState("PromoTypeID") = "04" Then
                     tr_ValueType.Visible = True
                 End If
             End If
