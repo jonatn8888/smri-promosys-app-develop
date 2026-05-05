@@ -1040,6 +1040,10 @@ Partial Class PromoEntry
             If cboXML_RebateDiscType.Visible = True Then
                 GetDiscConDetails(clsSession.PromoTypeID, 1)
             End If
+            'jsuy asc 4/2026
+            If cboXML_SpecialDiscType.Visible = True Then
+                GetDiscConDetails(clsSession.PromoTypeID, 1)
+            End If
 
             'MALAgasino 20180910 - Retrieve data for SMAC KIt Price
             If trXML_SMACKitPrice.Visible Then
