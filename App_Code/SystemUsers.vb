@@ -282,13 +282,14 @@ Public Class SystemUser
 
     End Function
 
-    Private Shared Function LoadDataFromUserTable() As Boolean
+    Private Shared Function LoadDataFromUserTable(ByVal UserLogName As String) As Boolean
 
         Dim taUsers As New dsPromotionsTableAdapters.UsersTableAdapter()
         Dim dtUsers As dsPromotions.UsersDataTable
         Dim rowUser As dsPromotions.UsersRow
         Dim bResult As Boolean
 
+        SystemUser.UserLogName = UserLogName 'REMOVE THIS IF DEPLOYMENT
         dtUsers = taUsers.GetUserByUserName(SystemUser.UserLogName)
 
         If dtUsers.Rows.Count = 0 Then
@@ -379,15 +380,18 @@ Public Class SystemUser
         Dim bResult As Boolean
 
         ' check smretail domain
-        bResult = IsLDAPvalidated("LDAP://smretail.com", "SMRETAIL", UserLogName, UserPassword)
-        If Not bResult Then bResult = IsLDAPvalidated("LDAP://smretailinc.com", "SMRETAILINC", UserLogName, UserPassword)
-        If Not bResult Then bResult = IsLDAPvalidated("LDAP://mcidc01.mci.sm-shoemart.com:389", "MCI", UserLogName, UserPassword)
-
+        'bResult = IsLDAPvalidated("LDAP://smretail.com", "SMRETAIL", UserLogName, UserPassword)
+        'If Not bResult Then bResult = IsLDAPvalidated("LDAP://smretailinc.com", "SMRETAILINC", UserLogName, UserPassword)
+        'If Not bResult Then bResult = IsLDAPvalidated("LDAP://mcidc01.mci.sm-shoemart.com:389", "MCI", UserLogName, UserPassword)
+        bResult = True
         ' get data from Users table: test if user is part of the core user group
         If bResult Then
             Try
 
-                bResult = SystemUser.LoadDataFromUserTable()
+                '  bResult = SystemUser.LoadDataFromUserTable()
+
+                bResult = SystemUser.LoadDataFromUserTable(UserLogName)
+                SystemUser.UserName = UserLogName
 
                 'If SystemUser.LoadDataFromUserTable() Then
 
