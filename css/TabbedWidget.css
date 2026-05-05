@@ -1,0 +1,59 @@
+﻿/* Tabbed Widget Version 1 Starts here */
+.tab{
+	width: 25%;
+	height: 25px;
+	float: left;
+	background-color: #ffffff;
+	text-transform: capitalize;
+	color: #38338E;
+	text-decoration: underline;
+	border-right: #e0eefb 1px solid;
+	border-bottom: #e0eefb 1px solid;
+    border-left: #e0eefb 1px solid;
+	font-weight: bold;
+	text-align: center;
+	line-height: 2.5em;
+	cursor: pointer;
+	padding-bottom:2px;
+	border-top: #e0eefb 1px solid;
+	list-style: none!important;
+}
+.active-tab{
+	background-color: #E7ECF8;
+	text-decoration: none;
+}
+
+/*------------------------------------------*/
+.tabs ul{
+	list-style-position: inside;
+	background: #ffffff;
+	float: left;
+	padding-bottom: 2px;
+	width:570px;
+	}
+
+                              
+UL.tabNavigation {                    
+list-style: none;                   
+margin: 0;                   
+padding: 0;                
+}                                
+UL.tabNavigation LI {                   
+display: inline;                
+}                                
+                            
+UL.tabNavigation LI A.selected,                
+UL.tabNavigation LI A:hover {                   
+background-color: #E7ECF8;
+text-decoration: none;
+} 
+.sub-div
+{
+	border-top: 1px solid #000000;
+	border-left: 1px solid #000000;
+	border-bottom:1px solid #000000;
+	border-right: 1px solid #000000;
+	padding: 0px;
+	margin-top:45px;
+
+}

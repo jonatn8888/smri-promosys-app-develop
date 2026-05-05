@@ -1,0 +1,21 @@
+<%@ Page Language="VB" MasterPageFile="~/PromoPage.master" AutoEventWireup="false" ValidateRequest="false" CodeFile="EditGuidelines.aspx.vb" Inherits="EditGuidelines" %>
+
+<asp:Content ID = "Content1" ContentPlaceHolderID = "ContentPlaceHolder1" Runat = "Server">
+
+    <script src="./rte/richtext.js" type="text/javascript" language="javascript"></script>
+    <script src="./rte/config.js" type="text/javascript" language="javascript"></script>
+
+        <div id="contents">
+
+        <!-- Initialise the editor -->
+        <script type="text/javascript">
+            rteName = "txtGuidelines";
+            initRTE('<span style="font-size: 11pt; font-family: Trebuchet MS"><p><b>Discount</b></p><ul><li>POS processing shall be class discount.</li><li>Promotions are already included in the POS Discount Reference File endorsed to HO-ITS for loading.</li></ul><p></span>', './rte/example.css');
+        </script>
+        
+        <br />
+        <input type="submit"/>
+        <br />
+        </div>
+        
+</asp:Content>

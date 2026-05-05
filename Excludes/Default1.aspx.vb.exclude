@@ -1,0 +1,55 @@
+Imports System.Security
+Imports System.Data
+
+Partial Class _Default
+    Inherits System.Web.UI.Page
+
+
+    Protected Sub lnkGoToSite_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lnkGoToSite.Click
+
+        Response.Redirect("ProjectTestPortal.aspx")
+
+    End Sub
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Me.tblReadAll.Visible = False
+        'Dim authUserName As String
+
+        'With User.Identity.Name
+        '    authUserName = .Substring(IIf(.Contains("\"), CInt(.LastIndexOf("\")) + 1, .ToString()))
+        'End With
+
+        'lblUserName.Text = authUserName
+
+        'Session("AD_UserName") = authUserName
+
+        'If authUserName = "nbs6962" Then
+        '    Session("AD_UserName") = "noel"
+        'Else
+        Session("AD_UserName") = "mpd"
+        'End If
+
+        ' check for new message
+        sqldsData.SelectCommand = "SELECT Count(*) AS NewMsgCount FROM Messaging WHERE SentTo = '" & Session("AD_UserName") & "' AND IsRead = 0"
+
+        Dim dvPromo As DataView = CType(sqldsData.Select(DataSourceSelectArguments.Empty), DataView)
+        Dim dr As DataRow = dvPromo.Table.Rows(0)
+
+        lnkMessage.Text = "MailBox: You Have " & _
+                           IIf(CInt(dr("NewMsgCount")) = 0, "No", dr("NewMsgCount").ToString()) & _
+                           " New Message" & IIf(CInt(dr("NewMsgCount")) < 2, ".", "s.")
+
+    End Sub
+
+    Protected Sub lnkMessage_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lnkMessage.Click
+
+        Response.Redirect("QuickMessage.aspx")
+
+    End Sub
+
+    Protected Sub LinkButton1_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles LinkButton1.Click
+
+        Me.tblReadAll.Visible = True
+
+    End Sub
+End Class

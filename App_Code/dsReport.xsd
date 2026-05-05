@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsReport" targetNamespace="http://tempuri.org/dsReport.xsd" xmlns:mstns="http://tempuri.org/dsReport.xsd" xmlns="http://tempuri.org/dsReport.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsReport" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsReport" msprop:Generator_DataSetName="dsReport">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dtOption2" msprop:Generator_UserTableName="dtOption2" msprop:Generator_RowDeletedName="dtOption2RowDeleted" msprop:Generator_RowChangedName="dtOption2RowChanged" msprop:Generator_RowClassName="dtOption2Row" msprop:Generator_RowChangingName="dtOption2RowChanging" msprop:Generator_RowEvArgName="dtOption2RowChangeEvent" msprop:Generator_RowEvHandlerName="dtOption2RowChangeEventHandler" msprop:Generator_TableClassName="dtOption2DataTable" msprop:Generator_TableVarName="tabledtOption2" msprop:Generator_RowDeletingName="dtOption2RowDeleting" msprop:Generator_TablePropName="dtOption2">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="MemoNumber" msprop:Generator_UserColumnName="MemoNumber" msprop:Generator_ColumnVarNameInTable="columnMemoNumber" msprop:Generator_ColumnPropNameInRow="MemoNumber" msprop:Generator_ColumnPropNameInTable="MemoNumberColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Title" msprop:Generator_UserColumnName="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="PromoType" msprop:Generator_UserColumnName="PromoType" msprop:Generator_ColumnVarNameInTable="columnPromoType" msprop:Generator_ColumnPropNameInRow="PromoType" msprop:Generator_ColumnPropNameInTable="PromoTypeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Branches" msprop:Generator_UserColumnName="Branches" msprop:Generator_ColumnVarNameInTable="columnBranches" msprop:Generator_ColumnPropNameInRow="Branches" msprop:Generator_ColumnPropNameInTable="BranchesColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="PromoPeriodFrom" msprop:Generator_UserColumnName="PromoPeriodFrom" msprop:Generator_ColumnVarNameInTable="columnPromoPeriodFrom" msprop:Generator_ColumnPropNameInRow="PromoPeriodFrom" msprop:Generator_ColumnPropNameInTable="PromoPeriodFromColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="PromoPeriodTo" msprop:Generator_UserColumnName="PromoPeriodTo" msprop:Generator_ColumnVarNameInTable="columnPromoPeriodTo" msprop:Generator_ColumnPropNameInRow="PromoPeriodTo" msprop:Generator_ColumnPropNameInTable="PromoPeriodToColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="ProcessType" msprop:Generator_UserColumnName="ProcessType" msprop:Generator_ColumnVarNameInTable="columnProcessType" msprop:Generator_ColumnPropNameInRow="ProcessType" msprop:Generator_ColumnPropNameInTable="ProcessTypeColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dtOption4" msprop:Generator_UserTableName="dtOption4" msprop:Generator_RowDeletedName="dtOption4RowDeleted" msprop:Generator_RowChangedName="dtOption4RowChanged" msprop:Generator_RowClassName="dtOption4Row" msprop:Generator_RowChangingName="dtOption4RowChanging" msprop:Generator_RowEvArgName="dtOption4RowChangeEvent" msprop:Generator_RowEvHandlerName="dtOption4RowChangeEventHandler" msprop:Generator_TableClassName="dtOption4DataTable" msprop:Generator_TableVarName="tabledtOption4" msprop:Generator_RowDeletingName="dtOption4RowDeleting" msprop:Generator_TablePropName="dtOption4">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BranchCode" msprop:Generator_UserColumnName="BranchCode" msprop:Generator_ColumnVarNameInTable="columnBranchCode" msprop:Generator_ColumnPropNameInRow="BranchCode" msprop:Generator_ColumnPropNameInTable="BranchCodeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="BranchName" msprop:Generator_UserColumnName="BranchName" msprop:Generator_ColumnVarNameInTable="columnBranchName" msprop:Generator_ColumnPropNameInRow="BranchName" msprop:Generator_ColumnPropNameInTable="BranchNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="MemoCount" msprop:Generator_UserColumnName="MemoCount" msprop:Generator_ColumnVarNameInTable="columnMemoCount" msprop:Generator_ColumnPropNameInRow="MemoCount" msprop:Generator_ColumnPropNameInTable="MemoCountColumn" type="xs:long" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dtOption1_Summary" msprop:Generator_UserTableName="dtOption1_Summary" msprop:Generator_RowDeletedName="dtOption1_SummaryRowDeleted" msprop:Generator_RowChangedName="dtOption1_SummaryRowChanged" msprop:Generator_RowClassName="dtOption1_SummaryRow" msprop:Generator_RowChangingName="dtOption1_SummaryRowChanging" msprop:Generator_RowEvArgName="dtOption1_SummaryRowChangeEvent" msprop:Generator_RowEvHandlerName="dtOption1_SummaryRowChangeEventHandler" msprop:Generator_TableClassName="dtOption1_SummaryDataTable" msprop:Generator_TableVarName="tabledtOption1_Summary" msprop:Generator_RowDeletingName="dtOption1_SummaryRowDeleting" msprop:Generator_TablePropName="dtOption1_Summary">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="BranchCode" msprop:Generator_UserColumnName="BranchCode" msprop:Generator_ColumnPropNameInRow="BranchCode" msprop:Generator_ColumnVarNameInTable="columnBranchCode" msprop:Generator_ColumnPropNameInTable="BranchCodeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="BranchName" msprop:Generator_UserColumnName="BranchName" msprop:Generator_ColumnPropNameInRow="BranchName" msprop:Generator_ColumnVarNameInTable="columnBranchName" msprop:Generator_ColumnPropNameInTable="BranchNameColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="BranchPercent" msprop:Generator_UserColumnName="BranchPercent" msprop:Generator_ColumnPropNameInRow="BranchPercent" msprop:Generator_ColumnVarNameInTable="columnBranchPercent" msprop:Generator_ColumnPropNameInTable="BranchPercentColumn" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dtOption3" msprop:Generator_UserTableName="dtOption3" msprop:Generator_RowDeletedName="dtOption3RowDeleted" msprop:Generator_RowChangedName="dtOption3RowChanged" msprop:Generator_RowClassName="dtOption3Row" msprop:Generator_RowChangingName="dtOption3RowChanging" msprop:Generator_RowEvArgName="dtOption3RowChangeEvent" msprop:Generator_RowEvHandlerName="dtOption3RowChangeEventHandler" msprop:Generator_TableClassName="dtOption3DataTable" msprop:Generator_TableVarName="tabledtOption3" msprop:Generator_RowDeletingName="dtOption3RowDeleting" msprop:Generator_TablePropName="dtOption3">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="MemoNumber" msprop:Generator_UserColumnName="MemoNumber" msprop:Generator_ColumnPropNameInRow="MemoNumber" msprop:Generator_ColumnVarNameInTable="columnMemoNumber" msprop:Generator_ColumnPropNameInTable="MemoNumberColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Title" msprop:Generator_UserColumnName="Title" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInTable="TitleColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="PromoType" msprop:Generator_UserColumnName="PromoType" msprop:Generator_ColumnPropNameInRow="PromoType" msprop:Generator_ColumnVarNameInTable="columnPromoType" msprop:Generator_ColumnPropNameInTable="PromoTypeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Branches" msprop:Generator_UserColumnName="Branches" msprop:Generator_ColumnPropNameInRow="Branches" msprop:Generator_ColumnVarNameInTable="columnBranches" msprop:Generator_ColumnPropNameInTable="BranchesColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="PromoPeriodFrom" msprop:Generator_UserColumnName="PromoPeriodFrom" msprop:Generator_ColumnPropNameInRow="PromoPeriodFrom" msprop:Generator_ColumnVarNameInTable="columnPromoPeriodFrom" msprop:Generator_ColumnPropNameInTable="PromoPeriodFromColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="PromoPeriodTo" msprop:Generator_UserColumnName="PromoPeriodTo" msprop:Generator_ColumnPropNameInRow="PromoPeriodTo" msprop:Generator_ColumnVarNameInTable="columnPromoPeriodTo" msprop:Generator_ColumnPropNameInTable="PromoPeriodToColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="BrCount" msprop:Generator_UserColumnName="BrCount" msprop:Generator_ColumnPropNameInRow="BrCount" msprop:Generator_ColumnVarNameInTable="columnBrCount" msprop:Generator_ColumnPropNameInTable="BrCountColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="UPCCount" msprop:Generator_UserColumnName="UPCCount" msprop:Generator_ColumnPropNameInRow="UPCCount" msprop:Generator_ColumnVarNameInTable="columnUPCCount" msprop:Generator_ColumnPropNameInTable="UPCCountColumn" type="xs:int" minOccurs="0" />
+              <xs:element name="TotCount" msprop:Generator_UserColumnName="TotCount" msprop:Generator_ColumnPropNameInRow="TotCount" msprop:Generator_ColumnVarNameInTable="columnTotCount" msprop:Generator_ColumnPropNameInTable="TotCountColumn" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dtOption5" msprop:Generator_UserTableName="dtOption5" msprop:Generator_RowDeletedName="dtOption5RowDeleted" msprop:Generator_RowChangedName="dtOption5RowChanged" msprop:Generator_RowClassName="dtOption5Row" msprop:Generator_RowChangingName="dtOption5RowChanging" msprop:Generator_RowEvArgName="dtOption5RowChangeEvent" msprop:Generator_RowEvHandlerName="dtOption5RowChangeEventHandler" msprop:Generator_TableClassName="dtOption5DataTable" msprop:Generator_TableVarName="tabledtOption5" msprop:Generator_RowDeletingName="dtOption5RowDeleting" msprop:Generator_TablePropName="dtOption5">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SeqNo" msprop:Generator_UserColumnName="SeqNo" msprop:Generator_ColumnVarNameInTable="columnSeqNo" msprop:Generator_ColumnPropNameInRow="SeqNo" msprop:Generator_ColumnPropNameInTable="SeqNoColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="MemoNumber" msprop:Generator_UserColumnName="MemoNumber" msprop:Generator_ColumnVarNameInTable="columnMemoNumber" msprop:Generator_ColumnPropNameInRow="MemoNumber" msprop:Generator_ColumnPropNameInTable="MemoNumberColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Title" msprop:Generator_UserColumnName="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Promo_x0020_Type" msprop:Generator_UserColumnName="Promo Type" msprop:Generator_ColumnVarNameInTable="columnPromo_Type" msprop:Generator_ColumnPropNameInRow="Promo_Type" msprop:Generator_ColumnPropNameInTable="Promo_TypeColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Period_x0020_From" msprop:Generator_UserColumnName="Period From" msprop:Generator_ColumnVarNameInTable="columnPeriod_From" msprop:Generator_ColumnPropNameInRow="Period_From" msprop:Generator_ColumnPropNameInTable="Period_FromColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Period_x0020_To" msprop:Generator_UserColumnName="Period To" msprop:Generator_ColumnVarNameInTable="columnPeriod_To" msprop:Generator_ColumnPropNameInRow="Period_To" msprop:Generator_ColumnPropNameInTable="Period_ToColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Branches" msprop:Generator_UserColumnName="Branches" msprop:Generator_ColumnVarNameInTable="columnBranches" msprop:Generator_ColumnPropNameInRow="Branches" msprop:Generator_ColumnPropNameInTable="BranchesColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Date_x0020_Approved" msprop:Generator_UserColumnName="Date Approved" msprop:Generator_ColumnVarNameInTable="columnDate_Approved" msprop:Generator_ColumnPropNameInRow="Date_Approved" msprop:Generator_ColumnPropNameInTable="Date_ApprovedColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dtOption6" msprop:Generator_UserTableName="dtOption6" msprop:Generator_RowDeletedName="dtOption6RowDeleted" msprop:Generator_TableClassName="dtOption6DataTable" msprop:Generator_RowChangedName="dtOption6RowChanged" msprop:Generator_RowClassName="dtOption6Row" msprop:Generator_RowChangingName="dtOption6RowChanging" msprop:Generator_RowEvArgName="dtOption6RowChangeEvent" msprop:Generator_RowEvHandlerName="dtOption6RowChangeEventHandler" msprop:Generator_TablePropName="dtOption6" msprop:Generator_TableVarName="tabledtOption6" msprop:Generator_RowDeletingName="dtOption6RowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="PosPromoID" msprop:Generator_UserColumnName="PosPromoID" msprop:Generator_ColumnPropNameInRow="PosPromoID" msprop:Generator_ColumnVarNameInTable="columnPosPromoID" msprop:Generator_ColumnPropNameInTable="PosPromoIDColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="MemoNumber" msprop:Generator_UserColumnName="MemoNumber" msprop:Generator_ColumnPropNameInRow="MemoNumber" msprop:Generator_ColumnVarNameInTable="columnMemoNumber" msprop:Generator_ColumnPropNameInTable="MemoNumberColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Title" msprop:Generator_UserColumnName="Title" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInTable="TitleColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="PeriodFrom" msprop:Generator_UserColumnName="PeriodFrom" msprop:Generator_ColumnPropNameInRow="PeriodFrom" msprop:Generator_ColumnVarNameInTable="columnPeriodFrom" msprop:Generator_ColumnPropNameInTable="PeriodFromColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="PeriodTo" msprop:Generator_UserColumnName="PeriodTo" msprop:Generator_ColumnPropNameInRow="PeriodTo" msprop:Generator_ColumnVarNameInTable="columnPeriodTo" msprop:Generator_ColumnPropNameInTable="PeriodToColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="Branches" msprop:Generator_UserColumnName="Branches" msprop:Generator_ColumnPropNameInRow="Branches" msprop:Generator_ColumnVarNameInTable="columnBranches" msprop:Generator_ColumnPropNameInTable="BranchesColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="DateApproved" msprop:Generator_UserColumnName="DateApproved" msprop:Generator_ColumnPropNameInRow="DateApproved" msprop:Generator_ColumnVarNameInTable="columnDateApproved" msprop:Generator_ColumnPropNameInTable="DateApprovedColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

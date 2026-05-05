@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="yes"?>
+<Pages>
+	<Page>
+		<!-- your page title -->
+		<Title>your page title comes here</Title>
+		<!-- your .aspx file name for example -->
+		<PageName>MasterTemplate.aspx</PageName>
+		<!-- your page description  -->
+		<description>Page Description</description>
+		<keywords>page keywords </keywords>
+		<COPYRIGHT>BitWise</COPYRIGHT>
+		<GENERATOR>BitWise Offshore Generator</GENERATOR>
+		<AUTHOR>Sample</AUTHOR>
+	</Page>
+</Pages>

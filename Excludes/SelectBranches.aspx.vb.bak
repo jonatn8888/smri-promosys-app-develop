@@ -1,0 +1,141 @@
+Imports dsPromotionsTableAdapters
+Imports System.Data
+
+Partial Class SelectBranches
+    Inherits System.Web.UI.Page
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        If Not Page.IsPostBack() Then
+
+            'lblCompName.Text = Session("CurrEnvName")
+            sqldsBranches.SelectParameters("EnvCode").DefaultValue = Request("EnvCode")
+
+            Dim MyView As DataView = CType(sqldsBranches.Select(DataSourceSelectArguments.Empty), DataView)
+
+            ' TODO :: error message to indicate a possible data corruption or un-updated table
+            If MyView.Count > 0 Then
+                lblCompName.Text = MyView(0)("EnvName").ToString()
+            End If
+
+        End If
+    End Sub
+
+    Protected Sub lnkDone_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lnkDone.Click
+
+        Dim taPromoBranches As New dsPromotionsTableAdapters.PromoBranchTableAdapter()
+        Dim dtPromoBranches As dsPromotions.PromoBranchDataTable
+        Dim dtPromoBranchesDeparmental As dsPromotions.PromoBranchDataTable
+
+        Dim DuplicateFound As Boolean = False
+
+        For Each row As GridViewRow In gridBranches.Rows
+            Dim cb As CheckBox = row.FindControl("chkRowSel")
+            If cb IsNot Nothing AndAlso cb.Checked Then
+
+                Dim oShortName As Label = row.FindControl("lblShortName")
+                Dim oCompCode As Label = row.FindControl("lblCompCode")
+                Dim BranCode As Label = row.FindControl("lblBranchCode")
+
+                ' check for duplicates
+                dtPromoBranches = taPromoBranches.GetPromoBranchByID(clsSession.CurrPromoID, CShort(oCompCode.Text), CShort(BranCode.Text))
+
+                If Session("TransFlag") = "natural" Then
+
+                    If dtPromoBranches.Rows.Count = 0 Then
+                        taPromoBranches.AddPromoBranch(clsSession.CurrPromoID, CShort(oCompCode.Text), CShort(BranCode.Text), oShortName.Text)
+                    Else
+                        DuplicateFound = True ' duplicate detected
+                    End If
+
+                Else
+
+                    Dim dt As DataTable
+                    dt = FillPromoIDDT()
+                    Dim i As Integer
+                    For i = 0 To dt.Rows.Count - 1
+                        dtPromoBranchesDeparmental = taPromoBranches.GetPromoBranchByID(dt.Rows(i)(0), CShort(oCompCode.Text), CShort(BranCode.Text))
+                        If dtPromoBranchesDeparmental.Rows.Count = 0 Then
+                            taPromoBranches.AddPromoBranch(dt.Rows(i)(0), CShort(oCompCode.Text), CShort(BranCode.Text), oShortName.Text)
+                        Else
+                            DuplicateFound = True ' duplicate detected
+                        End If
+                    Next
+
+                End If
+
+                ' alternative code .:. problem: detection of duplicates
+                '-----------------------------------------------------------
+                'With sqldsBranches.InsertParameters
+                '    .Item("PromoID").DefaultValue = clsSession.CurrPromoID
+                '    .Item("CompCode").DefaultValue = row.Cells(1).Text
+                '    .Item("BranchCode").DefaultValue = row.Cells(2).Text
+                '    .Item("ShortName").DefaultValue = Left(sn.Text, 50)
+                'End With
+                '-----------------------------------------------------------
+
+            End If
+        Next
+
+
+        If DuplicateFound Then
+            lblPopTitle.Value = "Promotion Branches"
+            clsSession.Message = "Some of the items you've selected are already in the list"
+            clsSession.Icon = "fyi"
+            ClientScript.RegisterStartupScript(Me.GetType, "key", "<script>opentexteditor('','');</script>")
+        Else
+            'cmdProcess_Click(sender, e)
+            ClientScript.RegisterStartupScript(Me.GetType, "CloseWindow", "<script>parent.Branchwindow.hide();</script>")
+        End If
+    End Sub
+
+    Private Function FillPromoIDDT() As DataTable
+
+        Dim StoredProc As String
+        StoredProc = "SELECT B.PromoID " & _
+                     "FROM Promotions B " & _
+                     "WHERE B.RequestID = 0" & clsSession.CurrRequestID
+
+        Dim sqlConn As SqlClient.SqlConnection
+        sqlConn = New SqlClient.SqlConnection(clsPromo.SQLConnString())
+
+        Dim sqlCmd As New SqlClient.SqlCommand(StoredProc, sqlConn)
+        sqlCmd.CommandType = CommandType.Text
+
+        Dim da As New SqlClient.SqlDataAdapter(sqlCmd)
+        Dim ds As New DataSet
+
+        sqlConn.Open()
+        da.Fill(ds, "tbl_PromoID")
+
+        Dim dt As DataTable = ds.Tables("tbl_PromoID")
+        Return dt
+
+    End Function
+
+    Protected Sub cmdProcess_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdProcess.Click
+
+        ClientScript.RegisterStartupScript(Me.GetType, "CloseWindow", "<script>parent.Branchwindow.hide();</script>")
+
+    End Sub
+
+    Protected Sub chkALL_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+
+        If chkALL.Checked = True Then
+            Dim row As GridViewRow
+            For Each row In gridBranches.Rows
+                Dim chkSel As CheckBox
+                chkSel = CType(row.FindControl("chkRowSel"), CheckBox)
+                chkSel.Checked = True
+            Next
+        Else
+            Dim row As GridViewRow
+            For Each row In gridBranches.Rows
+                Dim chkSel As CheckBox
+                chkSel = CType(row.FindControl("chkRowSel"), CheckBox)
+                chkSel.Checked = False
+            Next
+        End If
+
+    End Sub
+End Class

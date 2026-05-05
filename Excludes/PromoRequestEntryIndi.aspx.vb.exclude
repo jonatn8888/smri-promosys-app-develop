@@ -1,0 +1,35 @@
+
+Partial Class PromoRequestEntryIndi
+    Inherits System.Web.UI.Page
+
+
+
+ 
+    Protected Sub Button1_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button1.Click
+        blistErrorMsg.Items.Clear()
+
+        'validate entries
+        If txtReqTitle.Text = "" Then
+            blistErrorMsg.Items.Add("Promo title not indicated.")
+        End If
+
+        If Not IsDate(txtPeriodFrom.Text) Then
+            blistErrorMsg.Items.Add("Blank or invalid promo start date format.") ' invalid date format
+        Else
+            If DateDiff(DateInterval.Day, Today(), CDate(txtPeriodFrom.Text)) < 1 Then
+                blistErrorMsg.Items.Add("Request must be at least a day before the Promo Period.")
+            End If
+        End If
+
+        If Not IsDate(txtPeriodTo.Text) Then
+            blistErrorMsg.Items.Add("Blank or invalid promo end date format.") ' invalid date format
+        Else
+            If CDate(txtPeriodTo.Text) < CDate(txtPeriodFrom.Text) Then
+                blistErrorMsg.Items.Add("End of promo must not be earlier than the start date.")
+            End If
+        End If
+
+        ' display error message
+        If blistErrorMsg.Items.Count > 0 Then Exit Sub
+    End Sub
+End Class

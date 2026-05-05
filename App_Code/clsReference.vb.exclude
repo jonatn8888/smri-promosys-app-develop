@@ -1,0 +1,1001 @@
+Imports Microsoft.VisualBasic
+Imports System
+Imports System.Data
+Imports System.Data.SqlClient
+
+Public Class clsRef_General
+
+    Public SQLConn As SqlConnection
+    Public SQLCmd As SqlCommand
+    Public SQLDa As SqlDataAdapter
+    Public SQLDr As SqlDataReader
+    Public mds As DataSet
+    Public dt As DataTable
+
+#Region " Connection String "
+    Private Function sConn() As String
+        sConn = ConfigurationManager.AppSettings("ConnectionString")
+        Return sConn
+    End Function
+
+    Public Property SQLConnString() As String
+        Get
+            Return sConn()
+        End Get
+        Set(ByVal Value As String)
+            Value = sConn()
+        End Set
+    End Property
+#End Region
+
+#Region " Connection Settings "
+    Public Sub closeCon()
+        If Not SQLConn Is Nothing Then
+            SQLConn.Close()
+            SQLConn.Dispose()
+        End If
+        If Not SQLCmd Is Nothing Then
+            SQLCmd.Dispose()
+        End If
+        If Not SQLDa Is Nothing Then
+            SQLDa.Dispose()
+        End If
+        If Not dt Is Nothing Then
+            dt.Dispose()
+        End If
+    End Sub
+
+    Public Function setCommand(ByVal strSQL As String) As SqlCommand
+        SQLConn = New SqlConnection(SQLConnString)
+        SQLCmd = New SqlCommand(strSQL, SQLConn)
+        Return SQLCmd
+    End Function
+
+    Public Function setAdapter(ByVal strSQL As String) As SqlDataAdapter
+        SQLConn = New SqlConnection(SQLConnString)
+        SQLDa = New SqlDataAdapter(strSQL, SQLConn)
+        Return SQLDa
+    End Function
+
+    Public Function execDataset(ByVal strSQL As String) As DataSet
+        execDataset = New DataSet
+        setAdapter(strSQL)
+        SQLDa.Fill(execDataset)
+        Return execDataset
+    End Function
+
+    Public Function execReader(ByVal strSQL As String) As SqlDataReader
+        execReader = Nothing
+        setCommand(strSQL)
+
+        Try
+            If SQLConn.State = ConnectionState.Closed Then
+                SQLConn.Open()
+            End If
+            execReader = SQLCmd.ExecuteReader(CommandBehavior.Default)
+            Return execReader
+        Catch ex As Exception
+            Throw ex
+        End Try
+    End Function
+
+    Public Sub execSQL(ByVal strSQL As String)
+        setCommand(strSQL)
+        Try
+            If SQLConn.State = ConnectionState.Closed Then
+                SQLConn.Open()
+            End If
+            SQLCmd.ExecuteNonQuery()
+        Catch ex As Exception
+            Throw ex
+        Finally
+            closeCon()
+        End Try
+    End Sub
+#End Region
+
+#Region " User-Defined Functions and Procedures "
+    Public Function getIndex(ByVal ddl As DropDownList, ByVal strValue As String) As Integer
+        Dim i As Integer
+        Dim intCount As Integer = 0
+        Dim strCombo As String
+
+        For i = 1 To ddl.Items.Count
+            ddl.SelectedIndex = intCount
+            strCombo = ddl.Text.Trim
+            If strCombo = strValue Then
+                getIndex = intCount
+            End If
+            intCount += 1
+        Next
+    End Function
+
+    Public Function IncrementText(ByVal strSQL As String, ByVal fldValue As String) As Double
+        IncrementText = 0
+        mds = New DataSet
+        setAdapter(strSQL)
+
+        SQLDa.Fill(mds)
+        If mds.Tables(0).Rows.Count > 0 Then
+            IncrementText = mds.Tables(0).Rows(0)(fldValue).ToString.Trim() + 1
+        Else
+            IncrementText = 1
+        End If
+    End Function
+#End Region
+
+#Region " Text Validations "
+    Public Function trimString(ByVal Value As String, ByVal Trim As String) As String
+        'remove invalid characters from a string
+        Dim lenValue As Integer = Value.Length
+        Dim lenTrim As Integer = Trim.Length
+        Dim i As Integer
+        Dim count As Integer
+        Dim counter As Integer
+        Dim getValue As String
+        Dim trimValue As String
+        trimString = String.Empty
+
+        If lenValue = 0 Then
+            trimString = " "
+            Exit Function
+        End If
+        If Value.Trim = String.Empty Then
+            trimString = " "
+            Exit Function
+        End If
+
+        For i = 1 To lenValue
+            getValue = Mid(Value, i, 1)
+            For count = 1 To lenTrim
+                trimValue = Mid(Trim, count, 1)
+                If getValue <> trimValue Then
+                    counter += 1
+                    If counter = lenTrim Then
+                        trimString &= getValue
+                    End If
+                Else
+                    Exit For
+                End If
+            Next
+            count = 0
+            counter = 0
+        Next
+    End Function
+
+    Public Function trimLString(ByVal strValue As String) As String
+        trimLString = String.Empty
+        Dim i As Integer = 0
+        Dim boolNumeric As Boolean = False 'check first number if 0
+        Dim chkValue As String = String.Empty
+
+        For i = 1 To strValue.Length
+            chkValue = Mid(strValue, i, 1)
+            If chkValue > 0 Then
+                trimLString &= chkValue
+                boolNumeric = True
+            Else
+                If boolNumeric = False Then
+                    If chkValue <> 0 Then
+                        trimLString &= chkValue
+                    End If
+                Else
+                    If trimLString.Length > 0 Then
+                        trimLString &= chkValue
+                    End If
+                End If
+            End If
+        Next
+    End Function
+
+    Public Function getValue(ByVal strValue As String, ByVal lookValue As String, ByVal endValue As String) As String
+        'return the appsetting value in a string
+        Dim i As Integer = 0
+        Dim j As Integer = 0
+        Dim sIndex As Integer = 0
+        Dim eIndex As Integer = 0
+        Dim count As Integer = 0
+        getValue = String.Empty
+
+        sIndex = strValue.IndexOf(lookValue)
+        eIndex = strValue.IndexOf(endValue)
+
+        If sIndex = 0 Then
+            For j = 0 To lookValue.Length - 1
+                strValue = strValue.Remove(0, 1)
+            Next
+            eIndex = strValue.IndexOf(endValue)
+        End If
+        If eIndex < sIndex Then
+            For i = 0 To sIndex + lookValue.Length - 1
+                strValue = strValue.Remove(0, 1)
+            Next
+            eIndex = strValue.IndexOf(endValue)
+        End If
+
+        For count = 1 To eIndex
+            getValue &= Mid(strValue, count, 1)
+        Next
+    End Function
+
+    Public Function inStr(ByVal strValue As String, ByVal intComma As Integer) As String
+        If intComma = 0 Then
+            inStr = "'" & strValue & "'"
+        Else
+            inStr = "'" & strValue & "', "
+        End If
+        Return inStr
+    End Function
+
+    Public Function Greetings() As String
+        Greetings = String.Empty
+        Dim intDate As Integer = Now.TimeOfDay.Hours.ToString
+        If intDate >= 0 And intDate < 12 Then
+            Greetings = "Good Morning!"
+        End If
+        If intDate >= 12 And intDate < 18 Then
+            Greetings = "Good Afternoon!"
+        End If
+        If intDate >= 18 And intDate < 24 Then
+            Greetings = "Good Evening!"
+        End If
+        Return Greetings
+    End Function
+
+    Public Function NumberFormat(ByVal strValue As String) As Double
+        If strValue = String.Empty Then
+            Exit Function
+        Else
+            NumberFormat = strValue
+            NumberFormat = Format(NumberFormat, "##,###.#0")
+        End If
+    End Function
+
+    Public Function GetAppSetting(ByVal Key As String) As String
+        Try
+            Dim sTemp As String = String.Empty
+            sTemp = ConfigurationManager.AppSettings(Key)
+
+            If (sTemp <> String.Empty) Then
+                Return sTemp
+            Else
+                Return String.Empty
+            End If
+        Catch
+            Return String.Empty
+        End Try
+    End Function
+
+    Public Function FormatDate(ByVal strValue As String, ByVal Format As String) As String
+        FormatDate = String.Empty
+        Dim strDate(2) As String
+        Dim serverDate As String = Now.Year
+
+        Try
+            Select Case Format
+                Case "yymmdd"
+                    strDate(0) = Mid(strValue, 1, 2) 'Year
+                    strDate(1) = Mid(strValue, 3, 2) 'Month
+                    strDate(2) = Mid(strValue, 5, 2) 'Day
+                Case "mmddyy"
+                    strDate(0) = Mid(strValue, 5, 2) 'Day
+                    strDate(1) = Mid(strValue, 1, 2) 'Year
+                    strDate(2) = Mid(strValue, 3, 2) 'Month
+            End Select
+
+            If strDate(0).Length = 2 Then
+                strDate(0) = Mid(serverDate, 1, 2) & strDate(0)
+            End If
+            FormatDate = strDate(0) & "-" & strDate(1) & "-" & strDate(2)
+        Catch ex As Exception
+
+        End Try
+    End Function
+#End Region
+
+#Region " SQL Validations "
+    Public Function HasRows(ByVal strSQL As String) As Boolean
+        HasRows = False
+        Try
+            SQLDr = execReader(strSQL)
+            If SQLDr.HasRows Then
+                Return True
+            Else
+                Return False
+            End If
+        Catch ex As Exception
+        Finally
+            closeCon()
+        End Try
+    End Function
+#End Region
+
+#Region " Javascripts "
+    'Public Sub MessageBox(ByVal strMsg As String)
+    '    Dim strScript As String = "<script language=JavaScript>"
+    '    strScript += "alert(""" & strMsg & """);"
+    '    strScript += "</script>"
+
+    '    'If (Not ClientScript.IsStartupScriptRegistered("clientScript")) Then
+    '    '    Page.RegisterStartupScript("clientScript", strScript)
+    '    'End If
+    '    If (Not Page.IsStartupScriptRegistered("clientScript")) Then
+    '        Page.RegisterStartupScript("clientScript", strScript)
+    '    End If
+    'End Sub
+
+    Public Shared Sub CreateMessageAlert(ByRef aspxPage As System.Web.UI.Page, _
+                           ByVal strMessage As String, ByVal strKey As String)
+        Dim strScript As String = "<script language=JavaScript>alert('" _
+                                            & strMessage & "')</script>"
+        Dim cstype As Type = aspxPage.GetType()
+
+        If (Not aspxPage.ClientScript.IsStartupScriptRegistered(strKey)) Then
+            aspxPage.ClientScript.RegisterStartupScript(cstype, strKey, strScript)
+        End If
+        'If (Not aspxPage.IsStartupScriptRegistered(strKey)) Then
+        '    aspxPage.RegisterStartupScript(strKey, strScript)
+        'End If
+    End Sub
+
+    Public Shared Sub AlertMsgFocTxt(ByRef aspxPage As System.Web.UI.Page, _
+                        ByVal txtobj As WebControl, ByVal msg As String, ByVal strKey As String)
+        Dim cScript As String = "<script language='javascript'>alert('" & msg & "');" & _
+                                "document.getElementById('" & txtobj.ClientID & "').select();" & _
+                                "</script>"
+        Dim cstype As Type = aspxPage.GetType()
+
+        If (Not aspxPage.ClientScript.IsStartupScriptRegistered(strKey)) Then
+            aspxPage.ClientScript.RegisterStartupScript(cstype, strKey, cScript)
+        End If
+    End Sub
+
+    Public Shared Sub AlertMsgRedirect(ByRef aspxPage As System.Web.UI.Page, _
+                          ByVal strMessage As String, ByVal url As String, ByVal strKey As String)
+        Dim strScript As String = "<script language=JavaScript>alert('" _
+                                            & strMessage & "');location.href='" & url & "';</script>"
+        Dim cstype As Type = aspxPage.GetType()
+
+        If (Not aspxPage.ClientScript.IsStartupScriptRegistered(strKey)) Then
+            aspxPage.ClientScript.RegisterStartupScript(cstype, strKey, strScript)
+        End If
+        'If (Not aspxPage.IsStartupScriptRegistered(strKey)) Then
+        '    aspxPage.RegisterStartupScript(strKey, strScript)
+        'End If
+    End Sub
+    Public Shared Sub AlertMsgClose(ByRef aspxPage As System.Web.UI.Page, _
+                          ByVal strMessage As String, ByVal strKey As String)
+        Dim strScript As String = "<script language=JavaScript>alert('" _
+                                            & strMessage & "');window.close();</script>"
+        Dim cstype As Type = aspxPage.GetType()
+
+        If (Not aspxPage.ClientScript.IsStartupScriptRegistered(strKey)) Then
+            aspxPage.ClientScript.RegisterStartupScript(cstype, strKey, strScript)
+        End If
+        'If (Not aspxPage.IsStartupScriptRegistered(strKey)) Then
+        '    aspxPage.RegisterStartupScript(strKey, strScript)
+        'End If
+    End Sub
+#End Region
+End Class
+
+Public Class clsCRMS
+    Dim MyConn As New SqlConnection(ConfigurationManager.AppSettings("ConnectionString"))
+    Dim MyComm As New SqlCommand
+    Dim Dr As SqlDataReader
+    Dim strQry As String
+    Dim da As SqlDataAdapter
+    Dim ds As DataSet
+
+    Public Function newConn() As SqlConnection
+        newConn = MyConn
+    End Function
+
+#Region " System Specific Routines"
+    Public Sub able_chkb(ByVal gv As GridView, ByVal chk As CheckBox, ByVal btn As Button)
+        If gv.Rows.Count > 0 Then
+            chk.Enabled = True
+            btn.Enabled = True
+        Else
+            chk.Checked = False
+            chk.Enabled = False
+            btn.Enabled = False
+        End If
+    End Sub
+    Public Function return_tblCW(ByVal compcode As String) As DataTable
+        return_tblCW = New DataTable
+        strQry = String.Format("sp_getCW '{0}'", compcode)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        da = New SqlDataAdapter(strQry, MyConn)
+        ds = New DataSet()
+        da.Fill(ds)
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+        return_tblCW = ds.Tables(0)
+    End Function
+    Public Function return_tblBrchRef(ByVal compcode As String) As DataTable
+        return_tblBrchRef = New DataTable
+        strQry = String.Format("sp_getBrchRef '{0}'", compcode)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        da = New SqlDataAdapter(strQry, MyConn)
+        ds = New DataSet()
+        da.Fill(ds)
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+        return_tblBrchRef = ds.Tables(0)
+    End Function
+    Public Function return_rtvdetail(ByVal rtvno As String, ByVal compcode As String) As DataTable
+        return_rtvdetail = New DataTable
+        strQry = String.Format("sp_getrtvdetail '{0}','{1}'", rtvno, compcode)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        da = New SqlDataAdapter(strQry, MyConn)
+        ds = New DataSet()
+        da.Fill(ds)
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+        return_rtvdetail = ds.Tables(0)
+    End Function
+    Public Function return_cbrdetail(ByVal rtvno As String, ByVal compcode As String) As DataTable
+        return_cbrdetail = New DataTable
+        strQry = String.Format("sp_getcbrdetail '{0}','{1}'", rtvno, compcode)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        da = New SqlDataAdapter(strQry, MyConn)
+        ds = New DataSet()
+        da.Fill(ds)
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+        return_cbrdetail = ds.Tables(0)
+    End Function
+    Public Function return_disposedRTVQty(ByVal rtvno As String, ByVal compcode As String) As DataTable
+        return_disposedRTVQty = New DataTable
+        strQry = String.Format("sp_SelectDisposedRTV '{0}','{1}'", rtvno, compcode)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        da = New SqlDataAdapter(strQry, MyConn)
+        ds = New DataSet()
+        da.Fill(ds)
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+        return_disposedRTVQty = ds.Tables(0)
+    End Function
+    Public Function return_compdetails(ByVal compcode As String) As String
+        return_compdetails = String.Empty
+        strQry = String.Format("sp_getcompinfo '{0}'", compcode)
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        While Dr.Read()
+            return_compdetails = Dr("COMP_NAME")
+        End While
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Function return_brchdetail(ByVal brchcode As String) As String
+        return_brchdetail = String.Empty
+        strQry = String.Format("sp_getbrchinfo '{0}'", brchcode)
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        While Dr.Read()
+            return_brchdetail = Dr("BRCH_NAME")
+        End While
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Function return_location(ByVal compcode As String, ByVal brchcode As String) As SqlDataReader
+        strQry = String.Format("sp_getLocationinfo '{0}','{1}'", compcode, brchcode)
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+        Return Dr
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Sub populate_ComboCW(ByVal compcode$, ByVal ddls As DropDownList)
+        strQry = String.Format("sp_getCW '{0}'", compcode)
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        ddls.Items.Clear()
+
+        Dim lst As ListItem
+
+        lst = New ListItem(" ", " ")
+        ddls.Items.Add(lst)
+
+        While Dr.Read()
+            lst = New ListItem(Dr("brch_code"), Dr("brch_name"))
+            ddls.Items.Add(lst)
+        End While
+        Dr.Close()
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Sub
+    Public Sub populate_ddlcomp(ByVal ddls As DropDownList)
+        strQry = String.Format("sp_getallcompinfo")
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        Dim lst As ListItem
+
+        lst = New ListItem(" ", " ")
+        ddls.Items.Add(lst)
+
+        While Dr.Read()
+            lst = New ListItem(Dr("COMP_CODE"), Dr("COMP_NAME"))
+            ddls.Items.Add(lst)
+        End While
+        Dr.Close()
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Sub
+    Public Sub populate_ddlbrch(ByVal ddls As DropDownList)
+        strQry = String.Format("getallbrchinfo")
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        Dim lst As ListItem
+
+        lst = New ListItem(" ", " ")
+        ddls.Items.Add(lst)
+
+        While Dr.Read()
+            lst = New ListItem(Dr("BRCH_CODE"), Dr("BRCH_NAME"))
+            ddls.Items.Add(lst)
+        End While
+        Dr.Close()
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Sub
+    Public Function get_allCompany() As String
+        get_allCompany = String.Empty
+
+        strQry = String.Format("sp_getallcompinfo")
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        While Dr.Read()
+            get_allCompany &= Trim(Dr("COMP_CODE")) & ":" & Trim(Dr("COMP_NAME")) & "|"
+        End While
+        Dr.Close()
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Function get_Company(ByVal ucomp$, ByVal ccode$) As String
+        get_Company = String.Empty
+
+        strQry = String.Format("sp_getcomptype '{0}','{1}'", ucomp, ccode)
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        While Dr.Read()
+            get_Company &= Trim(Dr("COMP_CODE")) & ":" & Trim(Dr("COMP_NAME")) & "|"
+        End While
+        Dr.Close()
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Function return_CompTable() As DataTable
+        return_CompTable = New DataTable
+        strQry = String.Format("Select * From Company")
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        da = New SqlDataAdapter(strQry, MyConn)
+        ds = New DataSet()
+        da.Fill(ds)
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+        return_CompTable = ds.Tables(0)
+    End Function
+    Public Function get_allBranch() As String
+        get_allBranch = String.Empty
+        strQry = String.Format("getallbrchinfo")
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        While Dr.Read()
+            get_allBranch &= Trim(Dr("BRCH_CODE")) & ":" & Trim(Dr("BRCH_NAME")) & "|"
+        End While
+        Dr.Close()
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Function get_allDSBranch() As String
+        get_allDSBranch = String.Empty
+        strQry = String.Format("sp_getAllCompBrch")
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        While Dr.Read()
+            get_allDSBranch &= Trim(Dr("COMP_CODE")) & ":" & Trim(Dr("BRCH_CODE")) & ":" & Trim(Dr("BRCH_NAME")) & "|"
+        End While
+        Dr.Close()
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Function ddl_selected(ByVal ddls As DropDownList, ByVal txtcompare As String, ByVal func As String) As String
+        ddl_selected = String.Empty
+        For ct As Integer = 0 To ddls.Items.Count - 1
+            If ddls.Items(ct).Text = txtcompare Then
+                ddls.SelectedIndex = ct
+                Exit For
+            End If
+        Next
+        Select Case func
+            Case "comp"
+                ddl_selected = return_compdetails(txtcompare)
+            Case "brch"
+                ddl_selected = return_brchdetail(txtcompare)
+            Case "cw"
+                ddl_selected = ddls.SelectedValue
+        End Select
+
+    End Function
+    Public Function return_cbrmastl(ByVal rtvno$, ByVal stkcode$, ByVal compcode$) As DataTable
+        return_cbrmastl = New DataTable
+        strQry = String.Format("sp_getcbrmastl '{0}','{1}','{2}'", rtvno, stkcode, compcode)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        da = New SqlDataAdapter(strQry, MyConn)
+        ds = New DataSet()
+        da.Fill(ds)
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+        return_cbrmastl = ds.Tables(0)
+    End Function
+    Public Function return_vendor_string(ByVal ccode$) As String
+        return_vendor_string = ":|"
+        strQry = String.Format("getAllVendor '{0}'", ccode)
+
+        return_vendor_string = tostring_paramvendor(strQry, "Vend_Code", "Vend_Name")
+
+        'MyComm = New SqlCommand(strQry, MyConn)
+        'If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        'Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        'While Dr.Read()
+        '	return_vendor_string = return_vendor_string & Trim(Dr("Vend_Code")) & ":" & Trim(Dr("Vend_Name")) & "|"
+        'End While
+        'Dr.Close()
+        'If MyConn.State = ConnectionState.Open Then MyConn.Close()
+
+    End Function
+    Public Function return_CW(ByVal compcode$) As String
+        return_CW = String.Empty
+        strQry = String.Format("Select brch_code,brch_name From tblCW Where comp_code='" & compcode & "'")
+
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        While Dr.Read()
+            return_CW &= Dr("brch_code").ToString.Trim & ":" & Dr("brch_name").ToString.Trim & "|"
+        End While
+        Dr.Close()
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Sub insert_ddlVal(ByVal uRole$, ByVal ddls As DropDownList, ByVal rtype$)
+        Dim lst As ListItem
+        strQry = String.Format("sp_SelectCRMSReports '{0}','{1}'", uRole, rtype)
+        MyComm = New SqlCommand(strQry, MyConn)
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+        If Dr.HasRows Then
+            While Dr.Read()
+                lst = New ListItem(Dr("report_name"), Dr("report_code"))
+                ddls.Items.Add(lst)
+            End While
+        End If
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Sub
+    Public Function return_crmsRepType(ByVal uRole$, ByVal rtype$) As Integer
+        strQry = String.Format("sp_SelectCRMSReports '{0}','{1}'", uRole, rtype)
+        MyComm = New SqlCommand(strQry, MyConn)
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+        If Dr.HasRows Then
+            return_crmsRepType = 1
+        Else
+            return_crmsRepType = 0
+        End If
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Sub save_rtvhistory_log(ByVal ccode$, ByVal bcode$, ByVal rtvno$, ByVal rtvstat$, ByVal uid$, ByVal remarks$)
+        strQry = String.Format("sp_InsertRTVLog '{0}','{1}','{2}','{3}','{4}','{5}'", _
+        ccode, bcode, rtvno, rtvstat, uid, remarks)
+        MyComm = New SqlCommand(strQry, MyConn)
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        MyComm.ExecuteNonQuery()
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Sub
+    Public Function getUpload_status() As String
+        strQry = String.Format("sp_SelectLastDTSUpload")
+        MyComm = New SqlCommand(strQry, MyConn)
+        Dim cerr% = 0
+        Dim stat$ = ""
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+        If Dr.HasRows() Then
+            While Dr.Read()
+                If Dr("run_status") <> "Succeeded" Then cerr += 1
+                stat = Dr("Exec_Date")
+            End While
+            If cerr = 0 Then
+                getUpload_status = "Last Update: " & "<font color='green'>" & stat & "</font>"
+            Else
+                getUpload_status = "Last Update: " & "<font color='red'>" & stat & "</font>"
+            End If
+        Else
+            getUpload_status = "<font color='red'>" & "No New Update." & "</font>"
+        End If
+        Dr.Close()
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Sub populate_ddlrtvstat(ByVal ddls As DropDownList)
+        strQry = String.Format("select * from dbo.tblRTVStat")
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        Dim lst As ListItem
+
+        While Dr.Read()
+            lst = New ListItem(Dr("rtvstat_code") & "-" & Dr("rtvstat_name"), Dr("rtvstat_code"))
+            ddls.Items.Add(lst)
+        End While
+        Dr.Close()
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Sub
+    Public Function return_Bulletin(ByVal compcode$, ByVal brchcode$, ByVal compgroup$) As DataTable
+        return_Bulletin = New DataTable
+        strQry = String.Format("sp_SelectCRMSBulletin '{0}','{1}','{2}'", compcode, brchcode, compgroup)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        da = New SqlDataAdapter(strQry, MyConn)
+        ds = New DataSet()
+        da.Fill(ds)
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+        return_Bulletin = ds.Tables(0)
+    End Function
+    Public Function get_docnos(ByVal ccode$, ByVal bcode$, ByVal doctype$) As String
+        get_docnos = String.Empty
+
+        strQry = String.Format("sp_SelectDocNos '{0}','{1}','{2}'", ccode, bcode, doctype)
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+        If Dr.HasRows Then
+            While Dr.Read()
+                get_docnos &= Dr("docno") & ","
+            End While
+        Else
+            get_docnos = ","
+        End If
+        Dr.Close()
+        get_docnos = Left(get_docnos, Len(get_docnos) - 1)
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Sub populate_ddlCB(ByVal ddls As DropDownList, ByVal ccode$, ByVal bcode$, ByVal strCB$)
+        Dim lst As ListItem
+        Dim cbs$
+        If Trim(strCB) <> "" And InStr(strCB, ",") Then
+            Dim spltCB$() = strCB.Split(",")
+            For cb As Integer = 0 To spltCB.Length - 1
+                cbs = Trim(spltCB(cb))
+                If Len(cbs) = 7 Then
+                    ccode = Left(cbs, 3)
+                    bcode = Right(cbs, 4)
+                ElseIf Len(cbs) = 6 Then
+                    ccode = Left(cbs, 3)
+                    bcode = Right(cbs, 3)
+                ElseIf Len(cbs) = 4 Then
+                    ccode = Left(cbs, 3)
+                    bcode = Right(cbs, 1)
+                ElseIf Len(cbs) = 1 Then
+                    ccode = cbs
+                    bcode = cbs
+                End If
+
+                lst = New ListItem(ccode & "-" & bcode, ccode & "-" & bcode)
+                ddls.Items.Add(lst)
+            Next
+        Else
+            lst = New ListItem(ccode & "-" & bcode, ccode & "-" & bcode)
+            ddls.Items.Add(lst)
+        End If
+    End Sub
+
+    Public Function return_AckSig(ByVal vcode$, ByVal reld$, ByVal ccode$, ByVal bcode$) As String
+        return_AckSig = String.Empty
+        Dim recby$ = ""
+        strQry = String.Format("sp_ackrecept_signatory '{0}','{1}','{2}','{3}'", vcode, reld, ccode, bcode)
+        MyComm = New SqlCommand(strQry, MyConn)
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+        If Dr.HasRows Then
+            While Dr.Read()
+                return_AckSig &= Dr("REL_BY") & ","
+                recby = Dr("RECV_BY")
+            End While
+            return_AckSig &= "|" & recby
+        Else
+            return_AckSig = ",|"
+        End If
+        Dr.Close()
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Function return_vendor_all() As String
+        return_vendor_all = ":|"
+        strQry = String.Format("Select vend_code,vend_name From dbo.vendormaster")
+
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        While Dr.Read()
+            return_vendor_all &= Trim(Dr("Vend_Code")) & ":" & Trim(Dr("Vend_Name")) & "|"
+        End While
+        Dr.Close()
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+#End Region
+
+#Region " Checking Functions "
+    Public Function check_deducted(ByVal rtvno$, ByVal compcode$) As Boolean
+        check_deducted = False
+
+        strQry = String.Format("sp_chkDeducted '{0}','{1}'", rtvno, compcode)
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+
+        While Dr.Read()
+            If Dr("RTV_Count") > 0 Then check_deducted = True
+        End While
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Function chk_rtv_cancelled(ByVal rtvno$, ByVal compcode$) As Boolean
+        chk_rtv_cancelled = False
+        strQry = String.Format("sp_chkRTVCancel '{0}','{1}'", rtvno, compcode)
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+        While Dr.Read()
+            If Dr("RTV_Count") > 0 Then chk_rtv_cancelled = True
+        End While
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Function chk_rtv_exists(ByVal rtvno$, ByVal compcode$) As Boolean
+        chk_rtv_exists = False
+        strQry = String.Format("sp_chkRTVexists '{0}','{1}'", rtvno, compcode)
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+        While Dr.Read()
+            If Dr("RTV_Count") > 0 Then chk_rtv_exists = True
+        End While
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Function chk_rtv_received(ByVal rtvno$, ByVal compcode$) As Boolean
+        chk_rtv_received = False
+        strQry = String.Format("sp_chkRTVReceived '{0}','{1}'", rtvno, compcode)
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+        While Dr.Read()
+            If Dr("RTV_Count") > 0 Then chk_rtv_received = True
+        End While
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Function val_act(ByVal rtvno$, ByVal compcode$) As String
+        val_act = ""
+        strQry = "Select ACT From CBRMASTH Where RTV_NO='" & rtvno & "' And COMP_FR='" & compcode & "'"
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+        While Dr.Read()
+            If Not IsDBNull(Dr("ACT")) Then val_act = Dr("ACT") Else val_act = ""
+        End While
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Function return_ReleaseLoc(ByVal rtvno$, ByVal compcode$) As String
+        return_ReleaseLoc = ""
+        strQry = "Select Pickup_br From CBRMASTH Where RTV_NO='" & rtvno & "' And COMP_FR='" & compcode & "'"
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+        While Dr.Read()
+            If Not IsDBNull(Dr("Pickup_br")) Then return_ReleaseLoc = Trim(Dr("Pickup_br")) Else return_ReleaseLoc = ""
+        End While
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+    Public Function return_CWTag(ByVal rtvno$, ByVal compcode$) As Boolean
+        return_CWTag = False
+        strQry = "Select CW_TAG From CBRMASTH Where RTV_NO='" & rtvno & "' And COMP_FR='" & compcode & "'"
+        MyComm = New SqlCommand(strQry, MyConn)
+
+        If MyConn.State = ConnectionState.Closed Then MyConn.Open()
+        Dr = MyComm.ExecuteReader(CommandBehavior.CloseConnection)
+        While Dr.Read()
+            If Not IsDBNull(Dr("CW_TAG")) Then return_CWTag = Dr("CW_TAG")
+        End While
+
+        If MyConn.State = ConnectionState.Open Then MyConn.Close()
+    End Function
+#End Region
+
+#Region " Attached Attributes Functions "
+    Public Sub Elem_ReadOnly(ByVal elem As WebControl)
+        elem.Attributes.Add("OnKeyDown", "disable_key();")
+    End Sub
+    Public Sub Elem_NumOnly(ByVal elem As WebControl)
+        elem.Attributes.Add("OnKeyPress", "numOnly();")
+    End Sub
+    Public Sub Txt_Disable(ByVal elem As TextBox)
+        elem.CssClass = "txtdisable"
+        elem.ReadOnly = True
+    End Sub
+    Public Sub Txt_Enable(ByVal elem As TextBox)
+        elem.CssClass = "txtenable"
+        elem.ReadOnly = False
+    End Sub
+    Public Sub Ddl_Enable(ByVal elem As DropDownList)
+        elem.CssClass = "ddlenable"
+        elem.Enabled = True
+    End Sub
+    Public Sub Ddl_Unable(ByVal elem As DropDownList)
+        elem.CssClass = "ddlunable"
+        elem.Enabled = False
+    End Sub
+    Public Sub txtA_enable(ByVal elem As HtmlTextArea)
+        elem.Attributes.Item("readonly") = Nothing
+        elem.Attributes.Item("Class") = "txtenable"
+    End Sub
+    Public Sub txtA_disable(ByVal elem As HtmlTextArea)
+        elem.Attributes.Item("readonly") = "readOnly"
+        elem.Attributes.Item("Class") = "txtdisable"
+    End Sub
+    Public Function return_ResCnt(ByVal gv As GridView) As String
+        Dim res$ = "0"
+        If gv.Rows.Count > 0 Then
+            res = gv.Rows.Count.ToString
+        End If
+        return_ResCnt = "Total Records = " & "<font color='green'>" & res & "</font>"
+    End Function
+#End Region
+End Class

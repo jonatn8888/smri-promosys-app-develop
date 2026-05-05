@@ -1,0 +1,176 @@
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Default1.aspx.vb" Inherits="_Default" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>eProMoSys Project Development</title>
+    <meta http-equiv="Page-Enter" content="blendTrans(Duration=0.2)" /><meta http-equiv="Page-Exit" content="blendTrans(Duration=0.2)" /> 
+
+    <link rel="stylesheet" href=".\css\main.css" media="screen" />
+    
+<script language="javascript" type="text/javascript">
+<!--
+
+
+
+// -->
+</script>
+</head>
+
+<body style="background-color: #3366cc;">
+
+    <form id="form1" runat="server">
+    <div id="contents">
+
+    <span style="font-family: Trebuchet MS; font-size: 16pt; color: #ffff00">
+       Promotion Monitoring System</span>&nbsp;
+    
+    <hr />
+
+    <p><span style="font-size: 14pt; color: #ffffff">Project Development Update</span></p>
+   
+    <table bordercolor="lightsteelblue" style="font-weight: bold" cellpadding="4" cellspacing="0" border="1" >
+        <tr>
+            <td style="width: 239px; height: 20px" valign="top">
+                <span style="color: gainsboro; font-family: Trebuchet MS; font-size: 11pt;">Latest System
+                    Update</span></td>
+            <td style="width: 479px; height: 20px; text-align: center;" valign="top">
+                <span><span style="font-size: 11pt">
+                <span style="font-family: Trebuchet MS; color: #ffffff">Feb. 22, 2010</span></span></span></td>
+        </tr>
+        <tr>
+            <td style="width: 239px; height: 20px" valign="top">
+            </td>
+            <td style="width: 479px; height: 20px; text-align: right" valign="top">
+                <em>You are logged in as:</em>
+        <asp:Label ID="lblUserName" runat="server" Font-Size="Larger" ForeColor="White"></asp:Label></td>
+        </tr>
+    </table>
+        <br />
+        <table style="width: 746px">
+            <tr>
+                <td style="width: 159px">
+                    <table bordercolor="lightsteelblue" style="font-weight: bold; width: 672px;" cellpadding="4" cellspacing="0" border="1" >
+        <tr>
+            <td style="width: 238px; height: 20px" valign="top">
+                <span style="color: gainsboro; font-family: Trebuchet MS; font-size: 11pt;">Modification
+                    Details</span></td>
+            <td style="width: 203px; height: 20px; text-align: left; font-family: Trebuchet MS;" valign="top">
+                <span><span style="font-size: 11pt"><span style="color: #ffffff">
+                    <span><span style="font-size: 11pt"><span style="color: #ffffff;">
+                        <span style="font-size: 9pt">
+                            <br />
+                        </span>
+                    </span></span></span>
+                    </span></span></span>
+                <p style="text-align: left">
+                    <span></span><span style="font-size: 11pt"></span><span style="color: #ffffff;">
+                    </span><span></span><span style="font-size: 11pt"></span><span style="color: #ffffff;"></span><span style="font-size: 10pt"><span style="color: white;"><span style="font-size: 11pt">
+                            Formatted branch description in Promo Request<br />
+                            <br />
+                        Implemented 10-day lead time validation and exemption.<br />
+                            <br />
+                            POS File Generation and Initial User Screen<br />
+                            <br />
+                            Activated "Return to Sender" Process<br />
+                            <br />
+                            Initial Announcement/Branch Screen</span><br />
+                        </span>
+                        <br />
+                    </span>
+                </p>
+                <p>
+                        <table style="width: 480px" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td style="width: 48px; height: 22px">
+                                </td>
+                                <td style="width: 137px; height: 22px; text-align: right">
+                                    <span style="font-size: 9pt">
+                                        <asp:LinkButton ID="LinkButton1" runat="server" ForeColor="Aquamarine">Read All</asp:LinkButton></span></td>
+                            </tr>
+                        </table>
+                    </p>
+            </td>
+        </tr>
+    </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;<table id="tblReadAll" runat="server">
+                        <tr>
+                            <td colspan="3" rowspan="3">
+                
+        <asp:Panel ID="Panel1" runat="server" Width="559px">
+            <table cellpadding="3" cellspacing="0" style="border-right: 1px solid; border-top: 1px solid;
+                border-left: 1px solid; width: 560px; border-bottom: 1px solid">
+                <tr>
+                    <td style="width: 556px; height: 8px">
+                        <span style="font-size: 11pt; color: #ffffff">Modifications:</span><ul>
+                <li><span style="font-size: 11pt; color: #ffffff">"Delete Promo" button in Request Entry.</span></li><li><span style="font-size: 11pt; color: #ffffff">Checks and warns for promotional conflicts.</span></li><li><span style="font-size: 11pt; color: #ffffff">
+                        Integrated the WYSIWYG Text Editor in the Promo Type Maintenance and Memo Entry
+                        screens.</span></li><li><span style="font-size: 11pt; color: #ffffff">Fixed some errors found in the Memo
+                    creation module.</span></li><li><span style="font-size: 11pt; color: #ffffff">Included an entry textbox for the
+                    class discount promo type.</span></li><li><span style="font-size: 11pt; color: #ffffff">Completed the signatory tags for the
+                    Promo Request and Memo records.</span></li><li><span style="font-size: 11pt; color: #ffffff">Added a few work-in-progress features
+                    including the printing of the promotion announcement memo.</span></li><li><span style="font-size: 11pt; color: #ffffff">Completed the basic cycle of the Promotion:
+                    from Request creation to Memo Approval</span></li><li><span style="font-size: 11pt; color: #ffffff">Fixed some errors on the Review and
+                    Approval screens</span></li></ul>
+                    </td>
+                </tr>
+            </table>
+        </asp:Panel>
+                            </td>
+                        </tr>
+                        <tr>
+                        </tr>
+                        <tr>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 159px">
+
+    <table style="width: 739px" id="tblProceedAll">
+        <tr>
+            <td colspan="2">
+        
+    <hr />
+                &nbsp;</td>
+        </tr>
+        <tr>
+            <td style="width: 640px;">
+                <span style="font-size: 11pt; font-family: Trebuchet MS; color: #ffffff"><asp:LinkButton
+                    ID="lnkMessage" runat="server" Font-Names="Trebuchet MS" Font-Size="14px" ForeColor="PaleGoldenrod"></asp:LinkButton></span>
+
+            </td>
+            <td style="width: 640px; text-align: right">
+            <asp:LinkButton ID="lnkGoToSite" runat="server" Font-Bold="True" Font-Names="Trebuchet MS"
+                Font-Size="16px" ForeColor="White">Proceed to Project Test Site</asp:LinkButton>
+                <img src="Images/arr_dbl_blu.gif" id="IMG1" language="javascript" onclick="return IMG1_onclick()" /></td>
+        </tr>
+        <tr>
+            <td style="width: 640px; text-align: right">
+            </td>
+            <td style="width: 640px; text-align: right">
+            </td>
+        </tr>
+    </table>
+                </td>
+            </tr>
+        </table>
+        
+            <span style="color: beige">
+                <br />
+                eProMoSys .: beta :.</span>
+        <asp:SqlDataSource ID="sqldsData" runat="server" ConnectionString="<%$ ConnectionStrings:PromoConnectionString %>"
+            ProviderName="<%$ ConnectionStrings:PromoConnectionString.ProviderName %>"></asp:SqlDataSource>
+    
+    </div>
+    </form>
+    
+    
+</body>
+</html>

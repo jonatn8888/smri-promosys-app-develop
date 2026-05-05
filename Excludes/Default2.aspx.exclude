@@ -1,0 +1,22 @@
+<%@ Page Language="VB" MasterPageFile="~/PromoPage.master" AutoEventWireup="false" CodeFile="Default2.aspx.vb" Inherits="Default2" title="Untitled Page" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+
+    <script language="javascript" type="text/javascript" src="js/DatePicker.js"></script>
+
+    <form id="form1" runat="server">
+    <div>
+        <table>
+           <tr><td>
+        <asp:TextBox ID="txtPeriodFrom" runat="server" Width="151px"></asp:TextBox>
+        <input name="calPeriodFrom" type="button" id="calPeriodFrom" class="btnCal" OnClick="displayDatePicker('ctl00_ContentPlaceHolder1_txtPeriodFrom');" /></td>
+            </tr>
+        </table>
+        <br />
+    </div>
+
+    <asp:TextBox ID="txtUserName" runat="server"></asp:TextBox>
+    <asp:Button ID="cmdLogin" runat="server" Text="Login As" Width="95px" />
+    
+    </form>
+</asp:Content>
+

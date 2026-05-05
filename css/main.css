@@ -1,0 +1,750 @@
+﻿/* default styling of elements with tag selectors */
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: Trebuchet MS,Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 80%;
+	color: #222;
+	background-color: blue;
+	background-image: url('../images/bg.png');
+	background-attachment: fixed;
+}
+
+/* section classes */
+
+#container
+{
+	margin: 15px auto;
+	width: 920px;
+	min-height: 550px;
+	text-align: left;
+	background-color: #fff;
+	border: 1px none #fff;
+}
+
+#subcontainer
+{
+	margin: 15px auto;
+	width: 700px;
+	min-height: 250px;
+	text-align: left;
+	background-color: #fff;
+	border: 1px none #fff;
+	elevation:above;
+}
+
+#subvbChoice
+{
+	margin: 15px auto;
+	width: 300px;
+	min-height: 100px;
+	text-align: left;
+	background-color: #fff;
+	border: 1px none #fff;
+	elevation:above;
+}
+
+#subvbAttachment
+{
+	margin: 15px auto;
+	width: 458px;
+	min-height: 280;
+	text-align: left;
+	background-color: #fff;
+	border: 1px none #fff;
+	elevation:above;
+}
+
+#header
+{
+    height: 90px;
+    width: 100%;
+    /*
+    background-image: url(../images/mainbanner.jpg);
+    background-repeat: no-repeat;
+    background-position: right;
+	// background-color: Yellow;
+	*/
+    position: relative;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+}
+
+#header h1
+{
+    font-size: 1px;
+    text-align: right;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+/* navigation bar */
+
+
+#nav_bar 
+{
+	position: relative;
+	line-height: 1.7em;
+}
+
+#nav_bar ul
+{
+	padding-left: 0;
+	margin-left: 0;
+	color: #222;
+	float: left;
+	width: 100%;
+	clear:  both;
+	background-color: #191970;
+	background-image: url('../images/navBg.jpg');
+	margin: 5px 0;
+}	
+
+#nav_bar li
+{
+	display: inline;	
+}
+
+#nav_bar li a
+{
+	padding: 0.3em 1em;
+	text-decoration: none;
+	float: left;
+	font-weight: normal;
+	border-right: 1px solid #fff;
+	/* background-color: #191970;*/
+	color: white;
+}
+
+#nav_bar li a:hover
+{
+	background-color: #4169e1;
+	color: white;
+}
+
+#nav_bar li a:visited
+{
+	color: white;
+}
+
+#menu
+{	
+	position: fixed;
+    float: right;
+	/* right: 200px; */
+    top: 150px;
+    width: 150px;
+    min-height: 400px;
+    border: 1px solid #C5C877;
+    padding-left: 15px;
+    padding-right: 0px;
+   /* background-color: Aqua; */
+}
+
+#menu ul
+{
+	list-style-type: none;
+}
+
+#menu li a
+{
+	list-style-type: none;
+	background-color: Black;
+	text-decoration: none;
+	width: 100px;
+	height: 30px;
+	color: White;
+}
+
+#menu li a:hover
+{
+	background-image: url('../images/com_tab_mid_o_bg.gif');
+	text-decoration: none;
+	color: white;
+}
+
+#menu li a:visited
+{
+	color: white;
+}
+
+#contents
+{ 
+	margin:  20px 200px 30px 10px;
+	padding-top: 20px;
+
+	/* border-bottom: 1px solid #C5C877; */
+	/* background-color: Silver; */
+}
+
+#footer
+{
+}
+
+/* data presentation table */
+
+#doc-table
+{
+	width: 700px;
+	background-color: White;
+}	
+
+#doc-table td
+{
+	border-bottom: solid 1px lightgrey;
+	vertical-align: top;
+}
+
+#doctable
+{
+	width: 700px;
+	background-color: White;
+	padding: 0;
+}	
+
+#doctable td
+{
+	border-bottom: solid 1px lightgrey;
+	vertical-align: top;
+}
+
+.standard-doc-table
+{
+	width: 700px;
+	background-color: White;
+}	
+
+.standard-doc-table td
+{
+	border-bottom: solid 1px lightgrey;
+	vertical-align: top;
+}
+
+.DocTabHeadOn
+{
+	background-color: steelblue;
+	text-align: center;
+	font-family: Trebuchet MS;
+	font-size: 11pt;
+	font-weight: bold;
+	color: white;
+}
+
+.DocTabHeadOff
+{
+	background-color: Gainsboro;
+	text-align: center;
+	font-family: Trebuchet MS;
+	font-size: 11pt;
+	font-weight: bold;
+	color: #778899;
+}
+
+.field-cell
+{
+	background-color: AliceBlue;
+}
+
+.simple-table
+{
+	width: 700px;
+}
+
+.simple-table td
+{
+	border-bottom: solid 1px lightgrey;
+	vertical-align: top;
+}
+	
+
+/* standard anchors */
+
+a {
+	color: black;
+	text-decoration: none;
+}
+
+a:hover {
+	color: orange;
+	text-decoration: none;
+}
+
+a:visited {
+	color: black;
+	text-decoration: none;
+}
+
+a img {
+	border: none !important;		
+}
+
+a:hover img {
+	border: 1px solid #f30;
+}
+
+/* standard headings */
+
+h1,h2,h3,h4,h5 {
+	font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
+}
+
+h1 {
+	font-size: 140%;
+}
+
+h2 {
+	font-size: 125%;	
+}
+
+h3 {
+	font-size: 115%;
+}
+
+h4 {
+	font-size: 105%;	
+}
+
+
+/* textboxes */
+
+
+.Tb_ToUpper
+{
+	text-transform: uppercase;
+}
+
+.Tb_Message
+{
+	/*text-transform: uppercase;*/
+	text-align: center
+}
+
+
+/* custom lists */
+
+.listitem {
+	list-style-image:  url('../images/arrow.png');	
+	list-style-type: circle;
+}
+
+/*
+ol.abc {
+	list-style-type: lower-alpha;	
+}
+*/
+
+/* custom link buttons*/
+
+.nav-link
+{
+	text-align: center;
+}
+
+.standard-link 
+{
+	/* 
+	color: #4169e1;	
+	font-size: 11px;
+	*/
+	float: right;
+	text-align: center;
+}
+
+.action-link 
+{
+	color: #4169e1;
+	font-size: 11px;
+	float: right;
+	text-align: center;
+}
+
+.error-list
+{
+	text-align: center; 
+	color: Maroon;
+	font-size: 12px;
+	list-style-type: disc;
+	border: solid 1px red;
+	background-color: White;
+}
+
+
+/* Classes for PopUp Window */
+
+.MainFrame {
+	position: absolute;
+	z-index: 200;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+.PageMask {
+	position: absolute;
+	z-index: 201;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	opacity: .6;
+	filter: alpha(opacity=40);
+	/* this hack is so it works in IE
+	 * I find setting the color in the css gives me more flexibility 
+	 * than the PNG solution.
+	 */
+	background-color:solid !important;
+	background-color: #333333;
+	background-repeat: repeat;
+	display:block;
+}
+
+.popupWindow {
+	z-index: 202;
+	position: absolute;
+	top: 100px;
+	left: 50px;
+	width: 385px;
+	height: 305px;
+	display:block;
+	filter: none;
+}
+
+
+.popupFrame {
+}
+
+
+.mGrid {    
+    width: 100%;    
+    background-color: #fff;    
+    margin: 5px 0 10px 0;    
+    border: solid 1px #525252;    
+    border-collapse:collapse;    
+}   
+
+
+/*
+.mGrid td {    
+    padding: 2px;    
+    border: solid 1px #c1c1c1;    
+    color: #717171;    
+}   
+.mGrid th {    
+    padding: 4px 2px;    
+    color: #fff;    
+    background: #424242 url(grd_head.png) repeat-x top;    
+    border-left: solid 1px #525252;    
+    font-size: 0.9em;    
+}   
+.mGrid .alt { background: #fcfcfc url(grd_alt.png) repeat-x top; }   
+.mGrid .pgr { background: #424242 url(grd_pgr.png) repeat-x top; }   
+.mGrid .pgr table { margin: 5px 0; }   
+.mGrid .pgr td {    
+    border-width: 0;    
+    padding: 0 6px;    
+    border-left: solid 1px #666;    
+    font-weight: bold;    
+    color: #fff;    
+    line-height: 12px;    
+ }      
+.mGrid .pgr a { color: #666; text-decoration: none; }   
+.mGrid .pgr a:hover { color: #000; text-decoration: none; }  
+*/
+
+
+
+#nav, #nav ul{
+     padding:0;
+     list-style-type:none;
+     list-style-position:outside;
+     position:relative;
+     line-height:1.7em;
+     background-color: #191970;
+	 background-image: url('../images/navBg.jpg');
+	 margin: 5px 0;
+	 width:100%;
+	 color: #222;
+	 float: left;
+	
+	 clear:  both;
+ }
+ 
+ 
+#nav a:link, #nav a:active, #nav a:visited{
+    display:block;
+    padding: 0.3em 1em;
+	text-decoration: none;
+	float: left;
+	font-weight: normal;
+	border-right: 1px solid #fff;
+	/* background-color: #191970;*/
+	color: white;
+ }
+
+#nav a:hover{
+	background-image: url('../images/com_tab_mid_o_bg2.gif');
+	text-decoration: none;
+	color: white;
+}
+
+
+#nav li{
+    float:left;
+    position:relative;
+}
+
+#nav ul {
+    position:absolute;
+    width:17em;
+    top:1.5em;
+    display:none;
+}
+
+#nav li ul a{
+    width:15em;
+    float:left;
+}
+
+
+#nav ul ul{
+	top:auto;
+}	
+
+#nav li ul ul {
+    left:15em;
+    margin:0px 0 0 10px;
+}
+
+#nav li:hover ul ul, #nav li:hover ul ul ul, #nav li:hover ul ul ul ul{
+    display:none;
+}
+
+#nav li:hover ul, #nav li li:hover ul, #nav li li li:hover ul, #nav li li li li:hover ul{
+    display:block;
+}
+    
+.drag-handle{ /*Overwrite default drag handle bar background color with below*/
+	background-color: #03277C;
+	
+}
+
+#interVeil{ /*CSS for veil that covers entire page while modal window is visible*/
+	position: absolute;
+	background: black url('../css/blackdot.gif');
+	width: 10px;
+	left: 0;
+	top: 0;
+	z-index: 5;
+	visibility: hidden;
+	filter:progid:DXImageTransform.Microsoft.alpha(opacity=40);
+	opacity: 0.4;
+}
+
+.dhtmlwindow{
+	position: absolute;
+	border: 2px solid white;
+	visibility: hidden;
+	background-color: white;
+}
+
+.drag-handle{ /*CSS for Drag Handle*/
+	padding: 1px;
+	text-indent: 3px;
+	font: bold 14px Arial;
+	background-color:LightSteelBlue; /* #0037AC; #CA0000;*/
+	color: #191970;
+	cursor: move;
+	overflow: hidden;
+	width: auto;
+	filter: progid:DXImageTransform.Microsoft.alpha(opacity=100);
+	-moz-opacity: 1;
+	opacity: 1;
+}
+
+.drag-handle .drag-controls{ /*CSS for controls (min, close etc) within Drag Handle*/
+	position: absolute;
+	right: 1px;
+	top: 2px;
+	cursor: hand;
+	cursor: pointer;
+}
+
+* html .drag-handle{ /*IE6 and below CSS hack. Width must be set to 100% in order for opaque title bar to render*/
+	width: 100%;
+}
+
+
+.drag-contentarea{ /*CSS for Content Display Area div*/
+	border-top: 1px solid white;
+	background-color: white;
+	color: white;
+	height: 150px;
+	padding: 2px;
+	overflow: auto;
+}
+
+.drag-statusarea{ /*CSS for Status Bar div (includes resizearea)*/
+	border-top: 1px solid gray;
+	background-color: #F8F8F8;
+	height: 14px; /*height of resize image*/
+}
+
+
+.drag-resizearea{ /*CSS for Resize Area itself*/
+	float: right;
+	width: 13px; /*width of resize image*/
+	height: 13px; /*height of resize image*/
+	cursor: nw-resize;
+	font-size: 0;
+}
+
+.button
+{
+	BORDER-RIGHT: #3094be 1px solid; 
+	BORDER-TOP: #badeed 1px solid; 
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 10px; 
+	BORDER-LEFT: #badeed 1px solid; 
+	COLOR: #667788; 
+	BORDER-BOTTOM: #3094be 1px solid; 
+	FONT-FAMILY: Verdana; 
+	BACKGROUND-COLOR: #acacac;
+	height:auto;
+}
+
+    TABLE.tabulardata {
+	        BACKGROUND-COLOR: #74aefa;
+        }
+        TABLE.tabulardata TR {
+	        BACKGROUND-COLOR: white;
+	        font-size:8pt;
+        }
+        TABLE.tabulardata TH {
+	        BACKGROUND-COLOR: #5D7B9D;
+	        PADDING:4px;
+        }
+        TABLE.tabulardata TD {
+	        PADDING:4px;
+        }
+        
+        
+        /* link button */
+ 
+/*Credits: Dynamic Drive CSS Library */
+/*URL: http://www.dynamicdrive.com/style/ */
+
+a.boldbuttons{
+background: url('../images/roundedge-blue-left.gif') no-repeat left top;
+display: block;
+float:left;
+/* Change 13px as desired */
+line-height: 22px; /* This value + 4px + 4px (top and bottom padding of SPAN) must equal height of button background (default is 30px) */
+height: 30px; /* Height of button background height */
+padding-left: 8px; /* Width of left menu image */
+text-decoration: none;
+ position:relative;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: bold;
+	font-size: 12px;
+	font-family: Arial;
+}
+
+a:link.boldbuttons, a:visited.boldbuttons, a:hover.boldbuttons, a:active.boldbuttons{
+color: white; /*button text color*/
+}
+
+a.boldbuttons span{
+background: url('../images/roundedge-blue-right.gif') no-repeat right top;
+display: block;
+padding: 4px 10px 4px 2px; /*Set 10px to be equal or greater than'padding-left' value above*/
+}
+
+a:hover.boldbuttons{ /* Hover state CSS */
+text-decoration: underline;
+}
+
+
+.buttonwrapper{ /* Container you can use to surround a CSS button to clear float */
+overflow: hidden; /*See: http://www.quirksmode.org/css/clearing.html */
+width: 100%;
+text-align:center;
+}
+
+.HiddenObject
+{
+    display:none;
+}
+
+
+/* Home Page Styles */
+
+#divHomeContent
+{
+	margin:  20px 10px 30px 10px;
+}
+
+.HomeBlock
+{
+	border: solid 1px #3366f0;
+	padding: 15px 10px 15px 10px;	
+}
+
+
+/* */
+
+#SectionHeader
+{
+	background-color: royalblue;
+	font-size: 16px; 
+	color: white; 
+	font-family: Tahoma; 
+	padding-right: 10px; 
+	padding-left: 10px; 
+	padding-bottom: 5px; 
+	padding-top: 5px; 
+	width: 80%;
+}
+
+.selectable
+{
+    cursor: pointer; cursor: hand;
+}
+
+#divUnderConst
+{
+	
+}
+
+.literal
+{
+    font-size: 12px;
+}
+
+.gridPagerRow span
+{ 
+    color: Yellow;
+    font-weight: bold;
+    font-size: 14pt;
+}
+
+.gridPagerRowSmall span
+{
+    color: Yellow;
+    font-weight: bold;
+    font-size: 09pt;
+}
+
+.gridTableStyle
+{
+
+}
+
+.gridTableStyleSmall
+{
+    font-size: 11px;
+}

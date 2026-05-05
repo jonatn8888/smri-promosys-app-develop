@@ -1,0 +1,321 @@
+BODY {
+	FONT-SIZE: 80%; FONT-FAMILY: Trebuchet MS,Verdana, Geneva, Arial, Helvetica, sans-serif; BACKGROUND-IMAGE: url(../images/bg.png); BACKGROUND-ATTACHMENT: fixed; COLOR: #222; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px; BACKGROUND-COLOR: blue
+}
+#container {
+	BORDER-TOP: #fff 1px; BORDER-RIGHT: #fff 1px; WIDTH: 920px; BORDER-BOTTOM: #fff 1px; TEXT-ALIGN: left; MIN-HEIGHT: 550px; BORDER-LEFT: #fff 1px; MARGIN: 15px auto; BACKGROUND-COLOR: #fff
+}
+#subcontainer {
+	BORDER-TOP: #fff 1px; BORDER-RIGHT: #fff 1px; WIDTH: 700px; BORDER-BOTTOM: #fff 1px; TEXT-ALIGN: left; MIN-HEIGHT: 250px; BORDER-LEFT: #fff 1px; MARGIN: 15px auto; BACKGROUND-COLOR: #fff; elevation: above
+}
+#subvbChoice {
+	BORDER-TOP: #fff 1px; BORDER-RIGHT: #fff 1px; WIDTH: 300px; BORDER-BOTTOM: #fff 1px; TEXT-ALIGN: left; MIN-HEIGHT: 100px; BORDER-LEFT: #fff 1px; MARGIN: 15px auto; BACKGROUND-COLOR: #fff; elevation: above
+}
+#subvbAttachment {
+	BORDER-TOP: #fff 1px; BORDER-RIGHT: #fff 1px; WIDTH: 458px; BORDER-BOTTOM: #fff 1px; TEXT-ALIGN: left; BORDER-LEFT: #fff 1px; MARGIN: 15px auto; BACKGROUND-COLOR: #fff; elevation: above
+}
+#header {
+	HEIGHT: 90px; WIDTH: 100%; POSITION: relative; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px
+}
+#header H1 {
+	FONT-SIZE: 1px; COLOR: #fff; PADDING-BOTTOM: 0px; TEXT-ALIGN: right; PADDING-TOP: 0px; PADDING-LEFT: 0px; MARGIN: 0px; PADDING-RIGHT: 0px
+}
+#nav_bar {
+	POSITION: relative; LINE-HEIGHT: 1.7em
+}
+#nav_bar UL {
+	WIDTH: 100%; BACKGROUND-IMAGE: url(../images/navBg.jpg); FLOAT: left; COLOR: #222; PADDING-LEFT: 0px; CLEAR: both; MARGIN: 5px 0px; BACKGROUND-COLOR: #191970
+}
+#nav_bar LI {
+	DISPLAY: inline
+}
+#nav_bar LI A {
+	TEXT-DECORATION: none; BORDER-RIGHT: #fff 1px solid; FLOAT: left; FONT-WEIGHT: normal; COLOR: white; PADDING-BOTTOM: 0.3em; PADDING-TOP: 0.3em; PADDING-LEFT: 1em; PADDING-RIGHT: 1em
+}
+#nav_bar LI A:hover {
+	COLOR: white; BACKGROUND-COLOR: #4169e1
+}
+#nav_bar LI A:visited {
+	COLOR: white
+}
+#menu {
+	BORDER-TOP: #c5c877 1px solid; BORDER-RIGHT: #c5c877 1px solid; WIDTH: 150px; BORDER-BOTTOM: #c5c877 1px solid; POSITION: fixed; FLOAT: right; PADDING-LEFT: 15px; MIN-HEIGHT: 400px; BORDER-LEFT: #c5c877 1px solid; TOP: 150px; PADDING-RIGHT: 0px
+}
+#menu UL {
+	LIST-STYLE-TYPE: none
+}
+#menu LI A {
+	LIST-STYLE-TYPE: none; TEXT-DECORATION: none; HEIGHT: 30px; WIDTH: 100px; COLOR: white; BACKGROUND-COLOR: black
+}
+#menu LI A:hover {
+	TEXT-DECORATION: none; BACKGROUND-IMAGE: url(../images/com_tab_mid_o_bg.gif); COLOR: white
+}
+#menu LI A:visited {
+	COLOR: white
+}
+#contents {
+	PADDING-TOP: 20px; MARGIN: 20px 200px 30px 10px
+}
+#footer {
+	
+}
+#doc-table {
+	WIDTH: 700px; BACKGROUND-COLOR: white
+}
+#doc-table TD {
+	VERTICAL-ALIGN: top; BORDER-BOTTOM: lightgrey 1px solid
+}
+#doctable {
+	WIDTH: 700px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; BACKGROUND-COLOR: white
+}
+#doctable TD {
+	VERTICAL-ALIGN: top; BORDER-BOTTOM: lightgrey 1px solid
+}
+.standard-doc-table {
+	WIDTH: 700px; BACKGROUND-COLOR: white
+}
+.standard-doc-table TD {
+	VERTICAL-ALIGN: top; BORDER-BOTTOM: lightgrey 1px solid
+}
+.DocTabHeadOn {
+	FONT-SIZE: 11pt; FONT-FAMILY: Trebuchet MS; FONT-WEIGHT: bold; COLOR: white; TEXT-ALIGN: center; BACKGROUND-COLOR: steelblue
+}
+.DocTabHeadOff {
+	FONT-SIZE: 11pt; FONT-FAMILY: Trebuchet MS; FONT-WEIGHT: bold; COLOR: #778899; TEXT-ALIGN: center; BACKGROUND-COLOR: gainsboro
+}
+.field-cell {
+	BACKGROUND-COLOR: aliceblue
+}
+.simple-table {
+	WIDTH: 700px
+}
+.simple-table TD {
+	VERTICAL-ALIGN: top; BORDER-BOTTOM: lightgrey 1px solid
+}
+A {
+	TEXT-DECORATION: none; COLOR: black
+}
+A:hover {
+	TEXT-DECORATION: none; COLOR: orange
+}
+A:visited {
+	TEXT-DECORATION: none; COLOR: black
+}
+A IMG {
+	BORDER-TOP-STYLE: none !important; BORDER-LEFT-STYLE: none !important; BORDER-BOTTOM-STYLE: none !important; BORDER-RIGHT-STYLE: none !important
+}
+A:hover IMG {
+	BORDER-TOP: #f30 1px solid; BORDER-RIGHT: #f30 1px solid; BORDER-BOTTOM: #f30 1px solid; BORDER-LEFT: #f30 1px solid
+}
+H1 {
+	FONT-FAMILY: Trebuchet MS, Arial, Helvetica, sans-serif
+}
+H2 {
+	FONT-FAMILY: Trebuchet MS, Arial, Helvetica, sans-serif
+}
+H3 {
+	FONT-FAMILY: Trebuchet MS, Arial, Helvetica, sans-serif
+}
+H4 {
+	FONT-FAMILY: Trebuchet MS, Arial, Helvetica, sans-serif
+}
+H5 {
+	FONT-FAMILY: Trebuchet MS, Arial, Helvetica, sans-serif
+}
+H1 {
+	FONT-SIZE: 140%
+}
+H2 {
+	FONT-SIZE: 125%
+}
+H3 {
+	FONT-SIZE: 115%
+}
+H4 {
+	FONT-SIZE: 105%
+}
+.Tb_ToUpper {
+	TEXT-TRANSFORM: uppercase
+}
+.listitem {
+	LIST-STYLE-TYPE: circle; LIST-STYLE-IMAGE: url(../images/arrow.png)
+}
+.nav-link {
+	TEXT-ALIGN: center
+}
+.standard-link {
+	FLOAT: right; TEXT-ALIGN: center
+}
+.action-link {
+	FONT-SIZE: 11px; FLOAT: right; COLOR: #4169e1; TEXT-ALIGN: center
+}
+.error-list {
+	LIST-STYLE-TYPE: disc; FONT-SIZE: 12px; BORDER-TOP: red 1px solid; BORDER-RIGHT: red 1px solid; BORDER-BOTTOM: red 1px solid; COLOR: maroon; TEXT-ALIGN: center; BORDER-LEFT: red 1px solid; BACKGROUND-COLOR: white
+}
+.MainFrame {
+	HEIGHT: 100%; WIDTH: 100%; POSITION: absolute; LEFT: 0px; Z-INDEX: 200; DISPLAY: block; TOP: 0px
+}
+.PageMask {
+	HEIGHT: 100%; WIDTH: 100%; BACKGROUND-REPEAT: repeat; POSITION: absolute; LEFT: 0px; FILTER: alpha(opacity=40); Z-INDEX: 201; DISPLAY: block; TOP: 0px; BACKGROUND-COLOR: #333333; opacity: .6
+}
+.popupWindow {
+	HEIGHT: 305px; WIDTH: 385px; POSITION: absolute; LEFT: 50px; FILTER: none; Z-INDEX: 202; DISPLAY: block; TOP: 100px
+}
+.popupFrame {
+	
+}
+.mGrid {
+	BORDER-TOP: #525252 1px solid; BORDER-RIGHT: #525252 1px solid; WIDTH: 100%; BORDER-COLLAPSE: collapse; BORDER-BOTTOM: #525252 1px solid; BORDER-LEFT: #525252 1px solid; MARGIN: 5px 0px 10px; BACKGROUND-COLOR: #fff
+}
+#nav {
+	LIST-STYLE-TYPE: none; WIDTH: 100%; BACKGROUND-IMAGE: url(../images/navBg.jpg); LIST-STYLE-POSITION: outside; POSITION: relative; FLOAT: left; COLOR: #222; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; CLEAR: both; MARGIN: 5px 0px; LINE-HEIGHT: 1.7em; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #191970
+}
+#nav UL {
+	LIST-STYLE-TYPE: none; WIDTH: 100%; BACKGROUND-IMAGE: url(../images/navBg.jpg); LIST-STYLE-POSITION: outside; POSITION: relative; FLOAT: left; COLOR: #222; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 0px; CLEAR: both; MARGIN: 5px 0px; LINE-HEIGHT: 1.7em; PADDING-RIGHT: 0px; BACKGROUND-COLOR: #191970
+}
+#nav A:link {
+	TEXT-DECORATION: none; BORDER-RIGHT: #fff 1px solid; FLOAT: left; FONT-WEIGHT: normal; COLOR: white; PADDING-BOTTOM: 0.3em; PADDING-TOP: 0.3em; PADDING-LEFT: 1em; DISPLAY: block; PADDING-RIGHT: 1em
+}
+#nav A:active {
+	TEXT-DECORATION: none; BORDER-RIGHT: #fff 1px solid; FLOAT: left; FONT-WEIGHT: normal; COLOR: white; PADDING-BOTTOM: 0.3em; PADDING-TOP: 0.3em; PADDING-LEFT: 1em; DISPLAY: block; PADDING-RIGHT: 1em
+}
+#nav A:visited {
+	TEXT-DECORATION: none; BORDER-RIGHT: #fff 1px solid; FLOAT: left; FONT-WEIGHT: normal; COLOR: white; PADDING-BOTTOM: 0.3em; PADDING-TOP: 0.3em; PADDING-LEFT: 1em; DISPLAY: block; PADDING-RIGHT: 1em
+}
+#nav A:hover {
+	TEXT-DECORATION: none; BACKGROUND-IMAGE: url(../images/com_tab_mid_o_bg2.gif); COLOR: white
+}
+#nav LI {
+	POSITION: relative; FLOAT: left
+}
+#nav UL {
+	WIDTH: 17em; POSITION: absolute; DISPLAY: none; TOP: 1.5em
+}
+#nav LI UL A {
+	WIDTH: 15em; FLOAT: left
+}
+#nav UL UL {
+	TOP: auto
+}
+#nav LI UL UL {
+	LEFT: 15em; MARGIN: 0px 0px 0px 10px
+}
+#nav LI:hover UL UL {
+	DISPLAY: none
+}
+#nav LI:hover UL UL UL {
+	DISPLAY: none
+}
+#nav LI:hover UL UL UL UL {
+	DISPLAY: none
+}
+#nav LI:hover UL {
+	DISPLAY: block
+}
+#nav LI LI:hover UL {
+	DISPLAY: block
+}
+#nav LI LI LI:hover UL {
+	DISPLAY: block
+}
+#nav LI LI LI LI:hover UL {
+	DISPLAY: block
+}
+.drag-handle {
+	BACKGROUND-COLOR: #03277c
+}
+#interVeil {
+	WIDTH: 10px; BACKGROUND: url(blackdot.gif) black; POSITION: absolute; LEFT: 0px; FILTER: progid:DXImageTransform.Microsoft.alpha(opacity=40); Z-INDEX: 5; TOP: 0px; VISIBILITY: hidden; opacity: 0.4
+}
+.dhtmlwindow {
+	BORDER-TOP: white 2px solid; BORDER-RIGHT: white 2px solid; BORDER-BOTTOM: white 2px solid; POSITION: absolute; BORDER-LEFT: white 2px solid; VISIBILITY: hidden; BACKGROUND-COLOR: white
+}
+.drag-handle {
+	OVERFLOW: hidden; CURSOR: move; WIDTH: auto; COLOR: #191970; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; FONT: bold 14px Arial; PADDING-LEFT: 1px; FILTER: progid:DXImageTransform.Microsoft.alpha(opacity=100); PADDING-RIGHT: 1px; BACKGROUND-COLOR: lightsteelblue; TEXT-INDENT: 3px; opacity: 1; -moz-opacity: 1
+}
+.drag-handle .drag-controls {
+	CURSOR: pointer; RIGHT: 1px; POSITION: absolute; TOP: 2px
+}
+* HTML .drag-handle {
+	WIDTH: 100%
+}
+.drag-contentarea {
+	OVERFLOW: auto; BORDER-TOP: white 1px solid; HEIGHT: 150px; COLOR: white; PADDING-BOTTOM: 2px; PADDING-TOP: 2px; PADDING-LEFT: 2px; PADDING-RIGHT: 2px; BACKGROUND-COLOR: white
+}
+.drag-statusarea {
+	BORDER-TOP: gray 1px solid; HEIGHT: 14px; BACKGROUND-COLOR: #f8f8f8
+}
+.drag-resizearea {
+	FONT-SIZE: 0px; CURSOR: nw-resize; HEIGHT: 13px; WIDTH: 13px; FLOAT: right
+}
+.button {
+	FONT-SIZE: 10px; BORDER-TOP: #badeed 1px solid; HEIGHT: auto; FONT-FAMILY: Verdana; BORDER-RIGHT: #3094be 1px solid; BORDER-BOTTOM: #3094be 1px solid; FONT-WEIGHT: bold; COLOR: #667788; BORDER-LEFT: #badeed 1px solid; BACKGROUND-COLOR: #acacac
+}
+TABLE.tabulardata {
+	BACKGROUND-COLOR: #74aefa
+}
+TABLE.tabulardata TR {
+	FONT-SIZE: 8pt; BACKGROUND-COLOR: white
+}
+TABLE.tabulardata TH {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px; BACKGROUND-COLOR: #5d7b9d
+}
+TABLE.tabulardata TD {
+	PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px
+}
+A.boldbuttons {
+	TEXT-DECORATION: none; HEIGHT: 30px; BACKGROUND: url(../images/roundedge-blue-left.gif) no-repeat left top; POSITION: relative; FLOAT: left; FONT: bold 12px/22px Arial; PADDING-LEFT: 8px; DISPLAY: block
+}
+A.boldbuttons:link {
+	COLOR: white
+}
+A.boldbuttons:visited {
+	COLOR: white
+}
+A.boldbuttons:hover {
+	COLOR: white
+}
+A.boldbuttons:active {
+	COLOR: white
+}
+A.boldbuttons SPAN {
+	BACKGROUND: url(../images/roundedge-blue-right.gif) no-repeat right top; PADDING-BOTTOM: 4px; PADDING-TOP: 4px; PADDING-LEFT: 2px; DISPLAY: block; PADDING-RIGHT: 10px
+}
+A.boldbuttons:hover {
+	TEXT-DECORATION: underline
+}
+.buttonwrapper {
+	OVERFLOW: hidden; WIDTH: 100%; TEXT-ALIGN: center
+}
+.HiddenObject {
+	DISPLAY: none
+}
+#divHomeContent {
+	MARGIN: 20px 10px 30px
+}
+.HomeBlock {
+	BORDER-TOP: #3366f0 1px solid; BORDER-RIGHT: #3366f0 1px solid; BORDER-BOTTOM: #3366f0 1px solid; PADDING-BOTTOM: 15px; PADDING-TOP: 15px; PADDING-LEFT: 10px; BORDER-LEFT: #3366f0 1px solid; PADDING-RIGHT: 10px
+}
+#SectionHeader {
+	FONT-SIZE: 16px; FONT-FAMILY: Tahoma; WIDTH: 80%; COLOR: white; PADDING-BOTTOM: 5px; PADDING-TOP: 5px; PADDING-LEFT: 10px; PADDING-RIGHT: 10px; BACKGROUND-COLOR: royalblue
+}
+.selectable {
+	CURSOR: hand
+}
+#divUnderConst {
+	
+}
+.literal {
+	FONT-SIZE: 12px
+}
+.gridPagerRow SPAN {
+	FONT-SIZE: 14pt; FONT-WEIGHT: bold; COLOR: yellow
+}
+.gridPagerRowSmall SPAN {
+	FONT-SIZE: 9pt; FONT-WEIGHT: bold; COLOR: yellow
+}
+.gridTableStyle {
+	
+}
+.gridTableStyleSmall {
+	FONT-SIZE: 11px
+}

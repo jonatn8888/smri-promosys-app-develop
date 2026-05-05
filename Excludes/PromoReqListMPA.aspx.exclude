@@ -1,0 +1,299 @@
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="PromoReqListMPA.aspx.vb" Inherits="PromoReqListMPA" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Sales Promotions Request </title>
+    
+    <STYLE TYPE="text/css">
+        a:link { color: black; text-decoration: none }
+        a:active { color: black; text-decoration: none }
+        a:visited { color: black; text-decoration: none }
+        a:hover { color: orange; text-decoration: none }
+    </STYLE>
+    
+</head>
+<body bgcolor="#3366cc">
+    <form id="form1" runat="server">
+    <div>
+        <table>
+            <tr>
+                <td style="width: 97px; height: 36px" align="center" bgcolor="#ffffff">
+                    <img align="middle" src="Images/sm-logo.gif" /></td>
+                <td style="width: 619px; height: 36px; text-align: center;">
+                    <strong><span style="font-size: 14pt; color: #ffffff; font-family: Trebuchet MS">Sales
+                        Promotion
+                        Management System</span></strong></td>
+                <td style="width: 91px; height: 36px">
+                </td>
+                <td style="height: 36px; width: 77px;">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 97px; text-align: center;" bgcolor="navy">
+                    <strong><span style="font-size: 10pt; color: #ffffff; font-family: Trebuchet MS">Home</span></strong></td>
+                <td style="width: 619px; text-align: center" bgcolor="navy">
+                    <span style="font-size: 10pt; color: #ffffff; font-family: Trebuchet MS">&lt;group information&gt;</span></td>
+                <td style="font-size: 12pt; width: 91px; color: #000000; text-align: center" bgcolor="navy">
+                    <strong><span style="font-size: 10pt; color: #ccff66; font-family: Trebuchet MS">MPD
+                        User</span></strong></td>
+                <td style="font-size: 12pt; width: 77px; color: #000000; text-align: center;" bgcolor="navy">
+                    <span style="font-size: 9pt; color: #ffffff; font-family: Trebuchet MS">Logout</span></td>
+            </tr>
+         </table>
+        <br />
+        <br />
+        <table style="color: #000000" cellspacing="0">
+            <tr>
+                <td style="width: 185px; height: 40px;" bgcolor="#99ccff">
+                    <p>
+                        <span style="font-family: Trebuchet MS"><span style="font-size: 14pt">::</span> <span
+                            style="font-size: 10pt"><span>Promo Requests</span> <span style="font-size: 8pt; color: #cc0000"><strong>(3 new)</strong></span></span></span></p>
+                </td>
+                <td style="width: 715px; text-align: left; font-size: 12pt; border-top-style: none; border-right-style: none; border-left-style: none; border-bottom-style: none;" bgcolor="#ffffff" rowspan="12">
+                    <table>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td colspan="5" style="text-align: center">
+                                <strong><span style="font-size: 11pt; font-family: Trebuchet MS">Sales Promotion Requests</span></strong></td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px" >
+                            </td>
+                            <td colspan="5" style="text-align: left">
+                                <span style="font-size: 11pt; font-family: Trebuchet MS">&nbsp;</span></td>
+                            <td style="width: 16px" >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 73px; text-align: center;" bgcolor="maroon">
+                                <span style="font-size: 10pt; color: white; font-family: Trebuchet MS"><strong>Date Rcvd</strong></span></td>
+                            <td style="width: 58px; text-align: center;" bgcolor="maroon">
+                                <span style="font-size: 10pt; color: white; font-family: Trebuchet MS"><strong>From</strong></span></td>
+                            <td style="width: 262px; text-align: center;" bgcolor="maroon">
+                                <span style="font-size: 10pt; color: white; font-family: Trebuchet MS"><strong>&nbsp;Description</strong></span></td>
+                            <td bgcolor="maroon" style="width: 101px; text-align: center">
+                                <span style="font-size: 10pt; color: white; font-family: Trebuchet MS"><strong>Request Date</strong></span></td>
+                            <td bgcolor="maroon" style="width: 80px; text-align: center">
+                                <span style="font-size: 10pt; color: white; font-family: Trebuchet MS"><strong>Status</strong></span></td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 22px;">
+                            </td>
+                            <td style="width: 73px; height: 22px; text-align: center;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">11/23/2009</span></td>
+                            <td style="width: 58px; height: 22px; text-align: center;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">CMM1</span></td>
+                            <td style="width: 262px; height: 22px; text-align: left;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS"><a href="PromoReqViewMPA.aspx">
+                                    Shoes - Various Promotions</a></span></td>
+                            <td style="width: 101px; height: 22px; text-align: center" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">11/20/2009</span></td>
+                            <td style="width: 80px; height: 22px; text-align: center" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">New</span></td>   
+                            <td style="width: 16px; height: 22px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 21px;">
+                            </td>
+                            <td style="width: 73px; height: 21px; text-align: center;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">11/23/2009</span></td>
+                            <td style="width: 58px; height: 21px; text-align: center;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">CMM2</span></td>
+                            <td style="width: 262px; height: 21px; text-align: left;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS"><a href="PromoReqViewMPA.aspx">Tommy Markdown Promo</a></span></td>
+                            <td style="width: 101px; height: 21px; text-align: center" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">11/20/2009</span></td>
+                            <td style="width: 80px; height: 21px; text-align: center" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">New</span></td>
+                            <td style="width: 16px; height: 21px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 21px;">
+                            </td>
+                            <td style="width: 73px; height: 21px; text-align: center;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">11/23/2009</span></td>
+                            <td style="width: 58px; height: 21px; text-align: center;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">CMM3</span></td>
+                            <td style="width: 262px; height: 21px; text-align: left;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS"><a href="PromoReqViewMPA.aspx">Sloggi Discount Promotion</a></span></td>
+                            <td style="width: 101px; height: 21px; text-align: center" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">11/20/2009</span></td>
+                            <td style="width: 80px; height: 21px; text-align: center" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">New</span></td>
+                            <td style="width: 16px; height: 21px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 21px;">
+                            </td>
+                            <td style="width: 73px; height: 21px; text-align: center;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">11/16/2009</span></td>
+                            <td style="width: 58px; height: 21px; text-align: center;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">CMM8</span></td>
+                            <td style="width: 262px; height: 21px; text-align: left;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS"><a href="PromoReqViewMPA.aspx">Creamsilk Discount Coupon</a></span></td>
+                            <td style="width: 101px; height: 21px; text-align: center" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">10/29/2009</span></td>
+                            <td style="width: 80px; height: 21px; text-align: center" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">Posted</span></td>
+                            <td style="width: 16px; height: 21px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 21px;">
+                            </td>
+                            <td style="width: 73px; height: 21px; text-align: center;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">10/14/2009</span></td>
+                            <td style="width: 58px; height: 21px; text-align: center;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">CMM2</span></td>
+                            <td style="width: 262px; height: 21px; text-align: left;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS"><a href="PromoReqViewMPA.aspx">MS and LS Gift-With-Purchase Promotion</a></span></td>
+                            <td style="width: 101px; height: 21px; text-align: center" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">10/02/2009</span></td>
+                            <td style="width: 80px; height: 21px; text-align: center" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">Disapproved</span></td>
+                            <td style="width: 16px; height: 21px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 21px;">
+                            </td>
+                            <td style="width: 73px; height: 21px; text-align: center;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">10/01/2009</span></td>
+                            <td style="width: 58px; height: 21px; text-align: center;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">CMM5</span></td>
+                            <td style="width: 262px; height: 21px; text-align: left;" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS"><a href="PromoReqViewMPA.aspx">Accessories Clearance Sale</a></span></td>
+                            <td style="width: 101px; height: 21px; text-align: center" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">09/01/2009</span></td>
+                            <td style="width: 80px; height: 21px; text-align: center" bgcolor="mistyrose">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">Posted</span></td>
+                            <td style="width: 16px; height: 21px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 21px;">
+                            </td>
+                            <td style="width: 73px; height: 21px;">
+                            </td>
+                            <td style="width: 58px; height: 21px;">
+                            </td>
+                            <td style="width: 262px; height: 21px;">
+                            </td>
+                            <td style="width: 101px; height: 21px;">
+                            </td>
+                            <td style="width: 80px; height: 21px;">
+                            </td>
+                            <td style="width: 16px; height: 21px;">
+                            </td>
+                        </tr>
+                    </table>
+                    &nbsp;
+                    <span style="font-family: Trebuchet MS"><br />
+                        <table>
+                            <tr>
+                                <td style="width: 10px; height: 16px">
+                                </td>
+                                <td style="width: 207px; height: 16px">
+                                    <input id="Checkbox1" style="width: 19px" type="checkbox" />
+                                    <span style="font-size: 10pt">Show All Requests</span></td>
+                                <td style="width: 98px; height: 16px">
+                                </td>
+                                <td style="width: 278px; height: 16px; text-align: right;">
+                                    <input id="Submit1" style="width: 105px" type="submit" value="Refresh" /></td>
+                                <td style="width: 15px; height: 16px">
+                                </td>
+                            </tr>
+                        </table>
+                    </span>
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td style="width: 185px; height: 38px;" bgcolor="#99ccff">
+                    <p>
+                        <span style="font-family: Trebuchet MS"><span style="font-size: 14pt">::</span> <span
+                            style="font-size: 10pt"><span><a href="PromoMemoListMPA.aspx">Manage
+                            Memos</a></span> <span style="font-size: 8pt; color: #cc0000"><strong>(2 active)</strong></span></span></span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 185px; height: 28px;" bgcolor="#99ccff">
+                    &nbsp;&nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 185px; height: 34px" bgcolor="#99ccff">
+                    <p>
+                        <span style="font-family: Trebuchet MS"><span style="font-size: 14pt">::<span style="font-size: 12pt">
+                            <span style="font-size: 10pt">
+                            Corporate Promotion</span></span><span
+                            style="font-size: 10pt">s</span></span></span></p>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 185px; height: 29px" bgcolor="#99ccff">
+                    &nbsp;</td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td style="width: 185px; height: 29px" bgcolor="#99ccff">
+                    <span style="font-family: Trebuchet MS"><span style="font-size: 14pt">::</span> <span
+                        style="font-size: 10pt"><span>Promo Announcements</span> <span style="font-size: 8pt; color: #cc0000"><strong>(2)</strong></span></span></span></td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 185px; height: 19px">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 185px; height: 19px">
+                    &nbsp;
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 185px; height: 19px">
+                    <span style="font-family: Trebuchet MS"><span style="font-size: 14pt">::</span> <span
+                        style="font-size: 10pt">Settings</span></span></td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 185px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 185px; height: 19px">
+                    &nbsp;</td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 185px; height: 19px">
+                </td>
+            </tr>
+        </table>
+    
+        <br />
+        <table style="color: #000000; font-size: 12pt;">
+            <tr>
+                <td style="width: 287px; height: 17px">
+                    <span style="font-size: 8pt; color: #ffffff; font-family: Trebuchet MS"></span>
+                </td>
+                <td style="width: 376px; height: 17px">
+                    <span style="font-size: 8pt; color: #ffffff; font-family: Trebuchet MS"></span>
+                </td>
+                <td style="height: 17px; width: 227px; text-align: center;">
+                    <span style="font-size: 8pt; color: #ffffff; font-family: Trebuchet MS">ePromo v1.0
+                        :: Beta Release</span></td>
+            </tr>
+         </table>
+    </div>
+    </form>
+</body>
+</html>

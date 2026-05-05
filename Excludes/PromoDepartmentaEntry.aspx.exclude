@@ -1,0 +1,231 @@
+<%@ Page Language="VB" MasterPageFile="~/PromoPage.master" AutoEventWireup="false" CodeFile="PromoDepartmentaEntry.aspx.vb" Inherits="PromoDepartmentaEntry" %>
+
+
+<asp:Content ID = "Content1" ContentPlaceHolderID = "ContentPlaceHolder1" Runat = "Server">
+
+<script language="javascript" type="text/javascript">
+<!--
+
+//function cmdSave_onclick() {
+//    window.close()
+//}
+
+// -->
+</script>
+
+<form id="form1" runat="server">
+    
+    <br />
+    <div id="menu">
+        <br />
+        <br />
+        <asp:LinkButton ID="lnkSaveMemo" runat="server" OnClientClick="return confirm_action('Submit this memo for review?')">View Request Preview</asp:LinkButton><br />
+        <br />
+    </div>
+    
+    <div id="contents">
+        <table style="width: 644px" cellpadding="3" cellspacing="0">
+            <tr>
+                <td bgcolor="gainsboro" style="height: 22px; text-align: center; width: 625px;">
+                    <span style="font-size: 11pt; color: lightslategray; font-family: Trebuchet MS"><strong>
+                        <asp:LinkButton ID="lnkRequest" runat="server" Width="230px">Sales Promotion Request</asp:LinkButton></strong></span></td>
+            </tr>
+            <tr>
+                <td bgcolor="steelblue" style="height: 22px; text-align: center; width: 625px;">
+                    <span style="font-size: 11pt; color: #ffffff; font-family: Trebuchet MS"><strong>Promo
+                        Information</strong></span></td>
+            </tr>
+            <tr>
+                <td style="text-align: center; width: 625px;" valign="top">
+                    <table style="width:550px">
+                       <tr><td style="width: 2px; height: 6px;"></td>
+                           <td style="width: 28px; height: 6px; text-align: center;">
+                               <span style="font-size: 9pt"><strong>Dept</strong></span></td>
+                           <td style="width: 37px; height: 6px; text-align: center">
+                               <span style="font-size: 9pt"><strong>SubDp</strong></span></td>
+                           <td style="width: 40px; height: 6px; text-align: center;">
+                               <span style="font-size: 9pt"><strong>Class</strong></span></td>
+                           <td style="width: 251px; height: 6px; text-align: center">
+                               <span style="font-size: 9pt"><strong>Description</strong></span></td>
+                           <td style="width: 58px; height: 6px; text-align: center">
+                               <span style="font-size: 9pt"></span></td>
+                           <td style="width: 71px; height: 6px; text-align: center" colspan="2">
+                           </td>
+                       </tr>
+                        <tr>
+                            <td style="width: 2px; height: 13px">
+                            </td>
+                            <td style="width: 28px; height: 13px">
+                                <asp:TextBox ID="txtDepCode" runat="server" Height="20px" Width="25px" MaxLength="3"></asp:TextBox></td>
+                            <td style="width: 37px; height: 13px; text-align: center;">
+                                <asp:TextBox ID="txtSdepCode" runat="server" Height="20px" Width="25px" MaxLength="3"></asp:TextBox></td>
+                            <td style="width: 40px; height: 13px; text-align: center;">
+                                <asp:TextBox ID="txtClassCode" runat="server" Height="20px" Width="25px" MaxLength="3"></asp:TextBox></td>
+                            <td style="width: 251px; height: 13px; text-align: center">
+                                <asp:Label ID="lblItemDesc" runat="server" Width="256px" BackColor="White" BorderColor="LightSlateGray" BorderStyle="Solid" BorderWidth="1px" Height="23px"></asp:Label></td>
+                            <td style="width: 58px; height: 13px; text-align: center"><asp:Button ID="cmdSearch" runat="server" Text="Search" /></td>
+                            <td style="width: 71px; height: 13px; text-align: left" colspan="2">
+                                <asp:Button ID="cmdAdd" runat="server" Text="Add Item" /></td>
+                        </tr>
+                    </table>
+
+                    <asp:BulletedList ID="blistErrorMsg" runat="server" CssClass="error-list" Width="494px">
+                    </asp:BulletedList>
+                    
+                    <table style="width: 550px">
+                        <tr>
+                            <td style="width: 2px; height: 13px">
+                            </td>
+                            <td style="width: 80px; height: 13px; text-align: right;">
+                                <strong><span style="font-size: 9pt">Discount:</span></strong></td>
+                            <td style="width: 1px; height: 13px; text-align: center;">
+                            </td>
+                            <td style="width: 42px; height: 13px; text-align: center;" valign="middle">
+                                <asp:TextBox ID="TextBox1" runat="server" Height="20px" MaxLength="3" Width="25px"></asp:TextBox><strong><span
+                                    style="font-size: 14pt">%</span></strong></td>
+                            <td style="height: 13px; text-align: left" colspan="4">
+                                <strong><span style="font-size: 9pt">Discount on all Regular-Priced item</span></strong></td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table style="width: 550px">
+                        <tr>
+                            <td style="width: 2px; height: 13px">
+                            </td>
+                            <td style="width: 79px; height: 13px; text-align: right;">
+                                <strong><span style="font-size: 9pt">Markdown:</span></strong></td>
+                            <td style="width: 1px; height: 13px; text-align: center;">
+                            </td>
+                            <td style="width: 74px; height: 13px; text-align: left;" valign="middle">
+                                <asp:TextBox ID="TextBox2" runat="server" Height="20px" MaxLength="3" Width="25px"></asp:TextBox>
+                                to<strong><span style="font-size: 14pt"></span></strong></td>
+                            <td style="width: 51px; height: 13px; text-align: left">
+                                <strong><span style="font-size: 9pt">
+                                    <asp:TextBox ID="TextBox3" runat="server" Height="20px" MaxLength="3" Width="25px"></asp:TextBox><span
+                                        style="font-size: 14pt">%</span></span></strong></td>
+                            <td style="height: 13px; text-align: left" colspan="3">
+                                <strong><span style="font-size: 9pt">Markdown on selected items</span></strong></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 2px; height: 13px">
+                            </td>
+                            <td style="width: 79px; height: 13px; text-align: right">
+                            </td>
+                            <td style="width: 1px; height: 13px; text-align: center">
+                            </td>
+                            <td style="width: 74px; height: 13px; text-align: left" valign="middle">
+                            </td>
+                            <td style="width: 51px; height: 13px; text-align: left">
+                            </td>
+                            <td colspan="3" style="height: 13px; text-align: left">
+                            </td>
+                        </tr>
+                    </table>
+                    <br />
+                    <table style="width: 550px">
+                        <tr>
+                            <td style="width: 2px; height: 13px">
+                            </td>
+                            <td style="width: 79px; height: 13px; text-align: right;">
+                                <strong><span style="font-size: 9pt">Others:</span></strong></td>
+                            <td style="width: 2px; height: 13px; text-align: center;">
+                            </td>
+                            <td colspan="5" style="width: 457px; height: 13px; text-align: left">
+                                <asp:DropDownList ID="cboPromoType" runat="server" AppendDataBoundItems="True" AutoPostBack="True"
+                                    DataSourceID="sqldsPromoType" DataTextField="TypeDesc" DataValueField="PromoTypeID"
+                                    Width="294px">
+                                    <asp:ListItem Selected="True" Value="-1">- Select Promo Type -</asp:ListItem>
+                                </asp:DropDownList><span style="font-size: 9pt"><span style="font-size: 10pt; font-family: Trebuchet MS"></span></span></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 2px; height: 13px">
+                            </td>
+                            <td style="width: 77px; height: 13px; text-align: right">
+                            </td>
+                            <td style="width: 2px; height: 13px; text-align: center">
+                            </td>
+                            <td colspan="5" style="width: 457px; height: 13px; text-align: left">
+                                <div style="border-right: steelblue 1px solid; padding-right: 4px; border-top: steelblue 1px solid;
+                                    padding-left: 4px; padding-bottom: 4px; overflow: auto; border-left: steelblue 1px solid;
+                                    width: 98%; padding-top: 4px; border-bottom: steelblue 1px solid; height: 80px;
+                                    background-color: whitesmoke">
+                                    <asp:Literal ID="litMechanics" runat="server"></asp:Literal></div>
+                                <asp:LinkButton ID="lnkEditMechanics" runat="server" CssClass="action-link" Enabled="False">Edit Mechanics</asp:LinkButton></td>
+                        </tr>
+                    </table>
+                    <br />
+                    
+                    <br />
+                    <asp:GridView ID="gridItems" runat="server" AutoGenerateColumns="False" CellPadding="4"
+                        DataSourceID="sqldsPromoDetails" ForeColor="#333333" Height="14px"
+                        Width="530px" GridLines="None">
+                        <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+                        <Columns>
+                            <asp:BoundField DataField="DSCcode" HeaderText="DSCcode" ReadOnly="True" SortExpression="DSCcode" />
+                            <asp:BoundField DataField="ShortDesc" HeaderText="ShortDesc" SortExpression="ShortDesc" />
+                        </Columns>
+                        <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                        <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                        <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                        <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                        <EditRowStyle BackColor="#999999" />
+                        <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+                        <EmptyDataTemplate>
+                            No Dp/SDp/Cl Selected for this Promo
+                        </EmptyDataTemplate>
+                    </asp:GridView>
+                    <br />
+                    <table style="width: 524px">
+                        <tr>
+                            <td style="width: 22px; text-align: left">
+                                <asp:Button ID="cmdDelete" runat="server" Text="Delete Selected" Width="125px" /></td>
+                            <td style="width: 19px">
+                            </td>
+                            <td style="width: 43px">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td bgcolor="#ffffff" style="width: 625px; height: 9px">&nbsp;</td>
+            </tr>
+            <tr>
+                <td bgcolor="gainsboro" style="height: 21px; text-align: center; width: 625px;"
+                    valign="top">
+                    <strong><span style="font-size: 11pt; color: #778899; font-family: Trebuchet MS">
+                        <asp:LinkButton ID="lnkBranches" runat="server" Width="230px">Branches</asp:LinkButton></span></strong></td>
+            </tr>
+        </table>
+        <br />
+        &nbsp;<br />
+    </div>
+    
+    <asp:SqlDataSource ID="sqldsPromoDetails" runat="server" ConnectionString="<%$ ConnectionStrings:PromoConnectionString %>"
+        SelectCommand="SELECT DepCode + ' ' + SubDepCode + ' ' + ClassCode AS DSCcode, ShortDesc FROM PromoDetails WHERE (PromoID = @PromoID)" InsertCommand="INSERT INTO PromoDetails(PromoID, DepCode, SubDepCode, ClassCode, ShortDesc, PercentDisc, PeriodFrom, PeriodTo) VALUES (@PromoID, @DepCode, @SubDepCode, @ClassCode, @ShortDesc, @PercentDisc, @PeriodFrom, @PeriodTo)" DeleteCommand="DELETE FROM [PromoDetails] WHERE PromoID = @PromoID AND DepCode = @DepCode AND SubDepCode = @SubDepCode AND ClassCode = @ClassCode">
+        <SelectParameters>
+            <asp:Parameter DefaultValue="0" Name="PromoID" />
+        </SelectParameters>
+        <InsertParameters>
+            <asp:Parameter Name="PromoID" />
+            <asp:Parameter Name="DepCode" />
+            <asp:Parameter Name="SubDepCode" />
+            <asp:Parameter Name="ClassCode" />
+            <asp:Parameter Name="ShortDesc" />
+            <asp:Parameter Name="PercentDisc" />
+            <asp:Parameter Name="PeriodFrom" />
+            <asp:Parameter Name="PeriodTo" />
+        </InsertParameters>
+        <DeleteParameters>
+            <asp:Parameter Name="PromoID" />
+            <asp:Parameter Name="DepCode" />
+            <asp:Parameter Name="SubDepCode" />
+            <asp:Parameter Name="ClassCode" />
+        </DeleteParameters>
+    </asp:SqlDataSource>
+    <asp:SqlDataSource ID="sqldsData" runat="server" ConnectionString="<%$ ConnectionStrings:PromoConnectionString %>"
+        ProviderName="<%$ ConnectionStrings:PromoConnectionString.ProviderName %>"></asp:SqlDataSource> 
+        
+        
+    </form>
+</asp:Content>

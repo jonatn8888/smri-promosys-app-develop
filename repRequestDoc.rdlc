@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="PromoConnectionString">
+      <rd:DataSourceID>20929538-8490-4c22-a005-a33458ea29ca</rd:DataSourceID>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString />
+      </ConnectionProperties>
+    </DataSource>
+  </DataSources>
+  <InteractiveHeight>11in</InteractiveHeight>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>8.5in</InteractiveWidth>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <RightMargin>1in</RightMargin>
+  <LeftMargin>1in</LeftMargin>
+  <PageHeader>
+    <PrintOnFirstPage>true</PrintOnFirstPage>
+    <ReportItems>
+      <Textbox Name="textbox2">
+        <rd:DefaultName>textbox2</rd:DefaultName>
+        <Width>3.5in</Width>
+        <Style>
+          <FontFamily>Trebuchet MS</FontFamily>
+          <TextAlign>Center</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <ZIndex>1</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>1.25in</Left>
+        <Height>0.25in</Height>
+        <Value>Merchandise Planning Division</Value>
+      </Textbox>
+      <Textbox Name="textbox3">
+        <Top>0.25in</Top>
+        <Width>3.5in</Width>
+        <Style>
+          <FontFamily>Trebuchet MS</FontFamily>
+          <FontSize>12pt</FontSize>
+          <FontWeight>700</FontWeight>
+          <TextAlign>Center</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <CanGrow>true</CanGrow>
+        <Left>1.25in</Left>
+        <Value>PROMOTION ANNOUNCEMENT</Value>
+      </Textbox>
+    </ReportItems>
+    <Height>0.5in</Height>
+    <PrintOnLastPage>true</PrintOnLastPage>
+  </PageHeader>
+  <BottomMargin>1in</BottomMargin>
+  <rd:ReportID>ded7d736-5746-4147-b295-63fc2189dbe7</rd:ReportID>
+  <DataSets>
+    <DataSet Name="DataSet1_Memos">
+      <Fields>
+        <Field Name="MemoID">
+          <DataField>MemoID</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="MemoNumber">
+          <DataField>MemoNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MemoDate">
+          <DataField>MemoDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Title">
+          <DataField>Title</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Branches">
+          <DataField>Branches</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PromoPeriodFrom">
+          <DataField>PromoPeriodFrom</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="PromoPeriodTo">
+          <DataField>PromoPeriodTo</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Guidelines">
+          <DataField>Guidelines</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RequestID">
+          <DataField>RequestID</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="PreparedBy">
+          <DataField>PreparedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PreparePos">
+          <DataField>PreparePos</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReviewedBy">
+          <DataField>ReviewedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReviewerPos">
+          <DataField>ReviewerPos</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReviewDate">
+          <DataField>ReviewDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="ApprovedBy">
+          <DataField>ApprovedBy</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApproverPos">
+          <DataField>ApproverPos</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApproveDate">
+          <DataField>ApproveDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="OwnerGroup">
+          <DataField>OwnerGroup</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="Remarks">
+          <DataField>Remarks</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Status">
+          <DataField>Status</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="UserID">
+          <DataField>UserID</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>PromoConnectionString</DataSourceName>
+        <CommandText>SELECT * FROM Memos WHERE MemoID = @MemoID</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <rd:DataSetInfo>
+        <rd:DataSetName>DataSet1</rd:DataSetName>
+        <rd:TableName>Memos</rd:TableName>
+        <rd:TableAdapterName>MemosTableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetMemoByID</rd:TableAdapterGetDataMethod>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="DataSet1_Promotions">
+      <Fields>
+        <Field Name="PromoID">
+          <DataField>PromoID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="PromoDesc">
+          <DataField>PromoDesc</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PromoTypeID">
+          <DataField>PromoTypeID</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="PeriodFrom">
+          <DataField>PeriodFrom</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="PeriodTo">
+          <DataField>PeriodTo</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="RequestID">
+          <DataField>RequestID</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="MemoID">
+          <DataField>MemoID</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="Status">
+          <DataField>Status</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Remarks">
+          <DataField>Remarks</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>PromoConnectionString</DataSourceName>
+        <CommandText>SELECT PromoID, PromoDesc, PromoTypeID, PeriodFrom, PeriodTo, RequestID, MemoID, Status, Remarks FROM dbo.Promotions</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <rd:DataSetInfo>
+        <rd:DataSetName>DataSet1</rd:DataSetName>
+        <rd:TableName>Promotions</rd:TableName>
+        <rd:TableAdapterName>PromotionsTableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
+      </rd:DataSetInfo>
+    </DataSet>
+    <DataSet Name="DataSet1_PromoDetails">
+      <Fields>
+        <Field Name="PromoID">
+          <DataField>PromoID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="DepCode">
+          <DataField>DepCode</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="SubDepCode">
+          <DataField>SubDepCode</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="ClassCode">
+          <DataField>ClassCode</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="ShortDesc">
+          <DataField>ShortDesc</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PercentDisc">
+          <DataField>PercentDisc</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+        <Field Name="DiscAmount">
+          <DataField>DiscAmount</DataField>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="PeriodFrom">
+          <DataField>PeriodFrom</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="PeriodTo">
+          <DataField>PeriodTo</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="SeqNo">
+          <DataField>SeqNo</DataField>
+          <rd:TypeName>System.Int16</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>PromoConnectionString</DataSourceName>
+        <CommandText>SELECT PromoID, DepCode, SubDepCode, ClassCode, ShortDesc, PercentDisc, DiscAmount, PeriodFrom, PeriodTo, SeqNo FROM dbo.PromoDetails</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <rd:DataSetInfo>
+        <rd:DataSetName>DataSet1</rd:DataSetName>
+        <rd:TableName>PromoDetails</rd:TableName>
+        <rd:TableAdapterName>PromoDetailsTableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
+        <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
+  <Width>6.75in</Width>
+  <Body>
+    <Height>2in</Height>
+  </Body>
+  <Language>en-US</Language>
+  <PageFooter>
+    <PrintOnFirstPage>true</PrintOnFirstPage>
+    <Height>0.625in</Height>
+    <PrintOnLastPage>true</PrintOnLastPage>
+  </PageFooter>
+  <TopMargin>1in</TopMargin>
+</Report>

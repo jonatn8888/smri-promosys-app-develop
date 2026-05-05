@@ -1,0 +1,4 @@
+
+Partial Class PromoReqListMPA
+    Inherits System.Web.UI.Page
+End Class

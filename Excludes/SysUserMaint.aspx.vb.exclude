@@ -1,0 +1,45 @@
+
+Partial Class SysUserMaint
+    Inherits System.Web.UI.Page
+
+    Protected Sub cmdEdit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdEdit.Click
+
+        For Each row As GridViewRow In gridUsers.Rows
+            Dim cb As CheckBox = row.FindControl("chkRowSel")
+
+            If cb IsNot Nothing AndAlso cb.Checked Then
+
+                Dim lb As Label = row.FindControl("lblRowID")
+
+                'Label1.Text = "Edit: " & lb.Text & "-" & row.Cells(3).Text
+
+                Session("CurrUserID") = lb.Text
+
+                Response.Redirect("SysUserEntry.aspx")
+
+            End If
+        Next
+
+    End Sub
+
+    Protected Sub cmdDelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdDelete.Click
+
+        For Each row As GridViewRow In gridUsers.Rows
+            Dim cb As CheckBox = row.FindControl("chkRowSel")
+
+            If cb IsNot Nothing AndAlso cb.Checked Then
+
+                Dim lb As Label = row.FindControl("lblRowID")
+
+                'Label1.Text = "Delete: " & lb.Text & "-" & row.Cells(3).Text
+
+                sqldsUsers.DeleteParameters.Item("UserID").DefaultValue = lb.Text
+
+                sqldsUsers.Delete()
+            End If
+        Next
+
+    End Sub
+
+
+End Class

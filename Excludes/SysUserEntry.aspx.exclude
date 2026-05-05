@@ -1,0 +1,141 @@
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="SysUserEntry.aspx.vb" Inherits="SysUserEntry" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Untitled Page</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <table style="width: 653px; height: 305px">
+            <tr>
+                <td style="width: 204px">
+                </td>
+                <td style="width: 4px">
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 204px; text-align: right">
+                    User Name:</td>
+                <td style="width: 4px">
+                </td>
+                <td>
+                    <asp:TextBox ID="txtUserName" runat="server" Width="221px"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td style="width: 204px">
+                </td>
+                <td style="width: 4px">
+                </td>
+                <td>
+                    &nbsp;</td>
+            </tr>
+            <tr>
+                <td style="width: 204px; height: 23px; text-align: right">
+                    Password:</td>
+                <td style="width: 4px; height: 23px">
+                </td>
+                <td style="height: 23px">
+                    <asp:TextBox ID="txtPassword" runat="server" TextMode="Password" Width="222px"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td style="width: 204px; height: 25px; text-align: right">
+                    Confirmation Password:</td>
+                <td style="width: 4px; height: 25px">
+                </td>
+                <td style="height: 25px">
+                    <asp:TextBox ID="txtConfirmPass" runat="server" Width="222px"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td style="width: 204px; height: 21px">
+                </td>
+                <td style="width: 4px; height: 21px">
+                </td>
+                <td style="height: 21px">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 204px; text-align: right">
+                    Full Name:</td>
+                <td style="width: 4px">
+                </td>
+                <td>
+                    <asp:TextBox ID="TextBox1" runat="server" Width="307px"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td style="width: 204px; text-align: right">
+                    Position:</td>
+                <td style="width: 4px">
+                </td>
+                <td>
+                    <asp:TextBox ID="TextBox2" runat="server" Width="307px"></asp:TextBox></td>
+            </tr>
+            <tr>
+                <td style="width: 204px; text-align: right">
+                </td>
+                <td style="width: 4px">
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 204px; text-align: right">
+                    User Level:</td>
+                <td style="width: 4px">
+                </td>
+                <td>
+                    <asp:DropDownList ID="DropDownList3" runat="server" Width="246px">
+                    </asp:DropDownList></td>
+            </tr>
+            <tr>
+                <td style="width: 204px">
+                </td>
+                <td style="width: 4px">
+                </td>
+                <td>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 204px; text-align: right">
+                    Department:</td>
+                <td style="width: 4px">
+                </td>
+                <td>
+                    <asp:DropDownList ID="DropDownList1" runat="server" Width="245px">
+                    </asp:DropDownList></td>
+            </tr>
+            <tr>
+                <td style="width: 204px; height: 23px; text-align: right">
+                    Group Assingment:</td>
+                <td style="width: 4px; height: 23px">
+                </td>
+                <td style="height: 23px">
+                    <asp:DropDownList ID="DropDownList2" runat="server" Width="180px">
+                    </asp:DropDownList></td>
+            </tr>
+            <tr>
+                <td style="width: 204px; height: 10px">
+                </td>
+                <td style="width: 4px; height: 10px">
+                </td>
+                <td style="height: 10px">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 204px">
+                </td>
+                <td style="width: 4px">
+                </td>
+                <td>
+                </td>
+            </tr>
+        </table>
+    
+    </div>
+    </form>
+</body>
+</html>

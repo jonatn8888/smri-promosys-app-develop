@@ -1,0 +1,5 @@
+
+Partial Class SysUserEntry
+    Inherits System.Web.UI.Page
+
+End Class

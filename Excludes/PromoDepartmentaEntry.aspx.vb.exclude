@@ -1,0 +1,228 @@
+Imports dsPromotionsTableAdapters
+Imports System.Data
+
+Partial Class PromoDepartmentaEntry
+    Inherits System.Web.UI.Page
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+
+        If Not IsPostBack() Then
+
+            ' ::ToDo:: 
+            ' show some significant data already entered?
+
+            'lblPromoTitle.Text = Session("PromoTitle")
+
+            'Dim taPromotions As New dsPromotionsTableAdapters.PromotionsTableAdapter()
+            'Dim dtPromotions As dsPromotions.PromotionsDataTable
+            'Dim rowPromotion As dsPromotions.PromotionsRow
+
+            'dtPromotions = taPromotions.GetPromotionByID(Session("CurrPromoID"))
+
+            'If dtPromotions.Rows.Count > 0 Then
+            '    rowPromotion = dtPromotions.Rows(0)
+            '    lblPeriodFrom.Text = rowPromotion.PeriodFrom.ToLongDateString
+            '    lblPeriodTo.Text = rowPromotion.PeriodTo.ToLongDateString
+            'End If
+
+            sqldsPromoDetails.SelectParameters("PromoID").DefaultValue = Session("CurrPromoID")
+
+        End If
+
+    End Sub
+
+    Protected Sub cmdSearch_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdSearch.Click
+        ShowPromoItemInfo()
+    End Sub
+
+    Private Sub ShowPromoItemInfo()
+        Dim taCategories As New dsPromotionsTableAdapters.DepSdepClassTableAdapter()
+        Dim dtblCategories As dsPromotions.DepSdepClassDataTable
+        Dim trowCategory As dsPromotions.DepSdepClassRow
+
+        ' force zero value for blank entries
+        If txtDepCode.Text = "" Then txtDepCode.Text = "0"
+        If txtSdepCode.Text = "" Then txtSdepCode.Text = "0"
+        If txtClassCode.Text = "" Then txtClassCode.Text = "0"
+
+        dtblCategories = taCategories.GetCategoriesByCode(CInt(txtDepCode.Text), CInt(txtSdepCode.Text), CInt(txtClassCode.Text))
+
+        If dtblCategories.Rows.Count = 0 Then
+            lblItemDesc.Text = "<b>Code does not exists.</b>"
+            ViewState("ShortDesc") = ""
+        Else
+            trowCategory = dtblCategories.Rows(0)
+            lblItemDesc.Text = trowCategory.Description
+            ViewState("ShortDesc") = trowCategory.ShortDesc
+        End If
+    End Sub
+
+#Region "Previous SQL Statement - Promo Type Specific"
+
+    'sqldsData.SelectCommand = "SELECT * FROM Promo.dbo.Promotions AS P LEFT JOIN Promo.dbo.PromoDetails AS D ON P.PromoID = D.PromoID " & _
+    '                          "WHERE DepCode = " & CInt(txtDepCode.Text) & " AND SubDepCode = " & CInt(txtSdepCode.Text) & _
+    '                          " AND ClassCode = " & CInt(txtClassCode.Text) & " AND PromoTypeID = " & Session("PromoTypeID") & " AND " & _
+    '                          "(('" & Session("PeriodFrom") & "' BETWEEN P.PeriodFrom AND P.PeriodTo) OR " & _
+    '                          " ('" & Session("PeriodTo") & "' BETWEEN P.PeriodFrom AND P.PeriodTo) OR " & _
+    '                          " (P.PeriodFrom BETWEEN '" & Session("PeriodFrom") & "' AND '" & Session("PeriodTo") & "') OR " & _
+    '                          " (P.PeriodTo BETWEEN '" & Session("PeriodFrom") & "' AND '" & Session("PeriodTo") & "'))"
+
+#End Region
+
+    Protected Sub cmdAdd_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdAdd.Click
+
+        ShowPromoItemInfo()
+
+        blistErrorMsg.Items.Clear()
+
+        If ViewState("ShortDesc").ToString() = "" Then
+            blistErrorMsg.Items.Add("Please enter a valid Dp/SDp/Class code.")
+            Exit Sub
+        End If
+
+        ' check if already in list
+        For Each row As GridViewRow In gridItems.Rows
+
+            If row.Cells(2).Text = CInt(txtDepCode.Text) And _
+                    ((row.Cells(3).Text = CInt(txtSdepCode.Text)) Or (CInt(txtSdepCode.Text) = 0) Or (row.Cells(3).Text = 0)) And _
+                    ((row.Cells(4).Text = CInt(txtClassCode.Text)) Or (CInt(txtClassCode.Text) = 0) Or (row.Cells(4).Text = 0)) Then
+
+                blistErrorMsg.Items.Add("Dp/SDp/Class Code already included in this promo.")
+                Exit For
+            End If
+        Next
+
+        If blistErrorMsg.Items.Count() = 0 Then
+            '::ToDO:: include 0 - subdep and 0 - class
+            ' check if it conflicts with other promos
+            sqldsData.SelectCommand = "SELECT * FROM Promo.dbo.Promotions AS P LEFT JOIN Promo.dbo.PromoDetails AS D ON P.PromoID = D.PromoID " & _
+                                      "WHERE DepCode = " & CInt(txtDepCode.Text) & " AND SubDepCode = " & CInt(txtSdepCode.Text) & _
+                                      " AND ClassCode = " & CInt(txtClassCode.Text) & " AND " & _
+                                      "(('" & Session("PeriodFrom") & "' BETWEEN P.PeriodFrom AND P.PeriodTo) OR " & _
+                                      " ('" & Session("PeriodTo") & "' BETWEEN P.PeriodFrom AND P.PeriodTo) OR " & _
+                                      " (P.PeriodFrom BETWEEN '" & Session("PeriodFrom") & "' AND '" & Session("PeriodTo") & "') OR " & _
+                                      " (P.PeriodTo BETWEEN '" & Session("PeriodFrom") & "' AND '" & Session("PeriodTo") & "'))"
+
+            Dim dvConflicts As DataView = CType(sqldsData.Select(DataSourceSelectArguments.Empty), DataView)
+
+            litPopMessage.Text = ""
+
+            For Each drConflict As DataRow In dvConflicts.Table.Rows
+                litPopMessage.Text &= "<li>Ref# MPR-" & drConflict("RequestID") & "</li>"
+            Next
+
+            If litPopMessage.Text <> "" Then
+                litPopMessage.Text = "One or more promotional conflicts detected for this item: <br><br><ul>" & litPopMessage.Text & "</ul><br>Do you still wish to continue?<br>"
+                panPopUp.Visible = True
+                Exit Sub
+            End If
+        End If
+
+        If blistErrorMsg.Items.Count = 0 Then
+            SaveDetailsEntry()
+        End If
+
+        my.Computer.FileSystem.
+    End Sub
+
+    Private Sub SaveDetailsEntry()
+
+        With sqldsPromoDetails.InsertParameters
+            .Item("PromoID").DefaultValue = Session("CurrPromoID")
+            .Item("DepCode").DefaultValue = CInt(txtDepCode.Text)
+            .Item("SubDepCode").DefaultValue = CInt(txtSdepCode.Text)
+            .Item("ClassCode").DefaultValue = CInt(txtClassCode.Text)
+            .Item("ShortDesc").DefaultValue = ViewState("ShortDesc")
+            .Item("PercentDisc").DefaultValue = Session("PercentDisc")
+            .Item("PeriodFrom").DefaultValue = Session("PeriodFrom")
+            .Item("PeriodTo").DefaultValue = Session("PeriodTo")
+        End With
+
+        sqldsPromoDetails.Insert()
+
+        'clear item entry
+        txtDepCode.Text = ""
+        txtSdepCode.Text = ""
+        txtClassCode.Text = ""
+        lblItemDesc.Text = ""
+        ViewState("ShortDesc") = ""
+
+    End Sub
+
+    Protected Sub cmdDelete_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdDelete.Click
+
+        ' ::ToDo:: confirmation script
+
+        For Each row As GridViewRow In gridItems.Rows
+            Dim cb As CheckBox = row.FindControl("chkRowSel")
+            If cb IsNot Nothing AndAlso cb.Checked Then
+
+                'Response.Write("Deleted: " & row.Cells(2).Text & "-" & row.Cells(3).Text & "-" & row.Cells(4).Text & "<br>")
+
+                With sqldsPromoDetails.DeleteParameters
+                    .Item("PromoID").DefaultValue = Session("CurrPromoID")
+                    .Item("DepCode").DefaultValue = row.Cells(2).Text
+                    .Item("SubDepCode").DefaultValue = row.Cells(3).Text
+                    .Item("ClassCode").DefaultValue = row.Cells(4).Text
+                End With
+
+                sqldsPromoDetails.Delete()
+            End If
+        Next
+
+    End Sub
+
+    Protected Sub lnkRequest_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lnkRequest.Click
+
+        Response.Redirect("PromoRequestEntry.aspx")
+
+    End Sub
+
+    Protected Sub lnkBranches_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lnkBranches.Click
+
+        blistErrorMsg.Items.Clear()
+
+        If gridItems.Rows.Count() < 1 Then
+            blistErrorMsg.Items.Add("No Dp/Sdp/Class code specified.")
+            Exit Sub
+        End If
+
+        Response.Redirect("PromoBranches.aspx")
+
+    End Sub
+
+    Protected Sub lnkPromoInfo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lnkPromoInfo.Click
+
+        Response.Redirect("PromoEntry.aspx")
+
+    End Sub
+
+    Protected Sub lnkSaveMemo_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles lnkSaveMemo.Click
+
+        '::ToDo:: warn or auto save promo header entry
+
+        Response.Redirect("PromoRequestPreview.aspx")
+
+    End Sub
+
+    Protected Sub imgClose_Click(ByVal sender As Object, ByVal e As System.Web.UI.ImageClickEventArgs) Handles imgClose.Click
+
+        panPopUp.Visible = False
+
+    End Sub
+
+    Protected Sub cmdPopUpOK_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdPopUpOK.Click
+
+        panPopUp.Visible = False
+        SaveDetailsEntry()
+
+    End Sub
+
+    Protected Sub cmdCancel_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdCancel.Click
+
+        panPopUp.Visible = False
+
+    End Sub
+
+
+End Class

@@ -1,0 +1,625 @@
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="PromoMemoViewMPA.aspx.vb" Inherits="PromoMemoViewMPA" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head runat="server">
+    <title>Sales Promotions Request </title>
+<script language="javascript" type="text/javascript">
+<!--
+
+function cmdNewMemo_onclick() {
+    
+    window.location.href("PromoMemo.aspx");
+}
+
+// -->
+</script>
+</head>
+<body bgcolor="#3366cc">
+    <form id="form1" runat="server">
+    <div>
+        <table>
+            <tr>
+                <td style="width: 97px; height: 36px" align="center" bgcolor="#ffffff">
+                    <img align="middle" src="Images/sm-logo.gif" /></td>
+                <td style="width: 623px; height: 36px; text-align: center;">
+                    <strong><span style="font-size: 14pt; color: #ffffff; font-family: Trebuchet MS">Sales
+                        Promotion Monitoring System</span></strong></td>
+                <td style="width: 89px; height: 36px">
+                </td>
+                <td style="height: 36px; width: 76px;">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 97px; text-align: center;" bgcolor="navy">
+                    <strong><a href="MPApage.aspx"><span style="font-size: 10pt; color: #ffffff; font-family: Trebuchet MS">Home</span></a></strong></td>
+                <td style="width: 623px; text-align: center" bgcolor="navy">
+                    <span style="font-size: 10pt; color: #ffffff; font-family: Trebuchet MS">&lt;group information&gt;</span></td>
+                <td style="font-size: 12pt; width: 89px; color: #000000; text-align: center" bgcolor="navy">
+                    <strong><span style="font-size: 10pt; color: #ccff66; font-family: Trebuchet MS">MPD
+                        User</span></strong></td>
+                <td style="font-size: 12pt; width: 76px; color: #000000; text-align: center;" bgcolor="navy">
+                    <span style="font-size: 9pt; color: #ffffff; font-family: Trebuchet MS">Logout</span></td>
+            </tr>
+         </table>
+        <br />
+        <br />
+        <table style="color: #000000" cellspacing="0">
+            <tr>
+                <td style="width: 253px; height: 35px;" bgcolor="#99ccff">
+                    <p>
+                        <span style="font-family: Trebuchet MS"><span style="font-size: 14pt">::</span> <span
+                            style="font-size: 10pt"><span>Promo Requests</span> <span style="font-size: 9pt; color: #cc0000"><strong>(3 new)</strong></span></span></span></p>
+                </td>
+                <td style="width: 660px; text-align: left; font-size: 12pt; border-top-style: none; border-right-style: none; border-left-style: none; border-bottom-style: none;" bgcolor="#ffffff" rowspan="27">
+                    <table>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td colspan="5" style="text-align: center">
+                                &nbsp;</td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px" >
+                            </td>
+                            <td colspan="5" style="text-align: center" bgcolor="#cccc99">
+                                <span style="font-size: 11pt; font-family: Trebuchet MS"><strong>Sales Promotion Memo</strong></span></td>
+                            <td style="width: 16px" >
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                                &nbsp;</td>
+                            <td style="width: 532px">
+                            </td>
+                            <td style="width: 31px">
+                            </td>
+                            <td style="width: 39px">
+                            </td>
+                            <td style="width: 80px">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 11px;">
+                            </td>
+                            <td style="width: 128px; height: 11px;">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">Request Date:</span></td>
+                            <td style="width: 532px; height: 11px;">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">Friday, Nov. 20, 2009</span></td>
+                            <td style="height: 11px;" align="center" bgcolor="#ccccff" colspan="3">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS"><strong>for Review</strong></span></td>
+                            <td style="width: 16px; height: 11px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 21px;">
+                            </td>
+                            <td style="width: 128px; height: 21px;">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">Date Received:</span></td>
+                            <td style="width: 532px; height: 21px;">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">Monday, Nov. 23, 2009</span></td>
+                            <td style="width: 31px; height: 21px;">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS"></span>
+                            </td>
+                            <td style="width: 39px; height: 21px;">
+                            </td>
+                            <td style="width: 80px; height: 21px;">
+                            </td>
+                            <td style="width: 16px; height: 21px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 10px;">
+                            </td>
+                            <td style="width: 128px; height: 10px;">
+                                &nbsp;</td>
+                            <td style="width: 532px; height: 10px;">
+                            </td>
+                            <td style="width: 31px; height: 10px;">
+                            </td>
+                            <td style="width: 39px; height: 10px;">
+                            </td>
+                            <td style="width: 80px; height: 10px;">
+                            </td>
+                            <td style="width: 16px; height: 10px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 24px;">
+                            </td>
+                            <td style="width: 128px; height: 24px;">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">Promo Title:</span></td>
+                            <td bgcolor="#ffffcc" colspan="4" style="height: 24px">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS"><strong>Shoes - Various Promotions</strong></span></td>
+                            <td style="width: 16px; height: 24px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 21px;">
+                            </td>
+                            <td style="width: 128px; height: 21px;">
+                                &nbsp;</td>
+                            <td style="width: 532px; height: 21px;">
+                            </td>
+                            <td style="width: 31px; height: 21px;">
+                            </td>
+                            <td style="width: 39px; height: 21px;">
+                            </td>
+                            <td style="width: 80px; height: 21px;">
+                            </td>
+                            <td style="width: 16px; height: 21px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">Promo Type:</span></td>
+                            <td style="width: 532px">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">Discount/MarkDown/Gift-with-Purchase</span></td>
+                            <td style="width: 31px">
+                            </td>
+                            <td style="width: 39px">
+                            </td>
+                            <td style="width: 80px">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">Branches:</span></td>
+                            <td style="width: 532px">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">ALL</span></td>
+                            <td style="width: 31px">
+                            </td>
+                            <td style="width: 39px">
+                            </td>
+                            <td style="width: 80px">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 11px">
+                            </td>
+                            <td style="width: 128px; height: 11px">
+                                &nbsp;</td>
+                            <td style="width: 532px; height: 11px">
+                            </td>
+                            <td style="width: 31px; height: 11px">
+                            </td>
+                            <td style="width: 39px; height: 11px">
+                            </td>
+                            <td style="width: 80px; height: 11px">
+                            </td>
+                            <td style="width: 16px; height: 11px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 1px;">
+                            </td>
+                            <td style="width: 128px; height: 1px;" valign="top">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">Promo Details:</span></td>
+                            <td colspan="4" rowspan="13" valign="top">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS">
+                                    <table>
+                                        <tr>
+                                            <td style="width: 80px; height: 43px; text-align: center" bgcolor="#cccc99">
+                                                Dp/SDp/Cl<br />
+                                                Description</td>
+                                            <td style="width: 383px; height: 43px; text-align: center" bgcolor="#cccc99">
+                                                Promotion</td>
+                                            <td style="width: 132px; height: 43px; text-align: center" bgcolor="#cccc99">
+                                                Promo Period</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 80px; text-align: center" bgcolor="#ffffcc">
+                                                MS 01-60-02<br />
+                                                W.Brown</td>
+                                            <td style="width: 383px; text-align: center" bgcolor="#ffffcc">
+                                                10% Discount on all regular-priced items</td>
+                                            <td style="width: 132px; text-align: center" bgcolor="#ffffcc">
+                                                June 19-30,2009</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 80px; text-align: center" bgcolor="#ffffcc">
+                                                MS 01-61-08<br />
+                                                Mario D' Boro</td>
+                                            <td style="width: 383px; text-align: center" bgcolor="#ffffcc">
+                                                20% Discount on all regular-priced items</td>
+                                            <td style="width: 132px; text-align: center" bgcolor="#ffffcc">
+                                                June 22-30,2009</td>
+                                        </tr>
+                                        <tr>
+                                            <td bgcolor="#ffffcc" style="width: 80px; height: 38px; text-align: center">
+                                                MS 01-62-30<br />
+                                                Crocs</td>
+                                            <td bgcolor="#ffffcc" style="width: 383px; height: 38px">
+                                                For every purchase of any Crocs Footwear, customer gets two (2) Jibbitz shoe charm,
+                                                "FREE"</td>
+                                            <td bgcolor="#ffffcc" style="width: 132px; height: 38px; text-align: center">
+                                                June 22-July 15, 2009</td>
+                                        </tr>
+                                        <tr>
+                                            <td bgcolor="#ffffcc" style="width: 80px; height: 17px">
+                                                TS 04-63-03<br />
+                                                Happy Feet</td>
+                                            <td bgcolor="#ffffcc" style="width: 383px; height: 17px; text-align: center">
+                                                70% Markdown on selected items</td>
+                                            <td bgcolor="#ffffcc" style="width: 132px; height: 17px">
+                                                June 22-30,2009</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 80px; height: 20px">
+                                            </td>
+                                            <td style="width: 383px; height: 20px">
+                                            </td>
+                                            <td style="width: 132px; height: 20px">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </span>
+                            </td>
+                            <td style="width: 16px; height: 1px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 7px;">
+                            </td>
+                            <td style="width: 128px; height: 7px;">
+                            </td>
+                            <td style="width: 16px; height: 7px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px; height: 3px;">
+                            </td>
+                            <td style="width: 128px; height: 3px;">
+                                <span style="font-size: 10pt; font-family: Trebuchet MS"></span>
+                            </td>
+                            <td style="width: 16px; height: 3px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="width: 12px">
+                            </td>
+                            <td style="width: 128px">
+                                &nbsp;</td>
+                            <td colspan="4" rowspan="1" valign="top">
+                            </td>
+                            <td style="width: 16px">
+                            </td>
+                        </tr>
+                    </table>
+                    &nbsp;
+                    <span style="font-family: Trebuchet MS"><br />
+                        <table>
+                            <tr>
+                                <td style="width: 10px; height: 16px">
+                                </td>
+                                <td style="width: 160px; height: 16px">
+                                    <span style="font-size: 9pt"></span></td>
+                                <td style="width: 204px; height: 16px">
+                                    <span style="font-size: 9pt"></span></td>
+                                <td style="width: 218px; height: 16px; text-align: left;">
+                                    <span style="font-size: 9pt">Prepared By:</span></td>
+                                <td style="width: 10px; height: 16px">
+                                    <span style="font-size: 9pt"></span></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 10px; height: 16px">
+                                </td>
+                                <td style="width: 160px; height: 16px">
+                                    <span style="font-size: 11pt"></span></td>
+                                <td style="width: 204px; height: 16px">
+                                    <span style="font-size: 11pt"></span></td>
+                                <td style="width: 218px; height: 16px; text-align: left">
+                                    <span style="font-size: 11pt"><strong>MPA Name</strong></span></td>
+                                <td style="width: 10px; height: 16px">
+                                    <span style="font-size: 11pt"></span></td>
+                            </tr>
+                        </table>
+                    </span>
+                    <br />
+                    <table cellspacing="0">
+                            <tr>
+                                <td style="width: 10px; height: 30px">
+                                </td>
+                                <td style="width: 286px; height: 30px" bgcolor="#cccc99">
+                                </td>
+                                <td style="width: 519px; height: 30px; text-align: left" bgcolor="#cccc99">
+                                    <input id="Submit3" style="width: 160px" type="submit" value="View Attachments" /></td>
+                                <td style="width: 148px; height: 30px; text-align: right" bgcolor="#cccc99">
+                                    <input id="Submit1" style="width: 105px" type="submit" value="Deny Request" /></td>
+                                <td style="width: 158px; height: 30px; text-align: right;" bgcolor="#cccc99"><input id="cmdNewMemo" style="width: 105px" type="button" value="Create Memo" language="javascript" onclick="return cmdNewMemo_onclick()" name="cmdNewMemo" /></td>
+                                <td bgcolor="#cccc99" style="width: 17px; height: 30px; text-align: right">
+                                </td>
+                            </tr>
+                        </table>
+                </td>
+                <td style="width: 30px; height: 35px; font-size: 12pt;">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td style="width: 253px; height: 35px;" bgcolor="#99ccff">
+                    <p>
+                        <span style="font-family: Trebuchet MS"><span style="font-size: 14pt">::</span> <span
+                            style="font-size: 10pt"><span>Manage
+                            Memos</span> <span style="font-size: 9pt; color: #cc0000"><strong>(2 active)</strong></span></span></span></p>
+                </td>
+                <td style="width: 30px; height: 35px;">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 253px; height: 29px;" bgcolor="#99ccff">
+                    &nbsp;</td>
+                <td style="width: 30px; height: 29px;">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 253px; height: 35px" bgcolor="#99ccff">
+                    <span style="font-family: Trebuchet MS"><span style="font-size: 14pt">::</span> <span
+                            style="font-size: 10pt"><span>Corporate Promotions</span></span></span></td>
+                <td style="width: 30px; height: 35px">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 253px; height: 30px" bgcolor="#99ccff">
+                    &nbsp;</td>
+                <td style="width: 30px; height: 30px">
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 253px; height: 33px" bgcolor="#99ccff">
+                    <span style="font-family: Trebuchet MS"><span style="font-size: 14pt">::<span style="font-size: 12pt">
+                    </span><span
+                            style="font-size: 10pt"><span>Promotional Announcements</span> <span style="font-size: 9pt; color: #cc0000"><strong>(2)</strong></span></span></span></span></td>
+                <td style="width: 30px; height: 33px; font-size: 12pt;">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td style="width: 253px; height: 19px" bgcolor="#99ccff">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                    <span style="font-family: Trebuchet MS"><span style="font-size: 14pt">::</span> <span
+                        style="font-size: 10pt">Settings</span></span></td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+            <tr style="font-size: 12pt">
+                <td bgcolor="#99ccff" style="width: 253px; height: 19px">
+                </td>
+                <td bgcolor="#ffffff" rowspan="1" style="font-size: 12pt; width: 660px; border-top-style: none;
+                    border-right-style: none; border-left-style: none; text-align: left; border-bottom-style: none">
+                </td>
+                <td style="width: 30px; height: 19px">
+                </td>
+            </tr>
+        </table>
+    
+        <br />
+        <table style="color: #000000; font-size: 12pt;">
+            <tr>
+                <td style="width: 287px; height: 17px">
+                    <span style="font-size: 8pt; color: #ffffff; font-family: Trebuchet MS"></span>
+                </td>
+                <td style="width: 377px; height: 17px">
+                    <span style="font-size: 8pt; color: #ffffff; font-family: Trebuchet MS"></span>
+                </td>
+                <td style="height: 17px; width: 227px; text-align: center;">
+                    <span style="font-size: 8pt; color: #ffffff; font-family: Trebuchet MS">ePromo v1.0
+                        :: Beta Release</span></td>
+            </tr>
+         </table>
+    </div>
+    </form>
+</body>
+</html>

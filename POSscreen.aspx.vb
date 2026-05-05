@@ -1,0 +1,990 @@
+Imports System
+Imports System.Data
+Imports System.Data.SqlClient
+Imports System.Configuration.ConfigurationManager
+
+Partial Class POSscreen
+    Inherits System.Web.UI.Page
+    Private connString As System.Configuration.ConnectionStringSettings
+    Private dtableSession As New DataTable
+    Private folderparent As String = String.Empty
+    Private row As Object = Nothing
+
+    Public Property POSNetworkDrive() As String
+        Get
+            Return ConfigurationManager.ConnectionStrings("POSFileDrive").ConnectionString
+        End Get
+        Set(ByVal value As String)
+            value = ConfigurationManager.ConnectionStrings("POSFileDrive").ConnectionString
+        End Set
+    End Property
+
+    Public Property ConnStr() As String
+        Get
+            Return ConfigurationManager.ConnectionStrings("PromoConnectionString").ConnectionString
+        End Get
+        Set(ByVal value As String)
+            value = ConfigurationManager.ConnectionStrings("PromoConnectionString").ConnectionString
+        End Set
+    End Property
+
+    Private Sub FillGridviews()
+        fillMainTable()
+        mids()
+    End Sub
+
+    Private Function GetFolderNames(ByVal flag As Int32) As DataTable
+
+        Dim _v1 As String = "" ' Revised dowcarpio01182013@smretailinc: RCDP updates:
+
+        Try
+
+            _v1 = clsEncryptDecrypt.DecryptText(Request("v1").ToString, SystemUser.EncryptKey.ToString).ToString
+
+        Catch ex As Exception
+
+            ' do nothing
+
+        End Try
+
+        Dim sqlConn As SqlConnection
+        sqlConn = New SqlConnection(clsPromo.SQLConnString())
+        Dim sqlCmd As SqlCommand
+        sqlConn.Open()
+        sqlCmd = New SqlCommand
+        With sqlCmd
+            .CommandText = "select FolderName from tbl_POS where AlreadyUploaded = '" & flag.ToString.Trim & "' and type = '" & _v1 & "' order by 1"
+            .Connection = sqlConn
+            .CommandTimeout = 0
+            .CommandType = 1
+        End With
+
+        Dim da As New SqlDataAdapter(sqlCmd)
+        Dim ds As New DataSet
+        da.Fill(ds, "tblResult")
+        Dim dt As DataTable = ds.Tables("tblResult")
+        Return dt
+
+        ' Added dowcarpio08232012@smretailinc: close and dispose connection
+        If sqlConn.State <> ConnectionState.Closed Then sqlConn.Close()
+        sqlConn = Nothing
+        sqlCmd = Nothing
+        da = Nothing
+        ds = Nothing
+
+        GC.Collect()
+
+    End Function
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If SystemUser.UserID = 0 Or SystemUser.UserLevel = 0 Then Response.Redirect("InvalidAccess.aspx")
+
+        Dim _v1 As String = "" ' Revised dowcarpio01182013@smretailinc: RCDP updates:
+
+        Try
+
+            _v1 = clsEncryptDecrypt.DecryptText(Request("v1").ToString, SystemUser.EncryptKey.ToString).ToString
+
+        Catch ex As Exception
+
+            Response.Redirect("InvalidAccess.aspx")
+
+        End Try
+
+        If Request("DbName") <> Nothing Then
+            Dim fname As String
+            fname = Left(POSNetworkDrive, Len(POSNetworkDrive) - 1) & folderparent.ToString & Request("DbName")
+            Response.ContentType = "application/x-msdownload"
+            Response.AppendHeader("Content-Disposition", "attachment;filename=" & Request("DbName"))
+            Response.TransmitFile(fname)
+            Response.End()
+        End If
+
+        If Not IsPostBack Then
+
+            ' Revised dowcarpio01182013@smretailinc: RCDP updates:
+            If _v1 = "REG" Then
+                Label1.Text = "POS files for Class Discount"
+            ElseIf _v1 = "CCL" Then
+                Label1.Text = "POS files for Class Discount(Cancellation)"
+            End If
+
+            FillGridviews()
+        End If
+    End Sub
+
+#Region "Grid View"
+    Protected Sub GVChild_RowCommand(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewCommandEventArgs)
+        If e.CommandName = "Print" Then
+            Dim GVChild As GridView
+            Dim rows() As String
+
+            rows = Split(e.CommandArgument, ";")
+
+            GVChild = Me.GridView1.Rows(e.CommandArgument).FindControl("GVChild")
+            Dim lbl, lnk2 As LinkButton
+            Dim lnk1 As Label
+
+            lnk1 = GVChild.Rows(rows(0)).FindControl("LinkButton1")
+
+            lnk2 = Me.GridView1.Rows(rows(0)).FindControl("lblUploadDate")
+
+            folderparent = "\" & Left(lnk2.Text, Len(lnk2.Text) - 4)
+
+            lbl = GVChild.Rows(CInt(lnk1.Text) - 1).FindControl("LinkButton3")
+
+            Response.Redirect("POSscreen.aspx?DbName=" & folderparent & "\" & lbl.Text)
+
+        End If
+
+    End Sub
+
+    Protected Sub GridView1_RowCommand(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewCommandEventArgs) Handles GridView1.RowCommand
+        If e.CommandName = "Download" Then
+            Dim newfoldername As String
+            Dim newFol() As String
+
+            
+            Dim _v1 As String = clsEncryptDecrypt.DecryptText(Request("v1").ToString, SystemUser.EncryptKey.ToString).ToString
+            Dim lbl As LinkButton
+            lbl = GridView1.Rows(e.CommandArgument).FindControl("lblUploadDate")
+            Dim files() As String
+            files = System.IO.Directory.GetFiles(POSNetworkDrive & Left(lbl.Text, Len(lbl.Text) - 4), "*.dbf", IO.SearchOption.AllDirectories)
+            folderparent = ""
+            clsPromo.CreateZipFile(POSNetworkDrive & lbl.Text, 0) 'Dt.Rows(e.CommandArgument)(0), 0)
+            row = e.CommandArgument
+            If ddlFilter.SelectedValue = 0 Then
+                newfoldername = UpdateFolderName(Left(lbl.Text.Trim, Len(lbl.Text.Trim) - 4))
+                newFol = Split(newfoldername, "-")
+
+                ' Revised dowcarpio01182013@smretailinc: RCDP updates:
+                If _v1 = "REG" Then
+                    clsPromo.renameFolder(ConfigurationManager.ConnectionStrings("POSFileDrive").ConnectionString, newFol(0), newfoldername)
+
+                ElseIf _v1 = "CCL" Then
+
+                    clsPromo.renameFolder(ConfigurationManager.ConnectionStrings("POSFileDrive").ConnectionString, newFol(0) & "-" & newFol(1), newfoldername)
+
+                End If
+
+            End If
+
+            fillMainTable()
+
+            ' Revised dowcarpio01182013@smretailinc: RCDP updates:
+            Response.Redirect("POSscreen.aspx?DbName=" & "\" & lbl.Text & "&v1=" & Request("v1").ToString)
+
+        ElseIf e.CommandName = "Preview" Then
+            Dim lnkAdd As LinkButton
+            lnkAdd = GridView1.Rows(e.CommandArgument).FindControl("lnkAdd")
+            If lnkAdd.Text = "+" Then
+                row = e.CommandArgument
+                Dim lbl As LinkButton
+                lbl = GridView1.Rows(e.CommandArgument).FindControl("lblUploadDate")
+                folderparent = "/" & Left(lbl.Text, Len(lbl.Text) - 4)
+                Me.GridView1.Rows(e.CommandArgument).FindControl("GVChild").Visible = True
+                CType(GridView1.Rows(e.CommandArgument).FindControl("lnkAdd"), LinkButton).Text = "-"
+
+                fillChildTable(POSNetworkDrive & Left(lbl.Text, Len(lbl.Text) - 4), e.CommandArgument, Left(lbl.Text, Len(lbl.Text) - 4))
+            Else
+                Me.GridView1.Rows(e.CommandArgument).FindControl("GVChild").Visible = False
+                CType(GridView1.Rows(e.CommandArgument).FindControl("lnkAdd"), LinkButton).Text = "+"
+            End If
+        Else
+            Me.GridView1.Rows(e.CommandArgument).FindControl("GVChild").Visible = False
+            row = e.CommandArgument
+        End If
+
+    End Sub
+    Private Sub fillMainTable()
+
+        Dim dtable As New DataTable
+        dtable = GetFolderNames(ddlFilter.SelectedValue)
+
+        Dim Dt As System.Data.DataTable
+        Dim dr As System.Data.DataRow
+        Dim aa As Integer = 0
+        Dt = New System.Data.DataTable
+        Dt = New Data.DataTable
+        Dt.Columns.Add("UploadDate")
+
+        If dtable.Rows.Count <> 0 Then
+            For Each row As DataRow In dtable.Rows
+                dr = Dt.NewRow()
+                dr("UploadDate") = row.Item(0).ToString & ".zip"
+                Dt.Rows.Add(dr)
+                aa = aa + 1
+            Next
+            dtableSession = Dt
+         
+        Else
+
+            Dt = Nothing
+        End If
+        Me.GridView1.DataSource = Dt
+        Me.GridView1.DataBind()
+
+        GC.Collect()
+    End Sub
+    Private Sub mids()
+        Dim dtable As New DataTable
+        dtable = GetFolderNames(ddlFilter.SelectedValue)
+        Dim aa As Integer = 0
+        If dtable.Rows.Count <> 0 Then
+            For Each row As DataRow In dtable.Rows
+                'fillChildTable(POSNetworkDrive & row.Item(0), aa, row.Item(0))
+                fillAnotherChildTable(aa, row.Item(0))
+                aa = aa + 1
+            Next
+        End If
+    End Sub
+    Private Sub fillAnotherChildTable(ByVal i As Integer, ByVal parentfolder As String)
+        Dim dt As New DataTable
+        Dim gVChild As New GridView
+        dt = getMemo(parentfolder)
+        gVChild = GridView1.Rows(i).FindControl("GVMemo")
+        gVChild.DataSource = dt
+        gVChild.AllowSorting = True
+        gVChild.DataBind()
+    End Sub
+    Private Function getMemo(ByVal parentfolder As String) As DataTable
+        Dim dt As New DataTable
+        Dim sqlConn As SqlConnection
+        sqlConn = New SqlConnection(clsPromo.SQLConnString())
+        Dim sqlCmd As SqlCommand
+        Try
+
+            sqlConn.Open()
+            sqlCmd = New SqlCommand
+            With sqlCmd
+                .CommandText = "select distinct C.MemoID,MemoNumber from tbl_POSMemo A inner join tbl_POS B ON A.POSID = B.RowID inner join Memos C ON A.MemoID = C.MemoID where B.FolderName = '" & parentfolder & "'"
+                .Connection = sqlConn
+                .CommandTimeout = 0
+                .CommandType = 1
+                Dim da As New SqlDataAdapter(sqlCmd)
+                Dim ds As New DataSet
+                da.Fill(ds, "tblMEMo")
+                dt = ds.Tables("tblMEMo")
+            End With
+
+            getMemo = dt
+
+        Catch ex As Exception
+        Finally
+
+            ' Added dowcarpio08232012@smretailinc: close and dispose connection
+            If sqlConn.State <> ConnectionState.Closed Then sqlConn.Close()
+            sqlConn = Nothing
+            sqlCmd = Nothing
+            dt = Nothing
+
+            GC.Collect()
+        End Try
+    End Function
+
+    Private Sub fillChildTable(ByVal path As String, ByVal i As Integer, ByVal parentfolder As String)
+        Dim files() As String
+        Dim ii As Integer = 0
+        Dim gVChild As New GridView
+        Dim Dt As System.Data.DataTable
+        Dim dr As System.Data.DataRow
+        Dt = New System.Data.DataTable
+        Dt = New Data.DataTable
+        Dt.Columns.Add("UploadDate")
+        Dt.Columns.Add("FilesUploaded")
+        Dt.Columns.Add("Row")
+        Dt.Columns.Add("MainTableRow")
+        Dim d() As String
+
+        If System.IO.Directory.Exists(path) Then
+            files = System.IO.Directory.GetFiles(path, "*.dbf", IO.SearchOption.AllDirectories)
+            For Each fname As String In files
+                dr = Dt.NewRow()
+                d = Split(fname, "\")
+                dr("UploadDate") = parentfolder
+                dr("FilesUploaded") = d(UBound(d))
+                dr("Row") = ii
+                dr("MainTableRow") = i
+                Dt.Rows.Add(dr)
+                ii = ii + 1
+            Next
+            gVChild = GridView1.Rows(i).FindControl("GVChild")
+            gVChild.DataSource = Dt
+            gVChild.AllowSorting = True
+            gVChild.DataBind()
+        End If
+        GC.Collect()
+    End Sub
+#End Region
+
+    Protected Sub A1_ServerClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles A1.ServerClick
+        Dim _v1 As String = clsEncryptDecrypt.DecryptText(Request("v1").ToString, SystemUser.EncryptKey.ToString).ToString
+        Dim strValidateQueryB4Insert As String = String.Empty
+        Dim strValidateSplit() As String
+        If ValidatePOS() > 0 Then
+            Dim DBConn
+            Dim sItemCode
+            Dim str
+            Dim templatePath, DestinationPath
+            templatePath = ConfigurationManager.ConnectionStrings("POSTemplate").ConnectionString
+            DestinationPath = ConfigurationManager.ConnectionStrings("POSFileDrive").ConnectionString
+
+            Dim FolderPath
+            Dim Folder
+            Dim dt As New DataTable
+            dt = GetPromoStartDates()
+
+            If dt.Rows.Count <> 0 Then
+                For Each row As DataRow In dt.Rows
+
+                    ' Revised dowcarpio01232013@smretailinc: RCDP updates:
+                    If _v1 = "REG" Then
+
+                        Folder = row(0)
+
+                    ElseIf _v1 = "CCL" Then
+
+                        Folder = "CR-" & row(0)
+
+                    Else
+
+                        Folder = Nothing
+
+                    End If
+
+                    FolderPath = DestinationPath _
+                                & Folder _
+                                & "\"
+                    If clsPromo.FolderExists(FolderPath) = False Then
+                        clsPromo.CreateFolder(FolderPath)
+                    End If
+
+                    Dim dtApproved As New DataTable
+                    dtApproved = getPromoApproved(CStr(row(1)))
+
+                    Dim sCompCode As String
+                    sCompCode = "0"
+                    Dim sBranchCode As String
+                    sBranchCode = "0"
+                    Dim NewDBFname As String = ""
+
+                    If dtApproved.Rows.Count <> 0 Then
+                        For Each rowApproved As DataRow In dtApproved.Rows
+
+                            If CInt(sCompCode) <> CInt(rowApproved(6)) Or CInt(sBranchCode) <> CInt(rowApproved(7)) Then
+                                sCompCode = rowApproved(6).ToString
+                                sBranchCode = rowApproved(7).ToString
+
+                                ' Revised dowcarpio01232013@smretailinc: RCDP updates:
+                                If _v1 = "REG" Then
+                                    NewDBFname = "CDSC" & sCompCode.ToString & sBranchCode.ToString
+                                ElseIf _v1 = "CCL" Then
+                                    NewDBFname = "XDSC" & sCompCode.ToString & sBranchCode.ToString
+                                End If
+
+                                NewDBFname = "CDSC" & sCompCode.ToString & sBranchCode.ToString
+                                Dim filesys
+                                filesys = CreateObject("Scripting.FileSystemObject")
+
+                                If filesys.FileExists(templatePath) Then
+
+                                    If Not filesys.FileExists(FolderPath & NewDBFname & ".dbf") Then
+                                        filesys.CopyFile(templatePath, FolderPath & NewDBFname & ".dbf")
+                                    End If
+
+                                End If
+
+                            End If
+
+                            If CInt(rowApproved(11)) = 0 Then
+
+                                Dim DTSubDeptCode As New DataTable
+                                DTSubDeptCode = getDeptSubDeptCode(CInt(rowApproved(10)))
+
+
+                                If DTSubDeptCode.Rows.Count <> 0 Then
+
+                                    For Each rowSubDeptCode As DataRow In DTSubDeptCode.Rows
+
+                                        DBConn = clsPromo.OpenDBFConn(FolderPath)
+
+                                        sItemCode = CStr(rowSubDeptCode(0)) & CStr(rowSubDeptCode(1)) & CStr(rowSubDeptCode(2))
+                                        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                        'MAURICE March 3, 2011
+                                        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                        strValidateQueryB4Insert = "select item_code,rate from " & NewDBFname & " where item_code = """ & sItemCode & """"
+                                        strValidateSplit = Split(clsPromo.ValidateNewlyCreatedPosFile(strValidateQueryB4Insert, FolderPath & NewDBFname & ".dbf"), "!@#")
+                                        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                        'MAURICE March 3, 2011
+                                        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                        If strValidateSplit(0) = "" Then
+                                            str = "Insert into " & NewDBFname _
+                                                  & " (comp_code, brch_code, item_code, rate, date_from, date_to)" _
+                                                  & " VALUES " _
+                                                  & "(""" & sCompCode & """, """ & sBranchCode & """, """ & sItemCode & """," & rowApproved(14) & ", """ & CStr(rowApproved(16)) & """, """ & CStr(rowApproved(17)) & """)"
+
+                                            DBConn.Execute(str)
+                                            '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                            'MAURICE March 3, 2011
+                                            '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                        Else
+                                            If CInt(strValidateSplit(1)) < CInt(rowApproved(14)) Then
+                                                str = "update " & NewDBFname & " set rate = " & rowApproved(14) & " where item_code = """ & sItemCode & """"
+                                                DBConn.Execute(str)
+                                            End If
+                                        End If
+                                        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                        'MAURICE March 3, 2011
+                                        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                    Next
+
+                                End If
+                            ElseIf CInt(rowApproved(12)) = 0 Then
+                                Dim dtClasscode As New DataTable
+                                dtClasscode = getClassCode(rowApproved(10).ToString, rowApproved(11).ToString)
+                                If dtClasscode.Rows.Count <> 0 Then
+                                    For Each rowClassCode As DataRow In dtClasscode.Rows
+
+                                        DBConn = clsPromo.OpenDBFConn(FolderPath)
+                                        sItemCode = CStr(rowClassCode(0)) _
+                                                  & CStr(rowClassCode(1)) _
+                                                  & CStr(rowClassCode(2))
+
+
+                                        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                        'MAURICE March 3, 2011
+                                        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                        strValidateQueryB4Insert = "select item_code,rate from " & NewDBFname & " where item_code = """ & sItemCode & """"
+                                        strValidateSplit = Split(clsPromo.ValidateNewlyCreatedPosFile(strValidateQueryB4Insert, FolderPath & NewDBFname & ".dbf"), "!@#")
+                                        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                        'MAURICE March 3, 2011
+                                        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+                                        If strValidateSplit(0) = "" Then
+
+                                            str = "Insert into " & NewDBFname _
+                                                  & " (comp_code, brch_code, item_code, rate, date_from, date_to)" _
+                                                  & " VALUES " _
+                                                  & "(""" & sCompCode & """, """ & sBranchCode & """, """ & sItemCode & """," & rowApproved(14) & ", """ & CStr(rowApproved(16)) & """, """ & CStr(rowApproved(17)) & """)"
+
+                                            DBConn.Execute(str)
+                                            '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                            'MAURICE March 3, 2011
+                                            '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                        Else
+                                            If CInt(strValidateSplit(1)) < CInt(rowApproved(14)) Then
+                                                str = "update " & NewDBFname & " set rate = " & rowApproved(14) & " where item_code = """ & sItemCode & """"
+                                                DBConn.Execute(str)
+                                            End If
+                                        End If
+                                        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                        'MAURICE March 3, 2011
+                                        '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                    Next
+                                End If
+                            Else
+                                DBConn = clsPromo.OpenDBFConn(FolderPath)
+                                sItemCode = CStr(rowApproved(10)) _
+                                            & CStr(rowApproved(11)) _
+                                            & CStr(rowApproved(12))
+
+                                '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                'MAURICE March 3, 2011
+                                '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                strValidateQueryB4Insert = "select item_code,rate from " & NewDBFname & " where item_code = """ & sItemCode & """"
+                                strValidateSplit = Split(clsPromo.ValidateNewlyCreatedPosFile(strValidateQueryB4Insert, FolderPath & NewDBFname & ".dbf"), "!@#")
+                                '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                'MAURICE March 3, 2011
+                                '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+                                If strValidateSplit(0) = "" Then
+
+                                    str = "Insert into " & NewDBFname _
+                                          & " (comp_code, brch_code, item_code, rate, date_from, date_to)" _
+                                          & " VALUES " _
+                                          & "(""" & sCompCode & """, """ & sBranchCode & """, """ & sItemCode & """," & rowApproved(14) & ", """ & CStr(rowApproved(16)) & """, """ & CStr(rowApproved(17)) & """)"
+
+                                    DBConn.Execute(str)
+                                    '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                    'MAURICE March 3, 2011
+                                    '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                Else
+                                    If CInt(strValidateSplit(1)) < CInt(rowApproved(14)) Then
+                                        str = "update " & NewDBFname & " set rate = " & rowApproved(14) & " where item_code = """ & sItemCode & """"
+                                        DBConn.Execute(str)
+                                    End If
+                                End If
+                                '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                                'MAURICE March 3, 2011
+                                '+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                            End If
+                        Next
+                    End If
+                    UpdatePOSFLAG(Folder.ToString, row(1).ToString)
+
+                    ' Added dowcarpio01232013@smretailinc: show msgbox
+                    'lblPopTitle.Value = "Success"
+                    'ViewState("process") = "do_nothing"
+                    'clsSession.Icon = "success"
+                    'clsSession.Message = "Successfully Generated."
+                    'ClientScript.RegisterStartupScript(Me.GetType, "key", "<script>opentexteditor('180','');</script>")
+
+
+                Next
+            End If
+        End If
+        FillGridviews()
+
+        GC.Collect()
+    End Sub
+
+    ' Revised dowcarpio01232013@smretailinc: RCDP updates:
+    Private Function GetPromoStartDates() As DataTable
+
+        Dim _v1 As String = clsEncryptDecrypt.DecryptText(Request("v1").ToString, SystemUser.EncryptKey.ToString).ToString
+        Dim sqlConn As SqlConnection
+        sqlConn = New SqlConnection(clsPromo.SQLConnString())
+        Dim sqlCmd As New SqlCommand("USP_SelectPromoStart", sqlConn)
+        sqlCmd.CommandType = CommandType.StoredProcedure
+
+        sqlCmd.Parameters.Add("@Type", SqlDbType.VarChar, 10)
+        sqlCmd.Parameters("@Type").Value = _v1
+
+
+        Dim da As New SqlDataAdapter(sqlCmd)
+        Dim ds As New DataSet
+
+        Try
+
+            sqlConn.Open()
+            da.Fill(ds, "tblPromoDates")
+            Dim dt As DataTable = ds.Tables("tblPromoDates")
+
+            Return dt
+
+        Catch ex As Exception
+
+            Throw ex ' Added dowcarpio01232013@smretailinc: show error
+
+        Finally
+
+            ' Added dowcarpio08232012@smretailinc: close and dispose connection
+            If sqlConn.State <> ConnectionState.Closed Then sqlConn.Close()
+            sqlConn = Nothing
+            sqlCmd = Nothing
+            da = Nothing
+            ds = Nothing
+
+            GC.Collect()
+        End Try
+
+    End Function
+
+    ' Revised dowcarpio01232013@smretailinc: RCDP updates:
+    Private Function ValidatePOS() As Integer
+
+        Dim _v1 As String = clsEncryptDecrypt.DecryptText(Request("v1").ToString, SystemUser.EncryptKey.ToString).ToString
+        Dim sqlConn As SqlConnection
+        sqlConn = New SqlConnection(clsPromo.SQLConnString())
+        Dim sqlCmd As SqlCommand
+
+        Try
+
+            sqlConn.Open()
+            sqlCmd = New SqlCommand
+            With sqlCmd
+
+                If _v1 = "REG" Then
+
+                    .CommandText = "select count(*) from Memos where POSFile = 0"
+
+                ElseIf _v1 = "CCL" Then
+
+                    .CommandText = "SELECT COUNT(*) FROM CHANGEREQUESTS CR INNER JOIN Promotions P ON P.RequestID = CR.RequestID WHERE CR.POSFile = 0 AND CR.REQUESTTYPE = 'CCL' AND CR.STATUS = 'Approved'"
+
+                End If
+
+                .Connection = sqlConn
+                .CommandTimeout = 0
+                .CommandType = 1
+
+                Return .ExecuteScalar
+
+            End With
+
+        Catch ex As Exception
+
+            Throw ex ' Added dowcarpio01232013@smretailinc: show error
+
+        Finally
+            ' Added dowcarpio08232012@smretailinc: close and dispose connection
+            If sqlConn.State <> ConnectionState.Closed Then sqlConn.Close()
+            sqlConn = Nothing
+            sqlCmd = Nothing
+            GC.Collect()
+        End Try
+
+
+    End Function
+
+    Protected Sub ddlFilter_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ddlFilter.SelectedIndexChanged
+        GC.Collect()
+        FillGridviews()
+    End Sub
+
+    Protected Sub gvMemo_RowCommand(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewCommandEventArgs)
+        clsSession.FlagForPOSDisp = True
+        Response.Redirect("ViewMemo.aspx?MemoID=" & e.CommandArgument.ToString)
+    End Sub
+
+    ' Revised dowcarpio01232013@smretailinc: RCDP updates:
+    Private Function getPromoApproved(ByVal param As String) As DataTable
+
+        Dim _v1 As String = clsEncryptDecrypt.DecryptText(Request("v1").ToString, SystemUser.EncryptKey.ToString).ToString
+        Dim sqlConn As SqlClient.SqlConnection
+        sqlConn = New SqlClient.SqlConnection(clsPromo.SQLConnString())
+        Dim sqlCmd As New SqlClient.SqlCommand("exec USP_SelectPromoApproved_NEW '" & param & "','" & _v1 & "'", sqlConn)
+        sqlCmd.CommandType = CommandType.Text
+
+        Dim da As New SqlClient.SqlDataAdapter(sqlCmd)
+        Dim ds As New DataSet
+        Try
+            sqlConn.Open()
+            da.Fill(ds, "tblPromoApproved")
+            Dim dt As DataTable = ds.Tables("tblPromoApproved")
+            Return dt
+        Catch ex As Exception
+
+            Throw ex ' Added dowcarpio01232013@smretailinc: show error
+
+        Finally
+            ' Added dowcarpio08232012@smretailinc: close and dispose connection
+            If sqlConn.State <> ConnectionState.Closed Then sqlConn.Close()
+            sqlConn = Nothing
+            sqlCmd = Nothing
+            da = Nothing
+            ds = Nothing
+
+            GC.Collect()
+        End Try
+
+
+    End Function
+
+    Private Function getDeptSubDeptCode(ByVal param As String) As DataTable
+        Dim sqlConn As SqlClient.SqlConnection
+        sqlConn = New SqlClient.SqlConnection(clsPromo.SQLConnString())
+        Dim sqlCmd As New SqlClient.SqlCommand("exec USP_SelectSubDepCode0 '" & param & "'", sqlConn)
+        sqlCmd.CommandType = CommandType.Text
+        Dim da As New SqlClient.SqlDataAdapter(sqlCmd)
+        Dim ds As New DataSet
+        Try
+            sqlConn.Open()
+            da.Fill(ds, "tblDeptSubDeptCode")
+            Dim dt As DataTable = ds.Tables("tblDeptSubDeptCode")
+            Return dt
+        Catch ex As Exception
+        Finally
+            ' Added dowcarpio08232012@smretailinc: close and dispose connection
+            If sqlConn.State <> ConnectionState.Closed Then sqlConn.Close()
+            sqlConn = Nothing
+            sqlCmd = Nothing
+            da = Nothing
+            ds = Nothing
+
+            GC.Collect()
+        End Try
+    End Function
+
+    ' Revised dowcarpio01232013@smretailinc: RCDP updates:
+    Private Sub UpdatePOSFLAG(ByVal foldername As String, ByVal param2 As String)
+
+        Dim _v1 As String = clsEncryptDecrypt.DecryptText(Request("v1").ToString, SystemUser.EncryptKey.ToString).ToString
+        Dim sqlConn As SqlClient.SqlConnection
+        sqlConn = New SqlClient.SqlConnection(clsPromo.SQLConnString())
+        Dim sqlCmd As New SqlClient.SqlCommand("exec USP_UpdatePOSFLAG  '" & foldername & "','" & param2 & "','" & _v1 & "'", sqlConn)
+        sqlCmd.CommandType = CommandType.Text
+        Dim da As New SqlClient.SqlDataAdapter(sqlCmd)
+        Dim ds As New DataSet
+        Try
+            sqlConn.Open()
+            sqlCmd.ExecuteNonQuery()
+
+        Catch ex As Exception
+
+            Throw ex ' Added dowcarpio01232013@smretailinc: show error
+
+        Finally
+            ' Added dowcarpio08232012@smretailinc: close and dispose connection
+            If sqlConn.State <> ConnectionState.Closed Then sqlConn.Close()
+            sqlConn = Nothing
+            sqlCmd = Nothing
+            da = Nothing
+            ds = Nothing
+
+            GC.Collect()
+        End Try
+
+
+    End Sub
+
+    Private Function getClassCode(ByVal param As String, ByVal param2 As String) As DataTable
+        Dim sqlConn As SqlClient.SqlConnection
+
+        sqlConn = New SqlClient.SqlConnection(clsPromo.SQLConnString())
+        Dim sqlCmd As New SqlClient.SqlCommand("exec USP_SelectClassCode0 '" & param & "','" & param2 & "'", sqlConn)
+        sqlCmd.CommandType = CommandType.Text
+
+        Dim da As New SqlClient.SqlDataAdapter(sqlCmd)
+        Dim ds As New DataSet
+        Try
+            sqlConn.Open()
+            da.Fill(ds, "tblgetClassCode")
+            Dim dt As DataTable = ds.Tables("tblgetClassCode")
+            Return dt
+        Catch ex As Exception
+        Finally
+            ' Added dowcarpio08232012@smretailinc: close and dispose connection
+            If sqlConn.State <> ConnectionState.Closed Then sqlConn.Close()
+            sqlConn = Nothing
+            sqlCmd = Nothing
+            da = Nothing
+            ds = Nothing
+
+            GC.Collect()
+        End Try
+
+    End Function
+
+    Private Function UpdateFolderName(ByVal foldername As String) As String
+        Dim sqlConn As SqlClient.SqlConnection
+        sqlConn = New SqlClient.SqlConnection(clsPromo.SQLConnString())
+        Dim sqlCmd As New SqlClient.SqlCommand("exec USP_UpdateWhenDownloadPOS  '" & foldername & "'", sqlConn)
+        sqlCmd.CommandType = CommandType.Text
+        Dim da As New SqlClient.SqlDataAdapter(sqlCmd)
+        Dim ds As New DataSet
+        Try
+            sqlConn.Open()
+            Return sqlCmd.ExecuteScalar
+        Catch ex As Exception
+        Finally
+            ' Added dowcarpio08232012@smretailinc: close and dispose connection
+            If sqlConn.State <> ConnectionState.Closed Then sqlConn.Close()
+            sqlConn = Nothing
+            sqlCmd = Nothing
+            da = Nothing
+            ds = Nothing
+
+            GC.Collect()
+        End Try
+    End Function
+
+    'Protected Sub btnUpdate_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnUpdate.Click
+    '    If ValidatePOS() > 0 Then
+    '        Dim DBConn
+    '        Dim sItemCode
+    '        Dim str As String
+    '        Dim templatePath, DestinationPath As String
+    '        templatePath = ConfigurationManager.ConnectionStrings("POSTemplate").ConnectionString
+    '        DestinationPath = ConfigurationManager.ConnectionStrings("POSFileDrive").ConnectionString
+
+    '        Dim FolderPath
+    '        Dim Folder
+    '        Dim dt As New DataTable
+    '        dt = GetPromoStartDates()
+
+    '        If dt.Rows.Count <> 0 Then
+    '            For Each row As DataRow In dt.Rows
+    '                Folder = row(0)
+    '                FolderPath = DestinationPath _
+    '                            & Folder _
+    '                            & "\"
+    '                If clsPromo.FolderExists(FolderPath) = False Then
+    '                    clsPromo.CreateFolder(FolderPath)
+    '                End If
+
+    '                Dim dtApproved As New DataTable
+    '                dtApproved = getPromoApproved(CStr(row(1)))
+
+    '                Dim sCompCode As String
+    '                sCompCode = "0"
+    '                Dim sBranchCode As String
+    '                sBranchCode = "0"
+    '                Dim NewDBFname As String = ""
+
+    '                If dtApproved.Rows.Count <> 0 Then
+    '                    For Each rowApproved As DataRow In dtApproved.Rows
+
+    '                        If CInt(sCompCode) <> CInt(rowApproved(6)) Or CInt(sBranchCode) <> CInt(rowApproved(7)) Then
+    '                            sCompCode = rowApproved(6).ToString
+    '                            sBranchCode = rowApproved(7).ToString
+    '                            NewDBFname = "CDSC" & sCompCode.ToString & sBranchCode.ToString
+    '                            Dim filesys
+    '                            filesys = CreateObject("Scripting.FileSystemObject")
+
+    '                            If filesys.FileExists(templatePath) Then
+
+    '                                If Not filesys.FileExists(FolderPath & NewDBFname & ".dbf") Then
+    '                                    filesys.CopyFile(templatePath, FolderPath & NewDBFname & ".dbf")
+    '                                End If
+
+    '                            End If
+
+    '                        End If
+
+    '                        If CInt(rowApproved(11)) = 0 Then
+
+    '                            Dim DTSubDeptCode As New DataTable
+    '                            DTSubDeptCode = getDeptSubDeptCode(CInt(rowApproved(10)))
+    '                            If DTSubDeptCode.Rows.Count <> 0 Then
+
+    '                                For Each rowSubDeptCode As DataRow In DTSubDeptCode.Rows
+
+    '                                    DBConn = clsPromo.OpenDBFConn(FolderPath)
+
+    '                                    With sqldsDBF
+    '                                        .ConnectionString = "Provider=VFPOLEDB.1;Data Source='" & FolderPath & "';Collating Sequence=MACHINE"
+    '                                        .ProviderName = "System.Data.OleDb"
+    '                                    End With
+    '                                    sqldsDBF.SelectCommand = "SELECT top 1 * FROM " & NewDBFname & " WHERE brch_code = """ & sBranchCode & """ AND item_code = """ & sItemCode & """ ORDER BY item_code"
+    '                                    Dim dv As DataView = sqldsDBF.Select(DataSourceSelectArguments.Empty)
+
+
+    '                                    If dv.Table.Rows.Count <> 0 Then
+    '                                        If dv.Table.Rows(0)("rate") <= rowApproved(14) Then
+    '                                            str = " UPDATE " & NewDBFname & _
+    '                                                  " SET rate= " & rowApproved(14) & _
+    '                                                  " WHERE item_code = """ & sItemCode & """"
+    '                                            DBConn.Execute(str)
+    '                                        End If
+    '                                    Else
+    '                                        str = "Insert into " _
+    '                                              & NewDBFname _
+    '                                              & " (comp_code, brch_code, item_code, rate, date_from, date_to, hier, time_fr, time_to, descriptor) VALUES (""" _
+    '                                              & sCompCode _
+    '                                              & """, """ _
+    '                                              & sBranchCode _
+    '                                              & """, """ _
+    '                                              & sItemCode _
+    '                                              & """," _
+    '                                              & rowApproved(14) _
+    '                                              & ", """ _
+    '                                              & CStr(rowApproved(16)) _
+    '                                              & """, """ _
+    '                                              & CStr(rowApproved(17)) _
+    '                                              & """, 0, """", """", """")"
+    '                                        DBConn.Execute(str)
+    '                                    End If
+
+
+
+
+    '                                Next
+
+    '                            End If
+    '                        ElseIf CInt(rowApproved(12)) = 0 Then
+    '                            Dim dtClasscode As New DataTable
+    '                            dtClasscode = getClassCode(rowApproved(10).ToString, rowApproved(11).ToString)
+    '                            If dtClasscode.Rows.Count <> 0 Then
+    '                                For Each rowClassCode As DataRow In dtClasscode.Rows
+
+    '                                    DBConn = clsPromo.OpenDBFConn(FolderPath)
+    '                                    sItemCode = CStr(rowClassCode(0)) _
+    '                                              & CStr(rowClassCode(1)) _
+    '                                              & CStr(rowClassCode(2))
+
+
+    '                                    With sqldsDBF
+    '                                        .ConnectionString = "Provider=VFPOLEDB.1;Data Source='" & FolderPath & "';Collating Sequence=MACHINE"
+    '                                        .ProviderName = "System.Data.OleDb"
+    '                                    End With
+    '                                    sqldsDBF.SelectCommand = "SELECT top 1 * FROM " & NewDBFname & " WHERE brch_code = """ & sBranchCode & """ AND item_code = """ & sItemCode & """ ORDER BY item_code"
+    '                                    Dim dv As DataView = sqldsDBF.Select(DataSourceSelectArguments.Empty)
+
+
+    '                                    If dv.Table.Rows.Count <> 0 Then
+    '                                        If dv.Table.Rows(0)("rate") <= rowApproved(14) Then
+    '                                            str = " UPDATE " & NewDBFname & _
+    '                                                  " SET rate= " & rowApproved(14) & _
+    '                                                  " WHERE item_code = """ & sItemCode & """"
+    '                                            DBConn.Execute(str)
+    '                                        End If
+    '                                    Else
+    '                                        str = "Insert into " _
+    '                                        & NewDBFname _
+    '                                        & " (comp_code, brch_code, item_code, rate, date_from, date_to, hier, time_fr, time_to, descriptor) VALUES (""" _
+    '                                        & sCompCode.ToString _
+    '                                        & """, """ _
+    '                                        & sBranchCode.ToString _
+    '                                        & """, """ _
+    '                                        & sItemCode.ToString _
+    '                                        & """," _
+    '                                        & rowApproved(14).ToString _
+    '                                        & ", """ _
+    '                                        & CStr(rowApproved(16).ToString) _
+    '                                        & """, """ _
+    '                                        & CStr(rowApproved(17).ToString) _
+    '                                        & """, 0, """", """", """")"
+
+    '                                        DBConn.Execute(str)
+    '                                    End If
+
+    '                                Next
+    '                            End If
+    '                        Else
+    '                            DBConn = clsPromo.OpenDBFConn(FolderPath)
+    '                            sItemCode = CStr(rowApproved(10)) _
+    '                                        & CStr(rowApproved(11)) _
+    '                                        & CStr(rowApproved(12))
+    '                            Dim DBConnValidate
+    '                            DBConnValidate = clsPromo.OpenDBFConn(FolderPath)
+
+    '                            With sqldsDBF
+    '                                .ConnectionString = "Provider=VFPOLEDB.1;Data Source='" & FolderPath & "';Collating Sequence=MACHINE"
+    '                                .ProviderName = "System.Data.OleDb"
+    '                            End With
+    '                            sqldsDBF.SelectCommand = "SELECT top 1 * FROM " & NewDBFname & " WHERE brch_code = """ & sBranchCode & """ AND item_code = """ & sItemCode & """ ORDER BY item_code"
+    '                            Dim dv As DataView = sqldsDBF.Select(DataSourceSelectArguments.Empty)
+
+
+    '                            If dv.Table.Rows.Count <> 0 Then
+    '                                If dv.Table.Rows(0)("rate") <= rowApproved(14) Then
+
+    '                                    str = " UPDATE " & NewDBFname & _
+    '                                          " SET rate= " & rowApproved(14) & _
+    '                                          " WHERE item_code = """ & sItemCode & """"
+    '                                    DBConn.Execute(str)
+
+    '                                End If
+    '                            Else
+    '                                str = "Insert into " _
+    '                                            & NewDBFname _
+    '                                            & " (comp_code, brch_code, item_code, rate, date_from, date_to, hier, time_fr, time_to, descriptor) VALUES (""" _
+    '                                            & sCompCode.ToString _
+    '                                            & """, """ _
+    '                                            & sBranchCode.ToString _
+    '                                            & """, """ _
+    '                                            & sItemCode.ToString _
+    '                                            & """," _
+    '                                            & rowApproved(14).ToString _
+    '                                            & ", """ _
+    '                                            & CStr(rowApproved(16).ToString) _
+    '                                            & """, """ _
+    '                                            & CStr(rowApproved(17).ToString) _
+    '                                            & """, 0, """", """", """")"
+
+    '                                DBConn.Execute(str)
+    '                            End If
+
+    '                        End If
+    '            Next
+    '                End If
+    '                UpdatePOSFLAG(Folder.ToString, row(1).ToString)
+    '            Next
+    '        End If
+    '    End If
+    '    FillGridviews()
+
+    '    GC.Collect()
+    'End Sub
+End Class

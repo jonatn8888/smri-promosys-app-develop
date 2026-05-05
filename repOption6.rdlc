@@ -1,0 +1,694 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2005/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <DataSources>
+    <DataSource Name="DummyDataSource">
+      <rd:DataSourceID>8f099ff4-87d5-4f7d-ab41-df4c55c8c4a1</rd:DataSourceID>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=102100ITS-20376;Initial Catalog=Promo20180803;Persist Security Info=True;User ID=promosys;Password=password;Min Pool Size=20;Max Pool Size=500;Connection Timeout=150</ConnectString>
+      </ConnectionProperties>
+    </DataSource>
+  </DataSources>
+  <InteractiveHeight>11in</InteractiveHeight>
+  <ReportParameters>
+    <ReportParameter Name="ReportTitle">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportTitle</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportTargetDate">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportTargetDate</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportPromoTypes">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportPromoTypes</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportBranches">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportBranches</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:DrawGrid>true</rd:DrawGrid>
+  <InteractiveWidth>8.5in</InteractiveWidth>
+  <rd:SnapToGrid>true</rd:SnapToGrid>
+  <RightMargin>1in</RightMargin>
+  <LeftMargin>1in</LeftMargin>
+  <PageHeader>
+    <PrintOnFirstPage>true</PrintOnFirstPage>
+    <ReportItems>
+      <Textbox Name="textbox8">
+        <Top>0.83in</Top>
+        <Width>3.625in</Width>
+        <Style>
+          <FontFamily>Courier New</FontFamily>
+          <TextAlign>Left</TextAlign>
+        </Style>
+        <ZIndex>10</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>1.41667in</Left>
+        <Height>0.17in</Height>
+        <Value>=Parameters!ReportPromoTypes.Value</Value>
+      </Textbox>
+      <Textbox Name="textbox7">
+        <rd:DefaultName>textbox7</rd:DefaultName>
+        <Top>0.66in</Top>
+        <Width>3.625in</Width>
+        <Style>
+          <FontFamily>Courier New</FontFamily>
+          <TextAlign>Left</TextAlign>
+        </Style>
+        <ZIndex>9</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>1.41667in</Left>
+        <Height>0.17in</Height>
+        <Value>=Parameters!ReportTargetDate.Value</Value>
+      </Textbox>
+      <Textbox Name="textbox17">
+        <Top>0.83in</Top>
+        <Width>1.25in</Width>
+        <Style>
+          <FontFamily>Courier New</FontFamily>
+        </Style>
+        <ZIndex>8</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>0.16667in</Left>
+        <Height>0.17in</Height>
+        <Value>=REPLACE("TYPE         :", " ", Chr(160))</Value>
+      </Textbox>
+      <Textbox Name="textbox18">
+        <DataElementOutput>Output</DataElementOutput>
+        <Top>0.66in</Top>
+        <Width>1.25in</Width>
+        <Style>
+          <FontFamily>Courier New</FontFamily>
+        </Style>
+        <DataElementStyle>AttributeNormal</DataElementStyle>
+        <ZIndex>7</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>0.16667in</Left>
+        <Height>0.17in</Height>
+        <Value>=REPLACE("TARGET DATE  :", " ", Chr(160))</Value>
+      </Textbox>
+      <Textbox Name="textbox56">
+        <Top>0.6425in</Top>
+        <Width>1.1in</Width>
+        <Style>
+          <FontFamily>Courier New</FontFamily>
+          <TextAlign>Left</TextAlign>
+        </Style>
+        <ZIndex>6</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>9.7625in</Left>
+        <Height>0.17in</Height>
+        <Value>=Globals!PageNumber &amp; "/" &amp; Globals!TotalPages</Value>
+      </Textbox>
+      <Textbox Name="textbox19">
+        <Top>0.8125in</Top>
+        <Width>1.1in</Width>
+        <Style>
+          <FontFamily>Courier New</FontFamily>
+          <Format>MM/dd/yyyy</Format>
+          <TextAlign>Left</TextAlign>
+        </Style>
+        <ZIndex>5</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>9.7625in</Left>
+        <Height>0.17in</Height>
+        <Value>=Globals!ExecutionTime</Value>
+      </Textbox>
+      <Textbox Name="textbox16">
+        <Top>0.9825in</Top>
+        <Width>1.1in</Width>
+        <Style>
+          <FontFamily>Courier New</FontFamily>
+          <Format>HH:mm:ss</Format>
+          <TextAlign>Left</TextAlign>
+        </Style>
+        <ZIndex>4</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>9.7625in</Left>
+        <Height>0.17in</Height>
+        <Value>=Globals!ExecutionTime</Value>
+      </Textbox>
+      <Textbox Name="textbox12">
+        <Top>0.9825in</Top>
+        <Width>0.57813in</Width>
+        <Style>
+          <FontFamily>Courier New</FontFamily>
+        </Style>
+        <ZIndex>3</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>9.1625in</Left>
+        <Height>0.17in</Height>
+        <Value>TIME :</Value>
+      </Textbox>
+      <Textbox Name="textbox11">
+        <Top>0.8125in</Top>
+        <Width>0.57813in</Width>
+        <Style>
+          <FontFamily>Courier New</FontFamily>
+        </Style>
+        <ZIndex>2</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>9.1625in</Left>
+        <Height>0.17in</Height>
+        <Value>DATE :</Value>
+      </Textbox>
+      <Textbox Name="textbox6">
+        <Top>0.6425in</Top>
+        <Width>0.57813in</Width>
+        <Style>
+          <FontFamily>Courier New</FontFamily>
+        </Style>
+        <ZIndex>1</ZIndex>
+        <CanGrow>true</CanGrow>
+        <Left>9.1625in</Left>
+        <Height>0.17in</Height>
+        <Value>PAGE :</Value>
+      </Textbox>
+      <Textbox Name="txtTitle">
+        <Top>0.08in</Top>
+        <Width>3.8125in</Width>
+        <Style>
+          <FontFamily>Courier New</FontFamily>
+          <FontWeight>700</FontWeight>
+          <TextAlign>Center</TextAlign>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+        <CanGrow>true</CanGrow>
+        <Left>3.65625in</Left>
+        <Height>0.25in</Height>
+        <Value>=Parameters!ReportTitle.Value</Value>
+      </Textbox>
+    </ReportItems>
+    <Height>1.25in</Height>
+    <PrintOnLastPage>true</PrintOnLastPage>
+  </PageHeader>
+  <BottomMargin>1in</BottomMargin>
+  <rd:ReportID>7e52c6b1-b68b-4515-b258-78161e5bc5a5</rd:ReportID>
+  <DataSets>
+    <DataSet Name="dsReport_dtOption6">
+      <Fields>
+        <Field Name="PosPromoID">
+          <DataField>PosPromoID</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="MemoNumber">
+          <DataField>MemoNumber</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Title">
+          <DataField>Title</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PeriodFrom">
+          <DataField>PeriodFrom</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PeriodTo">
+          <DataField>PeriodTo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Branches">
+          <DataField>Branches</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="DateApproved">
+          <DataField>DateApproved</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DummyDataSource</DataSourceName>
+        <CommandText />
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <rd:DataSetInfo>
+        <rd:DataSetName>dsReport</rd:DataSetName>
+        <rd:TableName>dtOption6</rd:TableName>
+      </rd:DataSetInfo>
+    </DataSet>
+  </DataSets>
+  <Width>11.125in</Width>
+  <Body>
+    <ReportItems>
+      <Table Name="table1">
+        <DataSetName>dsReport_dtOption6</DataSetName>
+        <Top>0.125in</Top>
+        <Width>11in</Width>
+        <Details>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="PosPromoID">
+                      <rd:DefaultName>PosPromoID</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>6</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!PosPromoID.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="MemoNumber">
+                      <rd:DefaultName>MemoNumber</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>5</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!MemoNumber.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Title">
+                      <rd:DefaultName>Title</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <TextAlign>Left</TextAlign>
+                      </Style>
+                      <ZIndex>4</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Title.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="PeriodFrom">
+                      <rd:DefaultName>PeriodFrom</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>3</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!PeriodFrom.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="PeriodTo">
+                      <rd:DefaultName>PeriodTo</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <ZIndex>2</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!PeriodTo.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="Branches">
+                      <rd:DefaultName>Branches</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <TextAlign>Left</TextAlign>
+                      </Style>
+                      <ZIndex>1</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!Branches.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="DateApproved">
+                      <rd:DefaultName>DateApproved</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <TextAlign>Center</TextAlign>
+                      </Style>
+                      <CanGrow>true</CanGrow>
+                      <Value>=Fields!DateApproved.Value</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.18in</Height>
+            </TableRow>
+          </TableRows>
+        </Details>
+        <Style>
+          <FontFamily>Courier New</FontFamily>
+          <FontWeight>700</FontWeight>
+        </Style>
+        <Header>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox15">
+                      <rd:DefaultName>textbox15</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>20</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox20">
+                      <rd:DefaultName>textbox20</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>19</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox22">
+                      <rd:DefaultName>textbox22</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>18</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ColSpan>2</ColSpan>
+                  <ReportItems>
+                    <Textbox Name="textbox26">
+                      <rd:DefaultName>textbox26</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>17</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Period</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox34">
+                      <rd:DefaultName>textbox34</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>16</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value />
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox21">
+                      <rd:DefaultName>textbox21</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>15</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Date</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.25in</Height>
+            </TableRow>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox1">
+                      <rd:DefaultName>textbox1</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>14</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>PromoID</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox2">
+                      <rd:DefaultName>textbox2</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>13</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Memo Number</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox23">
+                      <rd:DefaultName>textbox23</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>12</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Title</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox27">
+                      <rd:DefaultName>textbox27</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>11</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>From</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox31">
+                      <rd:DefaultName>textbox31</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>10</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>To</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox35">
+                      <rd:DefaultName>textbox35</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>9</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Branches</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+                <TableCell>
+                  <ReportItems>
+                    <Textbox Name="textbox3">
+                      <rd:DefaultName>textbox3</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>8</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>Approved</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.25in</Height>
+            </TableRow>
+          </TableRows>
+        </Header>
+        <TableColumns>
+          <TableColumn>
+            <Width>1.25in</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>1.375in</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.75in</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.875in</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>0.875in</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>2.375in</Width>
+          </TableColumn>
+          <TableColumn>
+            <Width>1.5in</Width>
+          </TableColumn>
+        </TableColumns>
+        <Height>0.93in</Height>
+        <Footer>
+          <TableRows>
+            <TableRow>
+              <TableCells>
+                <TableCell>
+                  <ColSpan>7</ColSpan>
+                  <ReportItems>
+                    <Textbox Name="textbox10">
+                      <rd:DefaultName>textbox10</rd:DefaultName>
+                      <Style>
+                        <FontFamily>Courier New</FontFamily>
+                        <FontSize>9pt</FontSize>
+                        <FontWeight>700</FontWeight>
+                        <TextAlign>Center</TextAlign>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                      <ZIndex>7</ZIndex>
+                      <CanGrow>true</CanGrow>
+                      <Value>=REPLACE("**** E N D  O F  R E P O R T ****", " ", Chr(160))</Value>
+                    </Textbox>
+                  </ReportItems>
+                </TableCell>
+              </TableCells>
+              <Height>0.25in</Height>
+            </TableRow>
+          </TableRows>
+        </Footer>
+      </Table>
+    </ReportItems>
+    <Height>1.125in</Height>
+  </Body>
+  <Language>en-US</Language>
+  <PageFooter>
+    <PrintOnFirstPage>true</PrintOnFirstPage>
+    <Height>0.25in</Height>
+    <PrintOnLastPage>true</PrintOnLastPage>
+  </PageFooter>
+  <TopMargin>1in</TopMargin>
+</Report>
