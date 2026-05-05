@@ -767,11 +767,17 @@ function openConfirmationBox(height,width)
                                                     <asp:ListItem Value="-1">- - Select Value - -</asp:ListItem>
                                                 </asp:DropDownList></td>
                                         </tr>
+                
                                         <tr id="trTPL_BuyQty" runat="server">
                                             <td style="width: 173px; height: 20px; text-align: left;" valign="middle">Buy Qty:</td>
+                                            
                                             <td colspan="2" style="height: 20px; text-align: left">
-                                                <asp:TextBox ID="txtTPL_BuyQty" runat="server" MaxLength="10" Width="100px"></asp:TextBox></td>
+                                                <asp:TextBox ID="txtTPL_BuyQty" runat="server" MaxLength="10" Width="100px"></asp:TextBox>
+                                                <asp:CheckBox ID="chkTPL_BuyQtyOrMore"  runat="server" Text="Or more" style="margin-left:10px;" />
+                                            </td>
                                         </tr>
+                                        
+                                        
                                         <tr id="trTPL_TakeQty" runat="server">
                                             <td style="width: 173px; height: 20px; text-align: left;" valign="middle">Take Qty:</td>
                                             <td colspan="2" style="height: 20px; text-align: left">
