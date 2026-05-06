@@ -292,7 +292,7 @@ Partial Class PromoDetailsEntry
             If panUPCPromoPremium.Visible Then ShowPromoPremiumList()
 
         End If
-        'test to new github working account
+
 
         LoadBarcode()
 
