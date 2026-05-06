@@ -5,8 +5,7 @@ Partial Class _Default
     Inherits System.Web.UI.Page
 
     Protected Sub cmdLogin_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles cmdLogin.Click
-        'test commit
-
+        
         If txtUserName.Text = "" Or txtPassword.Text = "" Then
 
             lblMessage.ForeColor = Drawing.Color.Crimson

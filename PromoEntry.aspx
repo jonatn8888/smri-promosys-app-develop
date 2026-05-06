@@ -1167,7 +1167,16 @@ function openConfirmationBox(height,width)
                                                     Width="40px"></asp:TextBox>
                                                 <strong>%</strong></td>
                                         </tr>
-                                        
+                                        <tr id="trXML_MaxFreeQty" runat="server">
+                                            <td style="width: 173px; text-align: left;" valign="middle">
+                                                <asp:Label ID="lblXML_MaxFreeQty" runat="server" Text="Max Qty for Free Gift Items:"></asp:Label>
+                                                </td>
+                                            <td style="text-align: left">
+                                                <asp:TextBox ID="txtXML_MaxFreeQty" runat="server" CssClass="RightAligned" MaxLength="2"
+                                                    onblur="return FormatNumericTextbox(this);" onfocus="return PrepNumericTextbox(this);"
+                                                    Width="40px"></asp:TextBox>
+                                            </td>
+                                        </tr>
                                         
                                         <tr id="trXML_DiscCapAmount" runat="server">
                                             <td style="width: 173px; text-align: left;" valign="middle">
