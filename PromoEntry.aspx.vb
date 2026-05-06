@@ -687,6 +687,18 @@ Partial Class PromoEntry
                     "INNER JOIN Promotions as p on p.PromoID = x.PromoID " & _
                     "WHERE x.PromoID = 0" & nPromoID
 
+        'START Marker0012
+        Dim sControlQuery As String
+        Dim drPromotionsMaxFreeQty As DataRow = Nothing
+
+        sControlQuery = "SELECT MaxFreeQty FROM PromotionsMaxFreeQty WHERE PromoID = " & nPromoID
+        If clsSystemApp.GetDataRow(clsPromo.SQLConnString, sControlQuery, drPromotionsMaxFreeQty) Then
+            txtXML_MaxFreeQty.Text = CInt(drPromotionsMaxFreeQty("MaxFreeQty"))
+        Else
+            txtXML_MaxFreeQty.Text = 0
+        End If
+        'END Marker0012
+
         If clsSystemApp.GetDataRow(clsPromo.SQLConnString, strSQLcmd, drPromotion) Then
 
             If SystemUser.UserGroupType = "SACI" Or _
@@ -1344,6 +1356,13 @@ Partial Class PromoEntry
                     Case Else
                         strProcessType = "TplProcessType"
                 End Select
+
+                'Marker0010
+                If drPromoType("TypeCategory") = "GWP/PWP" Then
+                    trXML_MaxFreeQty.Visible = True
+                Else
+                    trXML_MaxFreeQty.Visible = False
+                End If
 
                 'rbs7281 6/27/2025
                 InitializeXMLInputField(trPOS_StdExclusion, chkPOS_StdExclusion, drPromoType("POS_StdExclusion").ToString(), drPromoType("POS_StdExclusion_STATE").ToString())
@@ -2078,6 +2097,17 @@ Partial Class PromoEntry
 
                 tdPercentMarkDown.Visible = True
                 tdPercentDisc.Visible = False
+
+                'Marker0006
+                If (PromotionTypeID = 335) Then
+                    'tdPercentMarkDown.Visible = False
+                    'tdPercentDisc.Visible = False
+                    'trXML_PercentDisc.Visible = True
+                    'trTPL_percentage.Visible = True
+                    'lblXML_PercentDisc.Text = "Percent Discount:"
+                    trTPL_percentage.Visible = True
+                End If
+
                 ' 10-DEC-2019 Buy 1 Take 1 (SMAC Triggered)
                 ' 10-DEC-2019 Buy Y Get X at % (SMAC Item) (SMAC Triggered)
                 If drPromoType("shortdesc").ToString.Equals("B1T1SMAC") Or _
@@ -2940,6 +2970,13 @@ Partial Class PromoEntry
             If trXML_EligibleCards.Visible And ViewState("IsEligibleCardsRequired") = 1 Then
                 If Not IsEligibleCardSelected() Then
                     blistErrorMsg.Items.Add("Eligible cards not specified.")
+                End If
+            End If
+
+            'Marker0011
+            If trXML_MaxFreeQty.Visible Then
+                If Val(txtXML_MaxFreeQty.Text) <= 0 Then
+                    blistErrorMsg.Items.Add("Max Qty for Free Gift Item should be greater than zero.")
                 End If
             End If
 
@@ -4039,6 +4076,31 @@ Partial Class PromoEntry
 
             End If
 
+            'Marker0007
+            If trXML_MaxFreeQty.Visible Then
+                Dim sQuery As String
+                Dim drPromotionsMaxFreeQty As DataRow = Nothing
+
+                sQuery = "SELECT PromoID FROM PromotionsMaxFreeQty WHERE PromoID = " & clsSession.CurrPromoID
+
+                If clsSystemApp.GetDataRow(clsPromo.SQLConnString, sQuery, drPromotionsMaxFreeQty) Then
+
+                    sQuery = "UPDATE PromotionsMaxFreeQty SET MaxFreeQty = " & Val(txtXML_MaxFreeQty.Text) & " WHERE PromoID = " & clsSession.CurrPromoID
+
+                    If Not clsSystemApp.ExecuteNonQueryCommand(clsPromo.SQLConnString, sQuery, sErrMess) Then
+                        blistErrorMsg.Items.Add("Error accessing database. Unable to save information.")
+                        SavePromotionInfo = False
+                    End If
+                Else
+
+                    sQuery = "insert into PromotionsMaxFreeQty (PromoID, MaxFreeQty) values(" & clsSession.CurrPromoID & ", " & Val(txtXML_MaxFreeQty.Text) & " )"
+
+                    If Not clsSystemApp.ExecuteNonQueryCommand(clsPromo.SQLConnString, sQuery, sErrMess) Then
+                        blistErrorMsg.Items.Add("Error accessing database. Unable to save information.")
+                        SavePromotionInfo = False
+                    End If
+                End If
+            End If
             '--------------------------------
             ' save default workflowcode
             '--------------------------------

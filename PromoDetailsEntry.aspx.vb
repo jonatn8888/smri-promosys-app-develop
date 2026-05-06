@@ -98,10 +98,11 @@ Partial Class PromoDetailsEntry
                             lblUPCpanelHeader.Text = "Excluded Items"
                             panUPCdetails.Visible = True
                         End If
-
-
                     Else
-                        panItemHierarchy.Visible = CBool(drRow("POS_AllowDeptCodes"))
+                        If Not arrGroupType.Contains(SystemUser.UserGroupType.ToString.ToUpper()) Then
+
+                            panItemHierarchy.Visible = CBool(drRow("POS_AllowDeptCodes"))
+                        End If
                     End If
 
                     'NBS: moved outside if statement (ref#102)
