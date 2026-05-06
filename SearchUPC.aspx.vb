@@ -25,6 +25,27 @@ Partial Class SearchUPC
 
             nRowSelected = e.CommandArgument
 
+            'Marker0009
+            If Val(gridSearchResult.Rows(nRowSelected).Cells(2).Text) < 1 Then
+
+                Dim drPromoType As DataRow = Nothing
+                Dim PromoTypeID As Integer
+                Dim sQuery As String
+
+                sQuery = "SELECT pt.* FROM PromoTypes pt INNER JOIN Promotions p ON p.PromoTypeID = pt.PromoTypeID " & _
+                 "WHERE p.RequestID = 0" & clsSession.CurrRequestID
+
+                If clsSystemApp.GetDataRow(clsPromo.SQLConnString, sQuery, drPromoType) Then
+                    PromoTypeID = drPromoType("PromoTypeID")
+                End If
+
+                If PromoTypeID = "346" Then
+                    System.Web.UI.ScriptManager.RegisterStartupScript(Me, Me.GetType(), "msg", "alert('Price should be at its regular price (not 0.01)');", True)
+                    Exit Sub
+                End If
+
+            End If
+
             txtUPCnumber.Text = gridSearchResult.Rows(nRowSelected).Cells(0).Text
             txtDescription.Text = gridSearchResult.Rows(nRowSelected).Cells(1).Text
             txtUnitPrice.Text = gridSearchResult.Rows(nRowSelected).Cells(2).Text
