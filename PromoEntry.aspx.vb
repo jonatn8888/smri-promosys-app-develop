@@ -2100,12 +2100,8 @@ Partial Class PromoEntry
 
                 'Marker0006
                 If (PromotionTypeID = 335) Then
-                    'tdPercentMarkDown.Visible = False
-                    'tdPercentDisc.Visible = False
-                    'trXML_PercentDisc.Visible = True
-                    'trTPL_percentage.Visible = True
-                    'lblXML_PercentDisc.Text = "Percent Discount:"
-                    trTPL_percentage.Visible = True
+                    tdPercentMarkDown.Visible = False
+                    trXML_PercentDisc.Visible = True
                 End If
 
                 ' 10-DEC-2019 Buy 1 Take 1 (SMAC Triggered)
